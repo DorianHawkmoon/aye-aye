@@ -1,5 +1,5 @@
 #include "Application.h"
-#include <string>
+#include <sstream>
 #include <iostream>
 #include "Player.h"
 #include "World.h"
@@ -26,6 +26,27 @@ bool Application::processInput() {
 	//split into words
 	//pass it to player
 	std::string lecture;
-	std::cin >> lecture;
+	std::getline(std::cin, lecture);
+	std::vector<std::string> parts;
+	split(lecture, ' ', parts);
+	
 	return true;
+}
+
+std::vector<std::string>& Application::split(const std::string &s, const char delim, std::vector<std::string> &elems) {
+	std::stringstream ss(s);
+	std::string item;
+	while (std::getline(ss, item, delim)) {
+		if (!item.empty()) {
+			elems.push_back(item);
+		}
+	}
+	return elems;
+}
+
+
+std::vector<std::string> Application::split(const std::string &s, const char delim) {
+	std::vector<std::string> elems;
+	split(s, delim, elems);
+	return elems;
 }
