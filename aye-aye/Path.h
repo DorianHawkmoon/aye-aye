@@ -11,10 +11,14 @@ public:
 	Path(Room* origin, Room* destination);
 	virtual ~Path();
 
-	Room* go(const Room* origin) const;
+	virtual Room* go(const Room* origin) const;
+	virtual bool open(); //give the inventory to check if he have the objects needed
 
 private:
 	Room* origin;
 	Room* destination;
+
+protected:
+	bool opened;
 };
 #endif /* _PATH_H_ */
