@@ -6,8 +6,7 @@ Path::Path(Room* origin, Room * destination) :origin(origin), destination(destin
 	
 }
 
-Path::~Path()
-{
+Path::~Path(){
 }
 
 Room* Path::go(const Room* origin) const {

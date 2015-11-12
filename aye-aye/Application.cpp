@@ -15,25 +15,33 @@ void Application::run() {
 	Player player(world.getActualRoom());
 	
 	std::string output=player.actualState();
+	//show the actual situation
+	std::cout << std::endl << output << std::endl << std::endl;
+
 	while (true) { //TODO: put an exit condition
-		std::cout << output << std::endl;
-		processInput();
+		//read the input
+		std::vector<std::string> parts;
+		readInput(parts);
+
+		//process the input by the player
+		player.action(parts);
+
+		//give some space between the reaction of player and the player's word
+		std::cout << std::endl;
 	}
 }
 
-bool Application::processInput() {
-	//read all line
-	//split into words
-	//pass it to player
+const void Application::readInput(std::vector<std::string>& parts) {
 	std::string lecture;
+	//read all line
 	std::getline(std::cin, lecture);
-	std::vector<std::string> parts;
+	//split into words
 	split(lecture, ' ', parts);
-	
-	return true;
+	//give some space between player's word and the output
+	std::cout << std::endl;
 }
 
-std::vector<std::string>& Application::split(const std::string &s, const char delim, std::vector<std::string> &elems) {
+const std::vector<std::string>& Application::split(const std::string &s, const char delim, std::vector<std::string> &elems) {
 	std::stringstream ss(s);
 	std::string item;
 	while (std::getline(ss, item, delim)) {
@@ -45,7 +53,7 @@ std::vector<std::string>& Application::split(const std::string &s, const char de
 }
 
 
-std::vector<std::string> Application::split(const std::string &s, const char delim) {
+const std::vector<std::string> Application::split(const std::string &s, const char delim) {
 	std::vector<std::string> elems;
 	split(s, delim, elems);
 	return elems;

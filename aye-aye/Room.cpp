@@ -1,6 +1,7 @@
 #include "Room.h"
 #include <algorithm>
 #include "Path.h"
+#include <iostream>
 
 unsigned int Room::nextId = -1;
 
@@ -17,14 +18,16 @@ Room* Room::go(const Direction & direction) const {
 			return exit.direction == direction;
 		});
 
+	Room* resultRoom;
 	if (result != paths.end()) {
 		//return
 		const Path* path = result->path;
-		path->go(this);
-		return nullptr;
+		resultRoom = path->go(this);
 	}else {
-		return nullptr;
+		std::cout << "There's no way on this side" << std::endl;
+		resultRoom = nullptr;
 	}
+	return resultRoom;
 }
 
 bool Room::addPath(const Path* path, const Direction & direction) {

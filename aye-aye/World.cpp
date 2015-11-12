@@ -27,8 +27,8 @@ World::World() {
 	Path* pathSouthBehind = new Path(southHouse, behindHouse);
 	this->listPath.push_back(pathSouthBehind);
 	//add the path to the room specifying where the exit is located
-	southHouse->addPath(pathSouthWest, Direction::EAST);
-	behindHouse->addPath(pathSouthWest, Direction::SOUTH);
+	southHouse->addPath(pathSouthBehind, Direction::EAST);
+	behindHouse->addPath(pathSouthBehind, Direction::SOUTH);
 
 }
 
