@@ -25,6 +25,8 @@ inline const char* toString(Direction dir) {
 			return "up";
 		case DOWN:
 			return "down";
+		default:
+			return "nowhere";
 	}
 }
 

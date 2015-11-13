@@ -35,7 +35,7 @@ World::World() {
 	southHouse->addPath(pathSouthBehind, Direction::EAST);
 	behindHouse->addPath(pathSouthBehind, Direction::SOUTH);
 
-	Room* kitchen = new Room("Kitchen", "You are in the kitchen of the white house. A table seems to have been used recently for the preparation of food. On the table is some objects.");
+	Room* kitchen = new Room("Kitchen", "You are in the kitchen of the white house. A table seems to have been used recently for the preparation of food. On the table are some objects.");
 	//A passage leads to the west and a dark staircase can be seen leading upward.
 		//To the east is a small window which is open.
 		
@@ -43,7 +43,7 @@ World::World() {
 
 
 	Item* bottle = new Item("bottle", "filled with some water");
-	Item* sack= new Item("brown sack", " dirty and old");
+	Item* sack= new Item("sack", "brown, dirty and old");
 	kitchen->addItem(bottle);
 	kitchen->addItem(sack);
 

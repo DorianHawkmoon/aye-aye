@@ -22,7 +22,25 @@ Room::~Room(){
 const std::string Room::look() const {
 	std::stringstream result;
 	result << description;
-	//TODO: add to description the description of objects
+	//add to description the description of objects
+	unsigned int size;
+	if (size = items.size()) {
+		result << std::endl << "There are";
+	}
+	unsigned int count = 0;
+	for each(const Item* item in items) {
+		++count;
+		if (count == size) {
+			result << " and";
+		} 
+		result << " " << numberToString(item->getCount()) << " "  << item->getName();
+
+		if (count == size) {
+			result << "." << std::endl;
+		} else {
+			result << ",";
+		}
+	}
 
 	//add to description the description of paths
 	for each (Exits exit in paths) {
