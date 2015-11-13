@@ -26,6 +26,7 @@ private:
 	void go(const std::vector<std::string>& arguments);
 	void look(const std::vector<std::string>& arguments);
 	void see(const std::vector<std::string>& arguments);
+	void open(const std::vector<std::string>& arguments);
 };
 
 #endif // ! _PLAYER_H_

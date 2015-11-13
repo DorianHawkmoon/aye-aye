@@ -3,6 +3,7 @@
 #include "Path.h"
 #include "SimpleLock.h"
 #include "OneWayLock.h"
+#include "Item.h"
 
 World::World() {
 	//create a room
@@ -15,8 +16,9 @@ World::World() {
 	Room* southHouse = new Room("South of house",
 		"You are facing the south side of a white house.  There is no door here, and all the windows are barred.");
 	this->listRooms.push_back(southHouse);
+
 	//create a path between two rooms
-	Path* pathSouthWest = new Path(westHouse, southHouse);
+	Path* pathSouthWest = new Path(westHouse, southHouse, "path");
 	this->listPath.push_back(pathSouthWest);
 	//add the path to the room specifying where the exit is located
 	westHouse->addPath(pathSouthWest, Direction::SOUTH);
@@ -26,19 +28,27 @@ World::World() {
 	Room* behindHouse = new Room("Behind of house",
 		"You are behind the white house.");
 	this->listRooms.push_back(behindHouse);
-	Path* pathSouthBehind = new Path(southHouse, behindHouse);
+
+	Path* pathSouthBehind = new Path(southHouse, behindHouse, "path");
 	this->listPath.push_back(pathSouthBehind);
 	//add the path to the room specifying where the exit is located
 	southHouse->addPath(pathSouthBehind, Direction::EAST);
 	behindHouse->addPath(pathSouthBehind, Direction::SOUTH);
 
-	Room* kitchen = new Room("Kitchen", "You are in the kitchen of the white house.  A table seems to have been used recently for the preparation of food.  A passage leads to the west and a dark staircase can be seen leading upward.  To the east is a small window which is open. \
-		On the table is an elongated brown sack, smelling of hot peppers. \
-		A bottle is sitting on the table. \
-		The glass bottle contains : \
-		A quantity of water");
+	Room* kitchen = new Room("Kitchen", "You are in the kitchen of the white house. A table seems to have been used recently for the preparation of food. On the table is some objects.");
+	//A passage leads to the west and a dark staircase can be seen leading upward.
+		//To the east is a small window which is open.
+		
 	this->listRooms.push_back(kitchen);
-	Path* window = new SimpleLock(behindHouse, kitchen, false, "there is a small opened window", 
+
+
+	Item* bottle = new Item("bottle", "filled with some water");
+	Item* sack= new Item("brown sack", " dirty and old");
+	kitchen->addItem(bottle);
+	kitchen->addItem(sack);
+
+
+	Path* window = new SimpleLock(behindHouse, kitchen, "window", false, "there is a small opened window", 
 		"there is a small window which is slightly ajar",
 		"With great effort, you open the window far enough to allow entry.",
 		"You closed the window");

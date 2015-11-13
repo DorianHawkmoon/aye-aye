@@ -3,6 +3,8 @@
 #include "Path.h"
 #include <sstream>
 #include <iostream>
+#include "Item.h"
+#include "Utilities.h"
 
 unsigned int Room::nextId = -1;
 
@@ -11,6 +13,10 @@ Room::Room(const char* name, const char* description): name(name), description(d
 }
 
 Room::~Room(){
+	//delete all items
+	for each (const Item* item in items) {
+		delete item;
+	}
 }
 
 const std::string Room::look() const {
@@ -59,8 +65,43 @@ const Path * Room::getPath(const Direction & direction) const {
 	return resultPath;
 }
 
-bool Room::addPath(const Path* path, const Direction & direction) {
+bool Room::addPath(Path* path, const Direction & direction) {
 	Exits exit(direction, path);
 	paths.push_back(exit);
 	return true;
+}
+
+const void Room::addItem(const Item * item) {
+	items.push_back(item);
+}
+
+const Item * Room::getItem(const std::string & name) {
+	const Item* result = nullptr;
+	
+	std::list<const Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
+		[&name](const Item* item) { //given the direction, check if this concrete exit is found
+		return compareTo(item->getName(), name);
+	});
+
+	if (resultIt != items.end()) {
+		result = *resultIt;
+	}
+
+	return result;
+}
+
+
+Path * Room::getPath(const std::string& name) const {
+	Path* result = nullptr;
+
+	std::list<Exits>::const_iterator resultIt = std::find_if(paths.begin(), paths.end(),
+		[&name](const Exits& exit) { //given the direction, check if this concrete exit is found
+		return compareTo(exit.path->getName(), name);
+	});
+
+	if (resultIt != paths.end()) {
+		result = resultIt->path;
+	}
+
+	return result;
 }

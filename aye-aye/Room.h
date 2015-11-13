@@ -7,6 +7,7 @@
 #include "Direction.h"
 
 class Path;
+class Item;
 
 class Room
 {
@@ -27,14 +28,18 @@ public:
 	const std::string look() const;
 	Room* go(const Direction& direction) const;
 	const Path* getPath(const Direction& direction) const;
-	bool addPath(const Path* path, const Direction& direction);
+	Path* getPath(const std::string& name) const;
+	bool addPath(Path* path, const Direction& direction);
+
+	const void addItem(const Item* item);
+	const Item* getItem(const std::string& name);
 
 private:
 	struct Exits {
 		const Direction direction;
-		const Path* path;
+		Path* path;
 
-		Exits(const Direction& direction, const Path* path) : direction(direction), path(path) {};
+		Exits(const Direction& direction, Path* path) : direction(direction), path(path) {};
 	};
 	static unsigned int nextId;
 
@@ -43,6 +48,7 @@ private:
 	unsigned int id;
 
 	std::list<Exits> paths;
+	std::list<const Item*> items;
 };
 
 #endif /* _ROOM_H_ */

@@ -8,9 +8,16 @@ class Room;
 
 class Path {
 public:
-	Path(Room* origin, Room* destination);
-	Path(Room* origin, Room* destination, const char* description);
+	Path(Room* origin, Room* destination, const char* name);
+	Path(Room* origin, Room* destination, const char* name, const char* description);
 	virtual ~Path();
+
+	inline const std::string& getName() const {
+		return name;
+	}
+	inline const std::string& getDescription() const {
+		return description;
+	}
 
 	virtual const std::string look(const Room* origin) const;
 	virtual Room* go(const Room* origin) const;
@@ -20,6 +27,7 @@ private:
 	Room* origin;
 	Room* destination;
 	const std::string description;
+	const std::string name;
 
 protected:
 	bool opened;

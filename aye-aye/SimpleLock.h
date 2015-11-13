@@ -5,7 +5,7 @@
 
 class SimpleLock : public Path{
 public:
-	SimpleLock(Room* origin, Room* destination, const bool opened, 
+	SimpleLock(Room* origin, Room* destination, const char* name, const bool opened, 
 		const char* descriptionOpened, const char* descriptionClosed, 
 		const char* descriptionOpening, const char* descriptionClosing);
 	virtual ~SimpleLock();

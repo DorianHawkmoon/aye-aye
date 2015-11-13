@@ -80,6 +80,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="OneWayLock.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -92,6 +94,8 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Direction.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="OneWayLock.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="Player.h" />

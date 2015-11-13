@@ -18,6 +18,8 @@ const void Player::action(const std::vector<std::string>& arguments) {
 		go(arguments);
 	} else if (compareTo(arguments[0], "see")) {
 		see(arguments);
+	} else if (compareTo(arguments[0], "open")) {
+		open(arguments);
 	}
 }
 
@@ -83,3 +85,17 @@ void Player::see(const std::vector<std::string>& arguments) {
 	}
 }
 
+void Player::open(const std::vector<std::string>& arguments) {
+	std::string direction = arguments[1];
+	//check if refers to a direction
+	if (compareTo(direction, "north") || compareTo(direction, "south") || compareTo(direction, "east") || compareTo(direction, "west")) {
+
+	//check if refers to an object from the inventory
+	} else if(false /*TODO: find object function in inventory that returns the object or null and store it.*/){
+		//TODO: execute the open function on the object
+
+	//check if refers to a name path or object in the room
+	} else if(Path* path=actualRoom->getPath(direction) /*search in room */){
+		path->open();
+	}
+}
