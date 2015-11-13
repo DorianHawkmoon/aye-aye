@@ -2,11 +2,18 @@
 #include "Room.h"
 #include <iostream>
 
-Path::Path(Room* origin, Room * destination) :origin(origin), destination(destination), opened(true) {
+Path::Path(Room * origin, Room * destination): Path(origin, destination, "there's a path") {}
+
+Path::Path(Room* origin, Room * destination, const char* description)
+	:origin(origin), destination(destination), description(description), opened(true) {
 	
 }
 
 Path::~Path(){
+}
+
+const std::string Path::look(const Room* origin) const {
+	return description;
 }
 
 Room* Path::go(const Room* origin) const {
@@ -21,7 +28,7 @@ Room* Path::go(const Room* origin) const {
 	return result;
 }
 
-bool Path::open() {
+const bool Path::open() {
 	std::cout << "There's nothing here to open" << std::endl;
 	return false;
 }

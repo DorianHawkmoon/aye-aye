@@ -5,15 +5,17 @@
 
 class SimpleLock : public Path{
 public:
-	SimpleLock(const bool opened, const char* descriptionOpened, const char* descriptionClosed, const char* descriptionOpening, const char* descriptionClosing);
+	SimpleLock(Room* origin, Room* destination, const bool opened, 
+		const char* descriptionOpened, const char* descriptionClosed, 
+		const char* descriptionOpening, const char* descriptionClosing);
 	virtual ~SimpleLock();
-
-	virtual bool open();
+	virtual const std::string look(const Room* origin) const;
+	virtual const bool open();
 private:
-	std::string descriptionOpened;
-	std::string descriptionClosed;
-	std::string descriptionOpening;
-	std::string descriptionClosing;
+	const std::string descriptionOpened;
+	const std::string descriptionClosed;
+	const std::string descriptionOpening;
+	const std::string descriptionClosing;
 };
 
 #endif // ! _SIMPLE_LOCK_H

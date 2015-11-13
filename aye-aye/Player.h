@@ -14,7 +14,7 @@ public:
 	//do something with the words written by the player
 	const void action(const std::vector<std::string>& arguments);
 
-	const std::string& actualState() const;
+	const std::string actualState() const;
 
 private:
 	//Room in which we are
@@ -24,6 +24,8 @@ private:
 
 private:
 	void go(const std::vector<std::string>& arguments);
+	void look(const std::vector<std::string>& arguments);
+	void see(const std::vector<std::string>& arguments);
 };
 
 #endif // ! _PLAYER_H_

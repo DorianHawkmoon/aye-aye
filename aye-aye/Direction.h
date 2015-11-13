@@ -11,4 +11,21 @@ enum Direction {
 	DOWN
 };
 
+inline const char* toString(Direction dir) {
+	switch (dir) {
+		case NORTH:
+			return "north";
+		case SOUTH:
+			return "south";
+		case WEST:
+			return "west";
+		case EAST:
+			return "east";
+		case UP:
+			return "up";
+		case DOWN:
+			return "down";
+	}
+}
+
 #endif // ! _DIRECTION_H_

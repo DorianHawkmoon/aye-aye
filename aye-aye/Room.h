@@ -24,8 +24,9 @@ public:
 		return id;
 	}
 	
+	const std::string look() const;
 	Room* go(const Direction& direction) const;
-
+	const Path* getPath(const Direction& direction) const;
 	bool addPath(const Path* path, const Direction& direction);
 
 private:

@@ -6,7 +6,7 @@
 
 class OneWayLock : public Path{
 public:
-	OneWayLock();
+	OneWayLock(Room* origin, Room* destination, const char* description);
 	virtual ~OneWayLock();
 };
 

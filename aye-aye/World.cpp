@@ -1,13 +1,15 @@
 #include "World.h"
 #include "Room.h"
 #include "Path.h"
+#include "SimpleLock.h"
+#include "OneWayLock.h"
 
 World::World() {
 	//create a room
 	Room* westHouse= new Room("West of house",
 		"This is an open field west of a white house, with a boarded front door. There is a small mailbox here. A rubber mat saying 'Welcome to Zork!' lies by the door.");
 	this->listRooms.push_back(westHouse);
-	this->actualRoom = westHouse;
+	
 
 	//create a room
 	Room* southHouse = new Room("South of house",
@@ -22,7 +24,7 @@ World::World() {
 
 	//create a room
 	Room* behindHouse = new Room("Behind of house",
-		"You are behind the white house.  In one corner of the house there is a small window which is slightly ajar.");
+		"You are behind the white house.");
 	this->listRooms.push_back(behindHouse);
 	Path* pathSouthBehind = new Path(southHouse, behindHouse);
 	this->listPath.push_back(pathSouthBehind);
@@ -30,6 +32,21 @@ World::World() {
 	southHouse->addPath(pathSouthBehind, Direction::EAST);
 	behindHouse->addPath(pathSouthBehind, Direction::SOUTH);
 
+	Room* kitchen = new Room("Kitchen", "You are in the kitchen of the white house.  A table seems to have been used recently for the preparation of food.  A passage leads to the west and a dark staircase can be seen leading upward.  To the east is a small window which is open. \
+		On the table is an elongated brown sack, smelling of hot peppers. \
+		A bottle is sitting on the table. \
+		The glass bottle contains : \
+		A quantity of water");
+	this->listRooms.push_back(kitchen);
+	Path* window = new SimpleLock(behindHouse, kitchen, false, "there is a small opened window", 
+		"there is a small window which is slightly ajar",
+		"With great effort, you open the window far enough to allow entry.",
+		"You closed the window");
+	this->listPath.push_back(window);
+	behindHouse->addPath(window, Direction::WEST);
+	kitchen->addPath(window, Direction::EAST);
+
+	this->actualRoom = behindHouse;
 }
 
 
