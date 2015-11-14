@@ -12,12 +12,12 @@ Item::Item(const Item & item): Entity(item), count(item.count), description(desc
 Item::~Item() {}
 
 const std::string Item::look() const {
-	return std::string(numberToString(count) + " " + name);
+	return std::string(Utilities::numberToString(count) + " " + name);
 }
 
-const Entity * Item::getEntity(const std::string & name) {
-	if (compareTo(this->name, name)) {
-		return this;
+Entity * Item::getEntity(const std::string & name) const {
+	if (Utilities::compareTo(this->name, name)) {
+		return const_cast<Item*>(this);
 	} else {
 		return nullptr;
 	}

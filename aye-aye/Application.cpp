@@ -1,9 +1,10 @@
 #include "Application.h"
 #include <iostream>
-#include "Player.h"
-#include "World.h"
 
-Application::Application(): world(), player(world.getActualRoom()), end(false) {}
+Application::Application(): world(), player(world.getActualRoom()), end(false) {
+	parts.reserve(10);
+	output = new std::string(player.actualState());
+}
 
 
 Application::~Application() {}
@@ -11,35 +12,32 @@ Application::~Application() {}
 void Application::run() {
 	std::cout << "Welcome to Aye-Aye" << std::endl;
 
-	std::string output=player.actualState();
-	//show the actual situation
-	std::cout << std::endl << output << std::endl << std::endl;
-
-	while (!end) { //TODO: put an exit condition
+	while (!end) { 
+		draw(); //we consider draw as writting
 		input();
 		update();
-		draw(); //we consider draw as writting
 	}
 }
 
 void Application::update() {
 	//execute commands and get the result
+	if (parts.size() > 0 && Utilities::compareTo(parts[0], "quit")) {
+		end = true;
+	} else {
+		//process the input by the player
+		delete output; //make sure deleted the previous string
+		output = new std::string(player.action(parts)); //make a new string to not get the returned value out of scope
+	}
 }
 
 void Application::input() {
 	//read the input
-	std::vector<std::string> parts;
-
+	parts.clear();
 	std::string lecture;
 	//read all line
 	std::getline(std::cin, lecture);
 	//split into words
 	Utilities::split(lecture, ' ', parts);
-
-	//TODO: check if finish the game
-
-	//process the input by the player
-	player.action(parts);
 }
 
 void Application::finalize() {
@@ -48,7 +46,5 @@ void Application::finalize() {
 
 void Application::draw() {
 	//nothing to draw, but in this case, will consider drawing as writing in the output
-
-	//give some space between the reaction of player and the player's word
-	std::cout << std::endl;
+	std::cout << std::endl << *output << std::endl << std::endl;
 }

@@ -25,7 +25,7 @@ Item * Inventory::getItem(const std::string name) {
 
 	std::list<Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
 		[&name](Item* item) { //given the direction, check if this concrete exit is found
-		return compareTo(item->getName(), name);
+		return Utilities::compareTo(item->getName(), name);
 	});
 
 	if (resultIt != items.end()) {
@@ -52,7 +52,7 @@ Item * Inventory::takeOutItem(const std::string name) {
 
 	std::list<Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
 		[&name](Item* item) { //given the direction, check if this concrete exit is found
-		return compareTo(item->getName(), name);
+		return Utilities::compareTo(item->getName(), name);
 	});
 
 	if (resultIt != items.end()) {
@@ -80,7 +80,7 @@ const std::string Inventory::look() const {
 			if (count == size && count>1) {
 				result << " and";
 			}
-			result << " " << numberToString(item->getCount()) << " " << item->getName();
+			result << " " << Utilities::numberToString(item->getCount()) << " " << item->getName();
 
 			if (count == size) {
 				result << "." << std::endl;

@@ -19,7 +19,7 @@ const std::string SidePath::look() const {
 	return parent->look(this);
 }
 
-const Entity * SidePath::getEntity(const std::string & name) {
+Entity * SidePath::getEntity(const std::string & name) const {
 	return nullptr;
 }
 

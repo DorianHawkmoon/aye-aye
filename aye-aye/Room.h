@@ -16,7 +16,7 @@ public:
 	virtual ~Room();
 
 	virtual const std::string look() const;
-	virtual const Entity* getEntity(const std::string& name);
+	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const;
 	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Item*>& openItems);
 
@@ -28,7 +28,7 @@ public:
 	}
 	
 	Room* go(const Direction& direction) const;
-	const SidePath * Room::getPath(const Direction & direction) const;
+	SidePath * Room::getPath(const Direction & direction) const;
 	SidePath* getPath(const std::string& name) const;
 	bool addPath(SidePath* path);
 

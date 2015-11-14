@@ -3,6 +3,7 @@
 #define _APPLICATION_H_
 
 #include "World.h"
+#include "Player.h"
 #include <string>
 #include <vector>
 
@@ -23,6 +24,9 @@ private:
 	World world;
 	Player player;
 	bool end;
+
+	std::vector<std::string> parts;
+	std::string* output;
 };
 
 #endif // !_APPLICATION_H_

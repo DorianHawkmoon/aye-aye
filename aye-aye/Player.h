@@ -14,7 +14,7 @@ public:
 	virtual ~Player();
 
 	//do something with the words written by the player
-	const void action(const std::vector<std::string>& arguments);
+	const std::string action(const std::vector<std::string>& arguments);
 
 	const std::string actualState() const;
 
@@ -26,11 +26,11 @@ private:
 	//stats of the player (protagonist)
 
 private:
-	void go(const std::vector<std::string>& arguments);
-	void look(const std::vector<std::string>& arguments);
-	void see(const std::vector<std::string>& arguments);
-	void open(const std::vector<std::string>& arguments);
-	void take(const std::vector<std::string>& arguments);
+	const std::string go(const std::vector<std::string>& arguments);
+	const std::string look(const std::vector<std::string>& arguments);
+	const std::string see(const std::vector<std::string>& arguments);
+	const std::string open(const std::vector<std::string>& arguments);
+	const std::string take(const std::vector<std::string>& arguments);
 };
 
 #endif // ! _PLAYER_H_
