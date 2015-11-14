@@ -10,31 +10,14 @@ Inventory::Inventory() {}
 
 Inventory::~Inventory() {}
 
-const std::string Inventory::look() const {
-	std::stringstream result;
+const std::string Inventory::see(const std::string& name) const {
+	//TODO: buscar objeto y mostrar
+	return "see what?";
+}
 
-	unsigned int size;
-	if (size = items.size()) {
-		result << std::endl << "There are";
-	} else {
-		return "You have nothing";
-	}
-	unsigned int count = 0;
-	for each(const Item* item in items) {
-		++count;
-		if (count == size) {
-			result << " and";
-		}
-		result << " " << numberToString(item->getCount()) << " " << item->getName();
-
-		if (count == size) {
-			result << "." << std::endl;
-		} else {
-			result << ",";
-		}
-	}
-
-	return result.str();
+const std::string Inventory::open(const std::string& name, const std::list<Item*>& openItems) {
+	//TODO: buscar objeto y abrir
+	return std::string();
 }
 
 Item * Inventory::getItem(const std::string name) {
@@ -82,26 +65,29 @@ Item * Inventory::takeOutItem(const std::string name) {
 	return result;
 }
 
-const std::string Inventory::look() {
-	std::stringstream result;
-	//add to description the description of objects
-	unsigned int size;
-	if (size = items.size()) {
-		result << std::endl << "You have";
-	}
-	unsigned int count = 0;
-	for each(const Item* item in items) {
-		++count;
-		if (count == size && count>1) {
-			result << " and";
-		}
-		result << " " << numberToString(item->getCount()) << " " << item->getName();
-
-		if (count == size) {
-			result << "." << std::endl;
+const std::string Inventory::look() const {
+		std::stringstream result;
+		//add to description the description of objects
+		unsigned int size;
+		if (size = items.size()) {
+			result << std::endl << "You have";
 		} else {
-			result << ",";
+			return "You have nothing";
 		}
-	}
-	return result.str();
+		unsigned int count = 0;
+		for each(const Item* item in items) {
+			++count;
+			if (count == size && count>1) {
+				result << " and";
+			}
+			result << " " << numberToString(item->getCount()) << " " << item->getName();
+
+			if (count == size) {
+				result << "." << std::endl;
+			} else {
+				result << ",";
+			}
+		}
+
+		return result.str();
 }

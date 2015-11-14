@@ -11,10 +11,6 @@ const std::string SidePath::getName() const {
 	return parent->getName();
 }
 
-const std::string SidePath::open(const std::list<Item*>& openItems) {
-	return parent->open(this, openItems);
-}
-
 Room * SidePath::go() const {
 	return parent->go(this);
 }

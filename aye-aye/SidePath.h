@@ -18,7 +18,6 @@ public:
 		return direction;
 	}
 	const std::string getName() const;
-	const std::string open(const std::list<Item*>& openItems);
 	inline Room* getRoom() const {
 		return origin;
 	}

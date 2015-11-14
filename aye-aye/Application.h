@@ -15,9 +15,14 @@ public:
 	void run();
 
 private:
-	const void readInput(std::vector<std::string>& parts);
-	const std::vector<std::string> &split(const std::string &s, const char delim, std::vector<std::string> &elems);
-	const std::vector<std::string> split(const std::string &s, const char delim);
+	void update();
+	void draw();
+	void input();
+	void finalize();
+
+	World world;
+	Player player;
+	bool end;
 };
 
 #endif // !_APPLICATION_H_

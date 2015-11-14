@@ -5,9 +5,10 @@
 #include <vector>
 #include "Utilities.h"
 #include "Inventory.h"
+
 class Room;
 
-class Player{
+class Player {
 public:
 	Player(Room* room);
 	virtual ~Player();

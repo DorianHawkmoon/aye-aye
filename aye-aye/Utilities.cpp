@@ -1,10 +1,11 @@
 #include "Utilities.h"
+#include <sstream>
 
-bool compareTo(const std::string& a, const std::string& b)  {
+const bool Utilities::compareTo(const std::string& a, const std::string& b)  {
 	return strcmp(a.c_str(), b.c_str()) == 0;
 }
 
-const std::string numberToString(const unsigned int number) {
+const std::string Utilities::numberToString(const unsigned int number) {
 	switch (number) {
 		case 0:
 			return "zero";
@@ -31,4 +32,22 @@ const std::string numberToString(const unsigned int number) {
 		default:
 			return "indetermined";
 	}
+}
+
+const std::vector<std::string>& Utilities::split(const std::string &s, const char delim, std::vector<std::string> &elems) {
+	std::stringstream ss(s);
+	std::string item;
+	while (std::getline(ss, item, delim)) {
+		if (!item.empty()) {
+			elems.push_back(item);
+		}
+	}
+	return elems;
+}
+
+
+const std::vector<std::string> Utilities::split(const std::string &s, const char delim) {
+	std::vector<std::string> elems;
+	split(s, delim, elems);
+	return elems;
 }
