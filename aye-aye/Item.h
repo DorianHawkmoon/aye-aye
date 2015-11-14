@@ -3,17 +3,21 @@
 #define _ITEM_H_
 
 #include <string>
+#include "Entity.h"
+#include <list>
 
-
-class Item {
+class Item : public Entity {
 public:
 	Item(const char* name, const char* description);
 	Item(const Item& item);
 	virtual ~Item();
 
-	inline const int getId() const {
-		return idItem;
-	}
+	virtual const std::string look() const;
+	virtual const Entity* getEntity(const std::string& name);
+	virtual const std::string see(const std::vector<std::string>& arguments) const;
+	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Item*>& openItems);
+
+	
 	inline const std::string& getDescription() const {
 		return description;
 	}
@@ -35,9 +39,7 @@ public:
 	}
 
 protected:
-	static unsigned int nextId;
 	const static unsigned int MAX_ITEMS=10;
-	const unsigned int idItem;
 	const std::string description;
 	const std::string name;
 	unsigned int count;

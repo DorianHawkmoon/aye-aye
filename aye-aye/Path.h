@@ -4,12 +4,21 @@
 
 #include "Direction.h"
 #include <string>
+#include "Entity.h"
+#include <list>
+
 class Room;
+class SidePath;
+class Item;
 
 class Path {
 public:
-	Path(Room* origin, Room* destination, const char* name);
-	Path(Room* origin, Room* destination, const char* name, const char* description);
+	Path(Room* origin, const Direction& directionOrigin, 
+		Room* destination, const Direction& directionDestination,
+		const char* name, const char* description);
+	Path(Room* origin, const Direction& directionOrigin,
+		Room* destination, const Direction& directionDestination,
+		const char* name);
 	virtual ~Path();
 
 	inline const std::string& getName() const {
@@ -19,17 +28,16 @@ public:
 		return description;
 	}
 
-	virtual const std::string look(const Room* origin) const;
-	virtual Room* go(const Room* origin) const;
-	virtual const bool open(); //give the inventory to check if he have the objects needed
-
-private:
-	Room* origin;
-	Room* destination;
-	const std::string description;
-	const std::string name;
+	virtual const std::string look(const SidePath* origin) const;
+	virtual const std::string see(const SidePath* origin) const;
+	virtual const std::string open(const SidePath* origin, const std::list<Item*>& openItems);
+	Room* go(const SidePath* origin) const;
 
 protected:
-	bool opened;
+	SidePath* origin;
+	SidePath* destination;
+private:
+	const std::string description;
+	const std::string name;
 };
 #endif /* _PATH_H_ */

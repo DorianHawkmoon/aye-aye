@@ -1,15 +1,13 @@
 #include "Room.h"
 #include <algorithm>
-#include "Path.h"
+#include "SidePath.h"
 #include <sstream>
 #include <iostream>
 #include "Item.h"
 #include "Utilities.h"
 
-unsigned int Room::nextId = -1;
 
-
-Room::Room(const char* name, const char* description): name(name), description(description), id(++nextId){
+Room::Room(const char* name, const char* description): Entity(), name(name), description(description){
 }
 
 Room::~Room(){
@@ -25,15 +23,19 @@ const std::string Room::look() const {
 	//add to description the description of objects
 	unsigned int size;
 	if (size = items.size()) {
-		result << std::endl << "There are";
+		if (size == 1) {
+			result << std::endl << "There is";
+		} else {
+			result << std::endl << "There are";
+		}
 	}
 	unsigned int count = 0;
-	for each(const Item* item in items) {
+	for each(const Entity* entity in items) {
 		++count;
 		if (count == size  && count>1) {
 			result << " and";
-		} 
-		result << " " << numberToString(item->getCount()) << " "  << item->getName();
+		}
+		result << " " <<  entity->look();
 
 		if (count == size) {
 			result << "." << std::endl;
@@ -43,24 +45,47 @@ const std::string Room::look() const {
 	}
 
 	//add to description the description of paths
-	for each (Exits exit in paths) {
-		result << std::endl << "At " << toString(exit.direction) << " " \
-			<< exit.path->look(this);//specifing from where I'm looking the path
+	for each (SidePath* path in paths) {
+		result << std::endl << "At " << toString(path->getDirection()) << " " \
+			<< path->look();//specifing from where I'm looking the path
 	}
 	return result.str();
 }
 
+const Entity* Room::getEntity(const std::string& name) {
+	return nullptr;
+}
+
+const std::string Room::see(const std::vector<std::string>& arguments) const {
+	//TODO: see a wall if something, or see an object
+	//if seeing a direction
+	//if seeing an object
+	return std::string();
+}
+
+const std::string Room::open(const std::vector<std::string>& arguments, const std::list<Item*>& openItems) {
+	std::string direction(arguments[1]);
+	if (compareTo(direction, "north") || compareTo(direction, "south") || compareTo(direction, "east") || compareTo(direction, "west")) {
+		//TODO: hacer por dirección
+		return "TODO";
+	} else if(SidePath* path=getPath(direction)) {
+		return path->open(arguments, openItems);
+	} else {
+		return "Open what?";
+	}
+}
+
+
 Room* Room::go(const Direction & direction) const {
-	std::list<Exits>::const_iterator result = std::find_if(paths.begin(), paths.end(), 
-		[&direction](const Exits& exit) { //given the direction, check if this concrete exit is found
-			return exit.direction == direction;
+	std::list<SidePath*>::const_iterator result = std::find_if(paths.begin(), paths.end(), 
+		[&direction](const SidePath* exit) { //given the direction, check if this concrete exit is found
+			return exit->getDirection() == direction;
 		});
 
 	Room* resultRoom;
 	if (result != paths.end()) {
 		//return
-		const Path* path = result->path;
-		resultRoom = path->go(this);
+		resultRoom = (*result)->go();
 	}else {
 		std::cout << "There's no way on this side" << std::endl;
 		resultRoom = nullptr;
@@ -68,24 +93,23 @@ Room* Room::go(const Direction & direction) const {
 	return resultRoom;
 }
 
-const Path * Room::getPath(const Direction & direction) const {
-	std::list<Exits>::const_iterator result = std::find_if(paths.begin(), paths.end(),
-		[&direction](const Exits& exit) { //given the direction, check if this concrete exit is found
-		return exit.direction == direction;
+const SidePath * Room::getPath(const Direction & direction) const {
+	std::list<SidePath*>::const_iterator result = std::find_if(paths.begin(), paths.end(),
+		[&direction](const SidePath* exit) { //given the direction, check if this concrete exit is found
+		return exit->getDirection() == direction;
 	});
 
-	const Path* resultPath;
+	const SidePath* resultPath;
 	if (result != paths.end()) {
-		resultPath = result->path;
+		resultPath = *result;
 	}else{
 		resultPath = nullptr;
 	}
 	return resultPath;
 }
 
-bool Room::addPath(Path* path, const Direction & direction) {
-	Exits exit(direction, path);
-	paths.push_back(exit);
+bool Room::addPath(SidePath* path) {
+	paths.push_back(path);
 	return true;
 }
 
@@ -124,16 +148,16 @@ Item * Room::take(const std::string & name) {
 	return result;
 }
 
-Path * Room::getPath(const std::string& name) const {
-	Path* result = nullptr;
+SidePath* Room::getPath(const std::string& name) const {
+	SidePath* result = nullptr;
 
-	std::list<Exits>::const_iterator resultIt = std::find_if(paths.begin(), paths.end(),
-		[&name](const Exits& exit) { //given the direction, check if this concrete exit is found
-		return compareTo(exit.path->getName(), name);
+	std::list<SidePath*>::const_iterator resultIt = std::find_if(paths.begin(), paths.end(),
+		[&name](const SidePath* exit) { //given the direction, check if this concrete exit is found
+		return compareTo(exit->getName(), name);
 	});
 
 	if (resultIt != paths.end()) {
-		result = resultIt->path;
+		result = *resultIt;
 	}
 
 	return result;

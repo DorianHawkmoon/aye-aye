@@ -2,7 +2,9 @@
 #include "Room.h"
 #include "Direction.h"
 #include <iostream>
-#include "Path.h"
+#include "SidePath.h"
+#include <list>
+#include "Item.h"
 
 Player::Player(Room* room) : actualRoom(room) {
 
@@ -84,12 +86,13 @@ void Player::see(const std::vector<std::string>& arguments) {
 			direction = Direction::EAST;
 		}
 
-		const Path* path = actualRoom->getPath(direction);
+		std::cout << actualRoom->see(arguments) << std::endl;
+		/* const Path* path = actualRoom->getPath(direction);
 		if (path == nullptr) {
 			std::cout << "There's nothing there" << std::endl;
 		} else {
 			std::cout << path->look(actualRoom) << std::endl;
-		}
+		} */
 	}
 }
 
@@ -103,8 +106,9 @@ void Player::open(const std::vector<std::string>& arguments) {
 		//TODO: execute the open function on the object
 
 	//check if refers to a name path or object in the room
-	} else if(Path* path=actualRoom->getPath(direction) /*search in room */){
-		path->open();
+	} else if(SidePath* path=actualRoom->getPath(direction) /*search in room */){
+		std::list<Item*> items;
+		std::cout << path->open(items) << std::endl;
 	}
 }
 
