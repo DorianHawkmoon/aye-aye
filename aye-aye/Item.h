@@ -8,6 +8,7 @@
 class Item {
 public:
 	Item(const char* name, const char* description);
+	Item(const Item& item);
 	virtual ~Item();
 
 	inline const int getId() const {

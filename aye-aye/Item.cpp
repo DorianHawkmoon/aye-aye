@@ -6,6 +6,11 @@ Item::Item(const char * name, const char * description)
 : idItem(++nextId), name(name), description(description), count(1) {
 }
 
+Item::Item(const Item & item): count(item.count), idItem(item.idItem), description(description),
+name(name){
+
+}
+
 Item::~Item() {}
 
 const bool Item::addItem(unsigned int value) {

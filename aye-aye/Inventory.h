@@ -10,6 +10,13 @@ public:
 	Inventory();
 	virtual ~Inventory();
 
+	const std::string look() const;
+
+	Item* getItem(const std::string name);
+	const std::string storeItem(Item* item);
+	Item* takeOutItem(const std::string name);
+	const std::string look();
+
 private:
 	std::list<Item*> items;
 };

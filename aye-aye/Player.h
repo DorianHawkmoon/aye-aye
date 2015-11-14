@@ -4,6 +4,7 @@
 
 #include <vector>
 #include "Utilities.h"
+#include "Inventory.h"
 class Room;
 
 class Player{
@@ -20,6 +21,7 @@ private:
 	//Room in which we are
 	Room* actualRoom;
 	//list of object (inventary)
+	Inventory inventory;
 	//stats of the player (protagonist)
 
 private:
@@ -27,6 +29,7 @@ private:
 	void look(const std::vector<std::string>& arguments);
 	void see(const std::vector<std::string>& arguments);
 	void open(const std::vector<std::string>& arguments);
+	void take(const std::vector<std::string>& arguments);
 };
 
 #endif // ! _PLAYER_H_

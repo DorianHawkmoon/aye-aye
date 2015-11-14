@@ -20,6 +20,8 @@ const void Player::action(const std::vector<std::string>& arguments) {
 		see(arguments);
 	} else if (compareTo(arguments[0], "open")) {
 		open(arguments);
+	} else if (compareTo(arguments[0], "take")) {
+		take(arguments);
 	}
 }
 
@@ -56,7 +58,13 @@ void Player::go(const std::vector<std::string>& arguments) {
 }
 
 void Player::look(const std::vector<std::string>& arguments) {
-	std::cout << actualRoom->look() << std::endl;
+	if (arguments.size() > 1 && compareTo(arguments[1], "inventory")) {
+		std::cout << inventory.look();
+	} else if(arguments.size()==1) {
+		std::cout << actualRoom->look() << std::endl;
+	} else {
+		std::cout << "look what?" << std::endl;
+	}
 }
 
 void Player::see(const std::vector<std::string>& arguments) {
@@ -98,4 +106,9 @@ void Player::open(const std::vector<std::string>& arguments) {
 	} else if(Path* path=actualRoom->getPath(direction) /*search in room */){
 		path->open();
 	}
+}
+
+void Player::take(const std::vector<std::string>& arguments) {
+	Item* item = actualRoom->take(arguments[1]);
+	inventory.storeItem(item);
 }

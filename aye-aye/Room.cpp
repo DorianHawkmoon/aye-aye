@@ -30,7 +30,7 @@ const std::string Room::look() const {
 	unsigned int count = 0;
 	for each(const Item* item in items) {
 		++count;
-		if (count == size) {
+		if (count == size  && count>1) {
 			result << " and";
 		} 
 		result << " " << numberToString(item->getCount()) << " "  << item->getName();
@@ -89,15 +89,15 @@ bool Room::addPath(Path* path, const Direction & direction) {
 	return true;
 }
 
-const void Room::addItem(const Item * item) {
+void Room::addItem(Item * item) {
 	items.push_back(item);
 }
 
 const Item * Room::getItem(const std::string & name) {
 	const Item* result = nullptr;
 	
-	std::list<const Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
-		[&name](const Item* item) { //given the direction, check if this concrete exit is found
+	std::list<Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
+		[&name](const Item* item) { 
 		return compareTo(item->getName(), name);
 	});
 
@@ -108,6 +108,21 @@ const Item * Room::getItem(const std::string & name) {
 	return result;
 }
 
+Item * Room::take(const std::string & name) {
+	Item* result = nullptr;
+
+	std::list<Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
+		[&name](const Item* item) {
+		return compareTo(item->getName(), name);
+	});
+
+	if (resultIt != items.end()) {
+		result = *resultIt;
+		items.erase(resultIt);
+	}
+
+	return result;
+}
 
 Path * Room::getPath(const std::string& name) const {
 	Path* result = nullptr;

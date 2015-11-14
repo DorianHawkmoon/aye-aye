@@ -31,8 +31,9 @@ public:
 	Path* getPath(const std::string& name) const;
 	bool addPath(Path* path, const Direction& direction);
 
-	const void addItem(const Item* item);
+	void addItem(Item* item);
 	const Item* getItem(const std::string& name);
+	Item * Room::take(const std::string & name);
 
 private:
 	struct Exits {
@@ -48,7 +49,7 @@ private:
 	unsigned int id;
 
 	std::list<Exits> paths;
-	std::list<const Item*> items;
+	std::list<Item*> items;
 };
 
 #endif /* _ROOM_H_ */
