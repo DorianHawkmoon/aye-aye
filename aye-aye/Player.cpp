@@ -23,7 +23,7 @@ const std::string Player::action(const std::vector<std::string>& arguments) {
 		return open(arguments);
 	} else if (Utilities::compareTo(arguments[0], "take")) {
 		return take(arguments);
-	} else if (Utilities::compareTo(arguments[0], "drop")){
+	} else if (Utilities::compareTo(arguments[0], "drop")) {
 		return drop(arguments);
 	} else {
 		return "eemmm... sorry?";
@@ -38,8 +38,8 @@ const std::string Player::actualState() const {
 }
 
 const std::string Player::go(const std::vector<std::string>& arguments) {
-	Direction direction=Directions::toDirection(arguments[1]);
-	if(direction==NOWHERE){
+	Direction direction = Directions::toDirection(arguments[1]);
+	if (direction == NOWHERE) {
 		return "Go where?";
 	}
 
@@ -89,7 +89,11 @@ const std::string Player::open(const std::vector<std::string>& arguments) {
 
 const std::string Player::take(const std::vector<std::string>& arguments) {
 	Entity* item = actualRoom->take(arguments[1]);
-	return inventory.drop(arguments, item).second;
+	if (item == nullptr) {
+		return std::string("There's nothing");
+	} else {
+		return inventory.drop(arguments, item).second;
+	}
 }
 
 const std::string Player::drop(const std::vector<std::string>& arguments) {
@@ -101,7 +105,7 @@ const std::string Player::drop(const std::vector<std::string>& arguments) {
 		if (item == nullptr) {
 			return "Drop what?";
 		}
-		std::pair<bool, std::string> result= actualRoom->drop(arguments, item);
+		std::pair<bool, std::string> result = actualRoom->drop(arguments, item);
 		if (result.first) {
 			inventory.take(arguments[1]);
 		}

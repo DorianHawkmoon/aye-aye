@@ -140,21 +140,6 @@ void Room::addItem(Entity* item) {
 	items.push_back(item);
 }
 
-const Entity * Room::getItem(const std::string & name) {
-	const Entity* result = nullptr;
-
-	std::list<Entity*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
-		[&name](const Entity* item) {
-		return Utilities::compareTo(item->getName(), name);
-	});
-
-	if (resultIt != items.end()) {
-		result = *resultIt;
-	}
-
-	return result;
-}
-
 Entity * Room::take(const std::string & name) {
 	Entity* result = nullptr;
 
@@ -165,7 +150,12 @@ Entity * Room::take(const std::string & name) {
 
 	if (resultIt != items.end()) {
 		result = *resultIt;
-		items.erase(resultIt);
+		if (((Item*) result)->canTake()) {
+			items.erase(resultIt);
+		} else {
+			std::cout << std::endl<< "Can't take it" << std::endl;
+			result = nullptr;
+		}
 	} else {
 		//search inside the items
 		for (std::list<Entity*>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {

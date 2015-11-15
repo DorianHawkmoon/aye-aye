@@ -26,7 +26,6 @@ public:
 	bool addPath(SidePath* path);
 
 	void addItem(Entity* item);
-	const Entity* getItem(const std::string& name);
 
 private:
 	std::list<SidePath*> paths;

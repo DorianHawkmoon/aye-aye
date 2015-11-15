@@ -54,7 +54,6 @@ private:
 	bool canTaked;
 
 private:
-	Entity* getItem(const std::string name);
 	const std::pair<bool, std::string> storeItem(Entity* item);
 };
 

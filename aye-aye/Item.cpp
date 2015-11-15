@@ -2,6 +2,7 @@
 #include "Utilities.h"
 #include <algorithm>
 #include <sstream>
+#include <iostream>
 
 Item::Item(const char * name, const char * description, const unsigned int count)
 	:Entity(name, description), count(count), opened(false), container(false), canTaked(true) {}
@@ -137,8 +138,15 @@ Entity * Item::take(const std::string & name) {
 		});
 
 		if (resultIt != items.end()) {
+
 			result = *resultIt;
-			items.erase(resultIt);
+			if (((Item*) result)->canTake()) {
+				items.erase(resultIt);
+			} else {
+				result = nullptr;
+				std::cout << std::endl << "Can't take it" << std::endl;
+			}
+
 		} else {
 			//search inside the items
 			for (std::list<Entity*>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {
@@ -162,21 +170,6 @@ const bool Item::substractItem(unsigned int value) {
 	} else {
 		return false;
 	}
-}
-
-Entity * Item::getItem(const std::string name) {
-	Entity* result = nullptr;
-
-	std::list<Entity*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
-		[&name](Entity* item) {
-		return Utilities::compareTo(item->getName(), name);
-	});
-
-	if (resultIt != items.end()) {
-		result = *resultIt;
-	}
-
-	return result;
 }
 
 const std::pair<bool, std::string> Item::storeItem(Entity * item) {
