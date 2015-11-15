@@ -47,15 +47,15 @@ public:
 		return count;
 	}
 
+	const std::pair<bool, std::string> storeItem(Entity* item);
+
 private:
 	unsigned int count;
 	std::list<Entity*> items;
 	bool opened;
 	bool container;
 	bool canTaked;
-
-private:
-	const std::pair<bool, std::string> storeItem(Entity* item);
+	
 };
 
 

@@ -15,6 +15,8 @@ public:
 		const char* descriptionOpening, const char* descriptionClosing);
 	virtual ~SimpleLock();
 
+	void addItemNeeded(const Entity* key);
+
 	const std::string look(const SidePath* origin) const;
 	virtual const std::string see(const SidePath* origin) const;
 	virtual const std::string open(const SidePath* origin, const Inventory * openItems);
@@ -22,11 +24,14 @@ public:
 	Room* go(const SidePath* origin) const;
 
 private:
-	const std::list<const Entity*> needed;
+	std::list<const Entity*> needed;
 	const std::string descriptionOpened;
 	const std::string descriptionClosed;
 	const std::string descriptionOpening;
 	const std::string descriptionClosing;
+
+private:
+	const bool matchNeeded(const Inventory* items) const;
 };
 
 #endif // ! _SIMPLE_LOCK_H

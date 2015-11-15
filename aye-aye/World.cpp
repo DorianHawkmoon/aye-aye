@@ -35,18 +35,24 @@ World::World() {
 
 	Item* bottle = new Item("bottle", "bottle filled with some water");
 	Item* sack= new Item("sack", "brown, dirty and old sack");
+	Item* key = new Item("key", "rusty key");
+	Item* lookpick = new Item("lookpick", "lookpick for opening dificults doors");
 	sack->setContainer(true);
-	bottle->setCanTake(false);
+	sack->setOpened(true);
+	sack->storeItem(key);
+	sack->storeItem(lookpick);
 	
 	kitchen->addItem(bottle);
 	kitchen->addItem(sack);
 
 
-	Path* window = new SimpleLock(behindHouse, Direction::WEST, kitchen, Direction::EAST, "window", false, "there is a small opened window",
+	SimpleLock* window = new SimpleLock(behindHouse, Direction::WEST, kitchen, Direction::EAST, "window", false, "there is a small opened window",
 		"there is a small window which is slightly ajar",
 		"With great effort, you open the window far enough to allow entry.",
 		"You closed the window");
 	this->listPath.push_back(window);
+	window->addItemNeeded(key);
+	window->addItemNeeded(lookpick);
 	
 	this->actualRoom = kitchen;
 }
