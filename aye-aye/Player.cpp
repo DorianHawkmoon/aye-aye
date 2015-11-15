@@ -49,7 +49,7 @@ const std::string Player::go(const std::vector<std::string>& arguments) {
 		return std::string(actualRoom->getName() + '\n' + actualRoom->getDescription());
 	} else {
 		//TODO: fix this
-		return "WHAT THE HELL?!?!";
+		return "I'm lost...";
 	}
 
 }
@@ -89,18 +89,22 @@ const std::string Player::open(const std::vector<std::string>& arguments) {
 
 const std::string Player::take(const std::vector<std::string>& arguments) {
 	Entity* item = actualRoom->take(arguments[1]);
-	return inventory.storeItem(item);
+	return inventory.drop(arguments, item).second;
 }
 
 const std::string Player::drop(const std::vector<std::string>& arguments) {
 	if (arguments.size() < 2) {
 		return "Drop what?";
 	} else {
-		//TODO: que pasa si el objeto no fue correctamente drop? este desaparece!!
-		Entity* item=inventory.takeOutItem(arguments[1]);
+		//Entity* item=inventory.takeOutItem(arguments[1]);
+		Entity* item = inventory.getEntity(arguments[1]);
 		if (item == nullptr) {
 			return "Drop what?";
 		}
-		return actualRoom->drop(arguments, item);
+		std::pair<bool, std::string> result= actualRoom->drop(arguments, item);
+		if (result.first) {
+			inventory.take(arguments[1]);
+		}
+		return result.second;
 	}
 }

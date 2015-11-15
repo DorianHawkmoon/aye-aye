@@ -176,7 +176,7 @@ Entity * Room::take(const std::string & name) {
 	return result;
 }
 
-const std::string Room::drop(const std::vector<std::string>& arguments, Entity * item) {
+const std::pair<bool, std::string> Room::drop(const std::vector<std::string>& arguments, Entity * item) {
 	unsigned int size = arguments.size();
 	if (size > 2) {
 		//get the name
@@ -184,19 +184,28 @@ const std::string Room::drop(const std::vector<std::string>& arguments, Entity *
 		if (Utilities::compareTo(this->name, into) || Utilities::compareTo("room",into)) {
 			//its me
 			addItem(item);
-			return "Dropped";
+			std::pair<bool, std::string> result;
+			result.first = true;
+			result.second = "Dropped";
+			return result;
 		} else {
 			//it's not me, get the item into store if opened
 			Entity* itemInto = getEntity(into);
 			if (itemInto != nullptr) {
 				return itemInto->drop(arguments, item);
 			} else {
-				return "Drop where?";
+				std::pair<bool, std::string> result;
+				result.first = false;
+				result.second = "Drop where?";
+				return result;
 			}
 		}
 
 	} else {
 		addItem(item);
-		return "Dropped";
+		std::pair<bool, std::string> result;
+		result.first = true;
+		result.second = "Dropped";
+		return result;
 	}
 }

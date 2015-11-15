@@ -45,7 +45,7 @@ const std::string Item::look() const {
 Entity * Item::getEntity(const std::string & name) const {
 	Entity* result = nullptr;
 	if (Utilities::compareTo(this->name, name)) {
-		result= const_cast<Item*>(this);
+		result = const_cast<Item*>(this);
 	} else {
 		//search inside if opened
 		if (opened) {
@@ -91,7 +91,7 @@ const std::string Item::open(const std::vector<std::string>& arguments, const st
 	return "There's nothing to open";
 }
 
-const std::string Item::drop(const std::vector<std::string>& arguments, Entity* item) {
+const std::pair<bool, std::string> Item::drop(const std::vector<std::string>& arguments, Entity* item) {
 	//drop X in/into/... Y
 	//drop X Y
 	unsigned int size = arguments.size();
@@ -109,13 +109,19 @@ const std::string Item::drop(const std::vector<std::string>& arguments, Entity* 
 				if (itemInto != nullptr) {
 					return itemInto->drop(arguments, item);
 				}
-			} 
+			}
 			//I ask because if is not opened, don't know why I'm asking this item so probably is a mistake due to a misunderstanding and not because the item is closed
-			return "Drop where?"; 
+			std::pair<bool, std::string> result;
+			result.first = false;
+			result.second = "Drop where?";
+			return result;
 		}
 
-	} else if(!opened) {
-		return "Can't drop here, is closed";
+	} else if (!opened) {
+		std::pair<bool, std::string> result;
+		result.first = false;
+		result.second = "Can't drop here, is closed";
+		return result;
 	} else {
 		return storeItem(item);
 	}
@@ -124,14 +130,22 @@ const std::string Item::drop(const std::vector<std::string>& arguments, Entity* 
 Entity * Item::take(const std::string & name) {
 	Entity* result = nullptr;
 
-	//its me?
-	if (Utilities::compareTo(this->name, name)) {
-		result= this;
+	if (opened) {
+		std::list<Entity*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
+			[&name](const Entity* item) {
+			return Utilities::compareTo(item->getName(), name);
+		});
 
-	} else if(opened){
-		for (std::list<Entity *>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {
-			result = (*it)->take(name);
+		if (resultIt != items.end()) {
+			result = *resultIt;
+			items.erase(resultIt);
+		} else {
+			//search inside the items
+			for (std::list<Entity*>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {
+				result = (*it)->take(name);
+			}
 		}
+
 	}
 	return result;
 }
@@ -165,17 +179,22 @@ Entity * Item::getItem(const std::string name) {
 	return result;
 }
 
-const std::string Item::storeItem(Entity * item) {
+const std::pair<bool, std::string> Item::storeItem(Entity * item) {
+	std::pair<bool, std::string> result;
 	if (!container) {
-		return "Can't drop " + item->getName() + " into " + this->getName();
+		result.first = false;
+		result.second = "Can't drop " + item->getName() + " into " + this->getName();
+		return result;
 	}
 	//Entity* previousItem = getItem(item->getName());
 	//if (previousItem == nullptr) {
-		items.push_back(item);
-	/*} else {
-		previousItem->addItem();
-		delete item;
-	}*/
-	return "Dropped into " + this->getName();
+	items.push_back(item);
+/*} else {
+	previousItem->addItem();
+	delete item;
+}*/
+	result.first = true;
+	result.second = "Dropped into " + this->getName();
+	return result;
 }
 

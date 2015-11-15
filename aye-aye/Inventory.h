@@ -3,20 +3,21 @@
 #define _INVENTORY_H_
 
 #include <list>
-class Entity;
+#include "Entity.h"
 
-class Inventory {
+class Inventory : public Entity {
 public:
 	Inventory();
 	virtual ~Inventory();
 
-	Entity* getItem(const std::string& name);
 	const std::string storeItem(Entity* item);
-	Entity* takeOutItem(const std::string name);
 
 	virtual const std::string look() const;
-	virtual const std::string see(const std::string& name) const;
-	virtual const std::string open(const std::string& name, const std::list<Entity*>& openItems);
+	virtual Entity* getEntity(const std::string& name) const;
+	virtual const std::string see(const std::vector<std::string>& arguments) const;
+	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems);
+	virtual const std::pair<bool, std::string> drop(const std::vector<std::string>& arguments, Entity* item);
+	virtual Entity* take(const std::string& name);
 
 private:
 	std::list<Entity*> items;

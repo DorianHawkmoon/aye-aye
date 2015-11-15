@@ -16,7 +16,7 @@ public:
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const;
 	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems);
-	virtual const std::string drop(const std::vector<std::string>& arguments, Entity * item);
+	virtual const std::pair<bool, std::string> drop(const std::vector<std::string>& arguments, Entity * item);
 	virtual Entity* take(const std::string& name);
 
 	inline const bool isOpened() const {
@@ -55,7 +55,7 @@ private:
 
 private:
 	Entity* getItem(const std::string name);
-	const std::string storeItem(Entity* item);
+	const std::pair<bool, std::string> storeItem(Entity* item);
 };
 
 

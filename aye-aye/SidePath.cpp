@@ -36,8 +36,11 @@ const std::string SidePath::open(const std::vector<std::string>& arguments, cons
 	return parent->open(this, openItems);
 }
 
-const std::string SidePath::drop(const std::vector<std::string>& arguments, Entity* item) {
-	return "You can't drop anything here";
+const std::pair<bool, std::string> SidePath::drop(const std::vector<std::string>& arguments, Entity* item) {
+	std::pair<bool, std::string> result;
+	result.first = false;
+	result.second = "You can't drop anything here";
+	return result;
 }
 
 Entity * SidePath::take(const std::string & name) {
