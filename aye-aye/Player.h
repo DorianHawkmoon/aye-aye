@@ -31,6 +31,7 @@ private:
 	const std::string see(const std::vector<std::string>& arguments);
 	const std::string open(const std::vector<std::string>& arguments);
 	const std::string take(const std::vector<std::string>& arguments);
+	const std::string drop(const std::vector<std::string>& arguments);
 };
 
 #endif // ! _PLAYER_H_

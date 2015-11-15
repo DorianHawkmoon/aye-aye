@@ -44,7 +44,7 @@ const std::string Inventory::storeItem(Item * item) {
 		previousItem->addItem();
 		delete item;
 	}
-	return "stored";
+	return "Taken";
 }
 
 Item * Inventory::takeOutItem(const std::string name) {

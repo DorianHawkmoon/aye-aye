@@ -35,6 +35,7 @@ public:
 	void addItem(Item* item);
 	const Item* getItem(const std::string& name);
 	Item * Room::take(const std::string & name);
+	const std::string drop(const std::vector<std::string>& arguments, Item* item);
 
 private:
 

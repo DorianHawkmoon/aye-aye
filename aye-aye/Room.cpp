@@ -157,6 +157,16 @@ Item * Room::take(const std::string & name) {
 	return result;
 }
 
+const std::string Room::drop(const std::vector<std::string>& arguments, Item * item) {
+	if (arguments.size() > 2) {
+		//TODO: control and drop items into other items
+		return "Drop where?";
+	} else {
+		addItem(item);
+		return "Dropped";
+	}
+}
+
 SidePath* Room::getPath(const std::string& name) const {
 	SidePath* result = nullptr;
 

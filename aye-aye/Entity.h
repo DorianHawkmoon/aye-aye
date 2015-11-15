@@ -22,6 +22,7 @@ public:
 	virtual Entity* getEntity(const std::string& name) const=0;
 	virtual const std::string see(const std::vector<std::string>& arguments) const=0;
 	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Item*>& openItems)=0;
+	
 
 private:
 	static unsigned int nextId;

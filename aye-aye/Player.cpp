@@ -23,6 +23,8 @@ const std::string Player::action(const std::vector<std::string>& arguments) {
 		return open(arguments);
 	} else if (Utilities::compareTo(arguments[0], "take")) {
 		return take(arguments);
+	} else if (Utilities::compareTo(arguments[0], "drop")){
+		return drop(arguments);
 	} else {
 		return "eemmm... sorry?";
 	}
@@ -79,6 +81,7 @@ const std::string Player::see(const std::vector<std::string>& arguments) {
 const std::string Player::open(const std::vector<std::string>& arguments) {
 	//check if refers to a direction
 	std::list<Item*> items; //subsitute with the inventory
+	//check if refers a inventory (open box in inventory)
 	if (false /*TODO: find object function in inventory that returns the object or null and store it.*/) {
 	   //TODO: execute the open function on the object
 
@@ -91,4 +94,16 @@ const std::string Player::open(const std::vector<std::string>& arguments) {
 const std::string Player::take(const std::vector<std::string>& arguments) {
 	Item* item = actualRoom->take(arguments[1]);
 	return inventory.storeItem(item);
+}
+
+const std::string Player::drop(const std::vector<std::string>& arguments) {
+	if (arguments.size() < 2) {
+		return "Drop what?";
+	} else {
+		Item* item=inventory.takeOutItem(arguments[1]);
+		if (item == nullptr) {
+			return "Drop what?";
+		}
+		return actualRoom->drop(arguments, item);
+	}
 }
