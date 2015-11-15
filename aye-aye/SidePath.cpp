@@ -7,7 +7,7 @@ SidePath::SidePath(Room* room, const Direction& direction, Path* parent)
 
 SidePath::~SidePath() {}
 
-const std::string SidePath::getName() const {
+const std::string& SidePath::getName() const {
 	return parent->getName();
 }
 
@@ -20,15 +20,28 @@ const std::string SidePath::look() const {
 }
 
 Entity * SidePath::getEntity(const std::string & name) const {
-	return nullptr;
+	//Its myself?
+	if (Utilities::compareTo(getName(), name)) {
+		return const_cast<SidePath*>(this);
+	} else {
+		return nullptr;
+	}
 }
 
 const std::string SidePath::see(const std::vector<std::string>& arguments) const {
 	return parent->see(this);
 }
 
-const std::string SidePath::open(const std::vector<std::string>& arguments, const std::list<Item*>& openItems) {
+const std::string SidePath::open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems) {
 	return parent->open(this, openItems);
+}
+
+const std::string SidePath::drop(const std::vector<std::string>& arguments, Entity* item) {
+	return "You can't drop anything here";
+}
+
+Entity * SidePath::take(const std::string & name) {
+	return nullptr;
 }
 
 

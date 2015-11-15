@@ -46,6 +46,6 @@ Room* Path::go(const SidePath* origin) const {
 	return result;
 }
 
-const std::string Path::open(const SidePath* origin, const std::list<Item*>& openItems) {
+const std::string Path::open(const SidePath* origin, const std::list<Entity*>& openItems) {
 	return "There's nothing here to open";
 }

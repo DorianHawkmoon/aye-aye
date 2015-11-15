@@ -1,7 +1,7 @@
 #include "Inventory.h"
 #include <sstream>
 #include "Utilities.h"
-#include "Item.h"
+#include "Entity.h"
 #include <algorithm>
 
 
@@ -15,16 +15,16 @@ const std::string Inventory::see(const std::string& name) const {
 	return "see what?";
 }
 
-const std::string Inventory::open(const std::string& name, const std::list<Item*>& openItems) {
+const std::string Inventory::open(const std::string& name, const std::list<Entity*>& openItems) {
 	//TODO: buscar objeto y abrir
 	return std::string();
 }
 
-Item * Inventory::getItem(const std::string name) {
-	Item* result = nullptr;
+Entity * Inventory::getItem(const std::string& name) {
+	Entity* result = nullptr;
 
-	std::list<Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
-		[&name](Item* item) { //given the direction, check if this concrete exit is found
+	std::list<Entity*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
+		[&name](Entity* item) { //given the direction, check if this concrete exit is found
 		return Utilities::compareTo(item->getName(), name);
 	});
 
@@ -35,23 +35,23 @@ Item * Inventory::getItem(const std::string name) {
 	return result;
 }
 
-const std::string Inventory::storeItem(Item * item) {
+const std::string Inventory::storeItem(Entity* item) {
 	//TODO: mejorar lo que devuelve
-	Item* previousItem = getItem(item->getName());
-	if (previousItem == nullptr) {
+	//Entity* previousItem = getItem(item->getName());
+	//if (previousItem == nullptr) {
 		items.push_back(item);
-	} else {
-		previousItem->addItem();
+	/*} else {
+	    previousItem->addItem();
 		delete item;
-	}
+	}*/
 	return "Taken";
 }
 
-Item * Inventory::takeOutItem(const std::string name) {
-	Item* result = nullptr;
+Entity * Inventory::takeOutItem(const std::string name) {
+	Entity* result = nullptr;
 
-	std::list<Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
-		[&name](Item* item) { //given the direction, check if this concrete exit is found
+	std::list<Entity*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
+		[&name](Entity* item) { //given the direction, check if this concrete exit is found
 		return Utilities::compareTo(item->getName(), name);
 	});
 
@@ -75,12 +75,14 @@ const std::string Inventory::look() const {
 			return "You have nothing";
 		}
 		unsigned int count = 0;
-		for each(const Item* item in items) {
+		for each(const Entity* item in items) {
 			++count;
 			if (count == size && count>1) {
 				result << " and";
 			}
-			result << " " << Utilities::numberToString(item->getCount()) << " " << item->getName();
+			result << " " << \
+				//Utilities::numberToString(item->getCount()) << " " << 
+				item->getName();
 
 			if (count == size) {
 				result << "." << std::endl;

@@ -4,7 +4,7 @@
 #include <iostream>
 #include "SidePath.h"
 #include <list>
-#include "Item.h"
+#include "Entity.h"
 
 
 Player::Player(Room* room) : actualRoom(room) {}
@@ -65,22 +65,18 @@ const std::string Player::look(const std::vector<std::string>& arguments) {
 }
 
 const std::string Player::see(const std::vector<std::string>& arguments) {
+	//TODO control if seeing an object from inventory
 	//look a concrete object
 	if (Utilities::compareTo(arguments[1], "room") || arguments.size() == 1) {
 		return actualRoom->look();
 	} else {
-		Direction direction = Directions::toDirection(arguments[1]);
-		if (direction != Direction::NOWHERE) {
-			return actualRoom->getPath(direction)->see(arguments);
-		} else {
-			return actualRoom->see(arguments);
-		}
+		return actualRoom->see(arguments);
 	}
 }
 
 const std::string Player::open(const std::vector<std::string>& arguments) {
 	//check if refers to a direction
-	std::list<Item*> items; //subsitute with the inventory
+	std::list<Entity*> items; //subsitute with the inventory
 	//check if refers a inventory (open box in inventory)
 	if (false /*TODO: find object function in inventory that returns the object or null and store it.*/) {
 	   //TODO: execute the open function on the object
@@ -92,7 +88,7 @@ const std::string Player::open(const std::vector<std::string>& arguments) {
 }
 
 const std::string Player::take(const std::vector<std::string>& arguments) {
-	Item* item = actualRoom->take(arguments[1]);
+	Entity* item = actualRoom->take(arguments[1]);
 	return inventory.storeItem(item);
 }
 
@@ -100,7 +96,8 @@ const std::string Player::drop(const std::vector<std::string>& arguments) {
 	if (arguments.size() < 2) {
 		return "Drop what?";
 	} else {
-		Item* item=inventory.takeOutItem(arguments[1]);
+		//TODO: que pasa si el objeto no fue correctamente drop? este desaparece!!
+		Entity* item=inventory.takeOutItem(arguments[1]);
 		if (item == nullptr) {
 			return "Drop what?";
 		}

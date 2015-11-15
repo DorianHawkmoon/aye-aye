@@ -7,10 +7,9 @@
 #include "Utilities.h"
 
 
-Room::Room(const char* name, const char* description): Entity(), name(name), description(description){
-}
+Room::Room(const char* name, const char* description) : Entity(name, description) {}
 
-Room::~Room(){
+Room::~Room() {
 	//delete all items
 	for each (const Item* item in items) {
 		delete item;
@@ -32,10 +31,10 @@ const std::string Room::look() const {
 	unsigned int count = 0;
 	for each(const Entity* entity in items) {
 		++count;
-		if (count == size  && count>1) {
+		if (count == size  && count > 1) {
 			result << " and";
 		}
-		result << " " <<  entity->look();
+		result << " " << entity->look();
 
 		if (count == size) {
 			result << "." << std::endl;
@@ -52,31 +51,61 @@ const std::string Room::look() const {
 	return result.str();
 }
 
-Entity* Room::getEntity(const std::string& name) const{
-	return nullptr;
+Entity* Room::getEntity(const std::string& name) const {
+	Entity* result = nullptr;
+
+	//Is myself?
+	if (Utilities::compareTo(this->name, name)) {
+		return const_cast<Room*>(this);
+	}
+
+	//search in directions
+	Direction direction = Directions::toDirection(name);
+	if (direction != NOWHERE) {
+		std::list<SidePath*>::const_iterator resultIt = std::find_if(paths.begin(), paths.end(),
+			[&direction](const SidePath* exit) { //given the direction, check if this concrete exit is found
+			return exit->getDirection() == direction;
+		});
+
+		if (resultIt != paths.end()) {
+			result = *resultIt;
+		}
+
+	} else {
+		//search by name of paths
+		std::list<SidePath*>::const_iterator resultIt = std::find_if(paths.begin(), paths.end(),
+			[&name](const SidePath* exit) { //given the direction, check if this concrete exit is found
+			return Utilities::compareTo(exit->getName(), name);
+		});
+
+		if (resultIt != paths.end()) {
+			result = *resultIt;
+		} else {
+			//look in the objects of the room
+			for (std::list<Entity *>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {
+				result = (*it)->getEntity(name);
+			}
+		}
+	}
+	return result;
 }
 
 const std::string Room::see(const std::vector<std::string>& arguments) const {
-	//TODO: see a wall if something, or see an object
-	//if seeing a direction
-	//if seeing an object
-	return std::string();
+	unsigned int size = arguments.size();
+	if (size < 2) {
+		return look();
+	} else {
+		//search the entity
+		Entity* entity = getEntity(arguments[1]);
+		return entity->see(arguments);
+	}
 }
 
-const std::string Room::open(const std::vector<std::string>& arguments, const std::list<Item*>& openItems) {
+const std::string Room::open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems) {
 	if (arguments.size() < 2) {
 		return "Open what?";
 	}
-	Direction direction = Directions::toDirection(arguments[1]);
-	if (direction != NOWHERE) {
-		//TODO: hacer por dirección
-		SidePath* path = getPath(direction);
-		path->open(arguments, openItems);
-		return "TODO";
-	}else if(SidePath* path = getPath(arguments[1])){ //check by name of path
-		return path->open(arguments, openItems);
-
-	} else if(Entity* entity=getEntity(arguments[1])) { //check in objects of the room
+	if (Entity* entity = getEntity(arguments[1])) { //check in objects of the room
 		return entity->open(arguments, openItems);
 
 	} else {
@@ -86,35 +115,20 @@ const std::string Room::open(const std::vector<std::string>& arguments, const st
 
 
 Room* Room::go(const Direction & direction) const {
-	std::list<SidePath*>::const_iterator result = std::find_if(paths.begin(), paths.end(), 
-		[&direction](const SidePath* exit) { //given the direction, check if this concrete exit is found
-			return exit->getDirection() == direction;
-		});
-
-	Room* resultRoom;
-	if (result != paths.end()) {
-		//return
-		resultRoom = (*result)->go();
-	}else {
-		std::cout << "There's no way on this side" << std::endl;
-		resultRoom = nullptr;
-	}
-	return resultRoom;
-}
-
-SidePath * Room::getPath(const Direction & direction) const {
 	std::list<SidePath*>::const_iterator result = std::find_if(paths.begin(), paths.end(),
 		[&direction](const SidePath* exit) { //given the direction, check if this concrete exit is found
 		return exit->getDirection() == direction;
 	});
 
-	SidePath* resultPath;
+	Room* resultRoom;
 	if (result != paths.end()) {
-		resultPath = *result;
-	}else{
-		resultPath = nullptr;
+		//return
+		resultRoom = (*result)->go();
+	} else {
+		std::cout << "There's no way on this side" << std::endl;
+		resultRoom = nullptr;
 	}
-	return resultPath;
+	return resultRoom;
 }
 
 bool Room::addPath(SidePath* path) {
@@ -122,15 +136,15 @@ bool Room::addPath(SidePath* path) {
 	return true;
 }
 
-void Room::addItem(Item * item) {
+void Room::addItem(Entity* item) {
 	items.push_back(item);
 }
 
-const Item * Room::getItem(const std::string & name) {
-	const Item* result = nullptr;
-	
-	std::list<Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
-		[&name](const Item* item) { 
+const Entity * Room::getItem(const std::string & name) {
+	const Entity* result = nullptr;
+
+	std::list<Entity*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
+		[&name](const Entity* item) {
 		return Utilities::compareTo(item->getName(), name);
 	});
 
@@ -141,43 +155,48 @@ const Item * Room::getItem(const std::string & name) {
 	return result;
 }
 
-Item * Room::take(const std::string & name) {
-	Item* result = nullptr;
+Entity * Room::take(const std::string & name) {
+	Entity* result = nullptr;
 
-	std::list<Item*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
-		[&name](const Item* item) {
+	std::list<Entity*>::const_iterator resultIt = std::find_if(items.begin(), items.end(),
+		[&name](const Entity* item) {
 		return Utilities::compareTo(item->getName(), name);
 	});
 
 	if (resultIt != items.end()) {
 		result = *resultIt;
 		items.erase(resultIt);
+	} else {
+		//search inside the items
+		for (std::list<Entity*>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {
+			result = (*it)->take(name);
+		}
 	}
 
 	return result;
 }
 
-const std::string Room::drop(const std::vector<std::string>& arguments, Item * item) {
-	if (arguments.size() > 2) {
-		//TODO: control and drop items into other items
-		return "Drop where?";
+const std::string Room::drop(const std::vector<std::string>& arguments, Entity * item) {
+	unsigned int size = arguments.size();
+	if (size > 2) {
+		//get the name
+		std::string into((size > 3) ? arguments[3] : arguments[2]);
+		if (Utilities::compareTo(this->name, into) || Utilities::compareTo("room",into)) {
+			//its me
+			addItem(item);
+			return "Dropped";
+		} else {
+			//it's not me, get the item into store if opened
+			Entity* itemInto = getEntity(into);
+			if (itemInto != nullptr) {
+				return itemInto->drop(arguments, item);
+			} else {
+				return "Drop where?";
+			}
+		}
+
 	} else {
 		addItem(item);
 		return "Dropped";
 	}
-}
-
-SidePath* Room::getPath(const std::string& name) const {
-	SidePath* result = nullptr;
-
-	std::list<SidePath*>::const_iterator resultIt = std::find_if(paths.begin(), paths.end(),
-		[&name](const SidePath* exit) { //given the direction, check if this concrete exit is found
-		return Utilities::compareTo(exit->getName(), name);
-	});
-
-	if (resultIt != paths.end()) {
-		result = *resultIt;
-	}
-
-	return result;
 }

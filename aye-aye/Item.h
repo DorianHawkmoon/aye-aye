@@ -8,41 +8,54 @@
 
 class Item : public Entity {
 public:
-	Item(const char* name, const char* description);
+	Item(const char* name, const char* description, const unsigned int count=1);
 	Item(const Item& item);
 	virtual ~Item();
 
 	virtual const std::string look() const;
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const;
-	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Item*>& openItems);
+	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems);
+	virtual const std::string drop(const std::vector<std::string>& arguments, Entity * item);
+	virtual Entity* take(const std::string& name);
 
-	
-	inline const std::string& getDescription() const {
-		return description;
+	inline const bool isOpened() const {
+		return opened;
 	}
-	inline const std::string& getName() const {
-		return name;
+	inline void setOpened(const bool opened) {
+		this->opened = opened;
 	}
 
-	inline void addItem() {
-		++count;
+	inline const bool isContainer() const {
+		return container;
 	}
-	inline void substractItem() {
-		--count;
+	inline void setContainer(const bool isContainer) {
+		container = isContainer;
 	}
-	const bool addItem(unsigned int value);
-	const bool substractItem(unsigned int value);
 
+	inline const bool canTake() const {
+		return canTaked;
+	}
+	inline void setCanTake(const bool canTake) {
+		canTaked = canTake;
+	}
+
+	const bool addItem(unsigned int value=1);
+	const bool substractItem(unsigned int value=1);
 	inline const unsigned int getCount() const {
 		return count;
 	}
 
-protected:
-	const static unsigned int MAX_ITEMS=10;
-	const std::string description;
-	const std::string name;
+private:
 	unsigned int count;
+	std::list<Entity*> items;
+	bool opened;
+	bool container;
+	bool canTaked;
+
+private:
+	Entity* getItem(const std::string name);
+	const std::string storeItem(Entity* item);
 };
 
 

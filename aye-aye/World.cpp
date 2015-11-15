@@ -33,8 +33,11 @@ World::World() {
 	this->listRooms.push_back(kitchen);
 
 
-	Item* bottle = new Item("bottle", "filled with some water");
-	Item* sack= new Item("sack", "brown, dirty and old");
+	Item* bottle = new Item("bottle", "bottle filled with some water");
+	Item* sack= new Item("sack", "brown, dirty and old sack");
+	sack->setContainer(true);
+	sack->setOpened(true);
+	
 	kitchen->addItem(bottle);
 	kitchen->addItem(sack);
 
@@ -45,7 +48,7 @@ World::World() {
 		"You closed the window");
 	this->listPath.push_back(window);
 	
-	this->actualRoom = behindHouse;
+	this->actualRoom = kitchen;
 }
 
 

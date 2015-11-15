@@ -30,7 +30,7 @@ public:
 
 	virtual const std::string look(const SidePath* origin) const;
 	virtual const std::string see(const SidePath* origin) const;
-	virtual const std::string open(const SidePath* origin, const std::list<Item*>& openItems);
+	virtual const std::string open(const SidePath* origin, const std::list<Entity*>& openItems);
 	Room* go(const SidePath* origin) const;
 
 protected:

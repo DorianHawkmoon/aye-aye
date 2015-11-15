@@ -6,7 +6,6 @@
 #include "Direction.h"
 #include "Entity.h"
 class Room;
-class Item;
 class Path;
 
 class SidePath : public Entity {
@@ -14,10 +13,10 @@ public:
 	SidePath(Room* room, const Direction& direction, Path* parent);
 	virtual ~SidePath();
 
+	virtual const std::string& getName() const;
 	inline const Direction& getDirection() const {
 		return direction;
 	}
-	const std::string getName() const;
 	inline Room* getRoom() const {
 		return origin;
 	}
@@ -32,7 +31,9 @@ public:
 	virtual const std::string look() const;
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const ;
-	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Item*>& openItems) ;
+	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems);
+	virtual const std::string drop(const std::vector<std::string>& arguments, Entity * item);
+	virtual Entity* take(const std::string& name);
 
 protected:
 	const Direction direction;

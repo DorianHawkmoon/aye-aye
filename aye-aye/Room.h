@@ -18,32 +18,19 @@ public:
 	virtual const std::string look() const;
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const;
-	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Item*>& openItems);
-
-	inline const std::string& getDescription() const {
-		return description;
-	}
-	inline const std::string& getName() const {
-		return name;
-	}
+	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems);
+	virtual const std::string drop(const std::vector<std::string>& arguments, Entity * item);
+	virtual Entity* take(const std::string& name);
 	
 	Room* go(const Direction& direction) const;
-	SidePath * Room::getPath(const Direction & direction) const;
-	SidePath* getPath(const std::string& name) const;
 	bool addPath(SidePath* path);
 
-	void addItem(Item* item);
-	const Item* getItem(const std::string& name);
-	Item * Room::take(const std::string & name);
-	const std::string drop(const std::vector<std::string>& arguments, Item* item);
+	void addItem(Entity* item);
+	const Entity* getItem(const std::string& name);
 
 private:
-
-	std::string description;
-	std::string name;
-
 	std::list<SidePath*> paths;
-	std::list<Item*> items;
+	std::list<Entity*> items;
 };
 
 #endif /* _ROOM_H_ */
