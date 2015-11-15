@@ -19,7 +19,7 @@ Room::~Room() {
 
 const std::string Room::look() const {
 	std::stringstream result;
-	result << description;
+	result << name << std::endl << description;
 	//add to description the description of objects
 	unsigned int size;
 	if (size = items.size()) {

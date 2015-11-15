@@ -38,6 +38,9 @@ const std::string SimpleLock::see(const SidePath * origin) const {
 const std::string SimpleLock::close(const SidePath * origin, const Inventory * closeItems) {
 	if (needed.size() == 0) {
 		//no items needed
+		if (!origin->isOpened()) {
+			return "Already closed";
+		}
 		this->origin->setOpened(false);
 		destination->setOpened(false);
 		return descriptionClosing;
@@ -50,6 +53,9 @@ const std::string SimpleLock::close(const SidePath * origin, const Inventory * c
 const std::string SimpleLock::open(const SidePath * origin, const Inventory * openItems) {
 	if (needed.size()==0) {
 		//no items needed
+		if (origin->isOpened()) {
+			return "Already opened";
+		}
 		this->origin->setOpened(true);
 		destination->setOpened(true);
 		return descriptionOpening;

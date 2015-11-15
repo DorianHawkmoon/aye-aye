@@ -25,6 +25,8 @@ const std::string Player::action(const std::vector<std::string>& arguments) {
 		return take(arguments);
 	} else if (Utilities::compareTo(arguments[0], "drop")) {
 		return drop(arguments);
+	}else if(Utilities::compareTo(arguments[0], "close")){
+		return close(arguments);
 	} else {
 		return "eemmm... sorry?";
 	}
@@ -74,8 +76,11 @@ const std::string Player::see(const std::vector<std::string>& arguments) {
 }
 
 const std::string Player::open(const std::vector<std::string>& arguments) {
+	if (arguments.size() < 2) {
+		return "Open what?";
+	}
 	const Inventory* inv = &inventory;
-		return actualRoom->open(arguments, inv);
+	return actualRoom->open(arguments, inv);
 	
 }
 
@@ -103,4 +108,12 @@ const std::string Player::drop(const std::vector<std::string>& arguments) {
 		}
 		return result.second;
 	}
+}
+
+const std::string Player::close(const std::vector<std::string>& arguments) {
+	if (arguments.size() < 2) {
+		return "Close what?";
+	}
+	const Inventory* inv = &inventory;
+	return actualRoom->close(arguments, inv);
 }
