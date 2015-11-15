@@ -48,7 +48,6 @@ const std::string Player::go(const std::vector<std::string>& arguments) {
 		actualRoom = destiny;
 		return std::string(actualRoom->getName() + '\n' + actualRoom->getDescription());
 	} else {
-		//TODO: fix this
 		return "I'm lost...";
 	}
 
@@ -75,16 +74,9 @@ const std::string Player::see(const std::vector<std::string>& arguments) {
 }
 
 const std::string Player::open(const std::vector<std::string>& arguments) {
-	//check if refers to a direction
-	std::list<Entity*> items; //subsitute with the inventory
-	//check if refers a inventory (open box in inventory)
-	if (false /*TODO: find object function in inventory that returns the object or null and store it.*/) {
-	   //TODO: execute the open function on the object
-
-   //check if refers to a name path or object in the room
-	} else {
-		return actualRoom->open(arguments, items);
-	}
+	const Inventory* inv = &inventory;
+		return actualRoom->open(arguments, inv);
+	
 }
 
 const std::string Player::take(const std::vector<std::string>& arguments) {

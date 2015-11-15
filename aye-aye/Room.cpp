@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Item.h"
 #include "Utilities.h"
+#include "Inventory.h"
 
 
 Room::Room(const char* name, const char* description) : Entity(name, description) {}
@@ -101,7 +102,7 @@ const std::string Room::see(const std::vector<std::string>& arguments) const {
 	}
 }
 
-const std::string Room::open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems) {
+const std::string Room::open(const std::vector<std::string>& arguments, const Inventory * openItems) {
 	if (arguments.size() < 2) {
 		return "Open what?";
 	}
@@ -164,6 +165,18 @@ Entity * Room::take(const std::string & name) {
 	}
 
 	return result;
+}
+
+const std::string Room::close(const std::vector<std::string>& arguments, const Inventory * closeItems) {
+	if (arguments.size() < 2) {
+		return "Close what?";
+	}
+	if (Entity* entity = getEntity(arguments[1])) { //check in objects of the room
+		return entity->close(arguments, closeItems);
+
+	} else {
+		return "Close what?";
+	}
 }
 
 const std::pair<bool, std::string> Room::drop(const std::vector<std::string>& arguments, Entity * item) {

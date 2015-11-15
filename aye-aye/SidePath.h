@@ -2,9 +2,10 @@
 #ifndef _SIDE_PATH_H_
 #define _SIDE_PATH_H_
 
-#include <list>
+#include <vector>
 #include "Direction.h"
 #include "Entity.h"
+class Inventory;
 class Room;
 class Path;
 
@@ -31,9 +32,10 @@ public:
 	virtual const std::string look() const;
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const ;
-	virtual const std::string open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems);
+	virtual const std::string open(const std::vector<std::string>& arguments, const Inventory * openItems);
 	virtual const std::pair<bool, std::string> drop(const std::vector<std::string>& arguments, Entity * item);
 	virtual Entity* take(const std::string& name);
+	virtual const std::string close(const std::vector<std::string>& arguments, const Inventory* closeItems);
 
 protected:
 	const Direction direction;

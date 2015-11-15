@@ -9,7 +9,7 @@
 
 class Room;
 class SidePath;
-class Item;
+class Inventory;
 
 class Path {
 public:
@@ -30,8 +30,9 @@ public:
 
 	virtual const std::string look(const SidePath* origin) const;
 	virtual const std::string see(const SidePath* origin) const;
-	virtual const std::string open(const SidePath* origin, const std::list<Entity*>& openItems);
+	virtual const std::string open(const SidePath* origin, const Inventory * openItems);
 	Room* go(const SidePath* origin) const;
+	virtual const std::string close(const SidePath* origin, const Inventory* closeItems);
 
 protected:
 	SidePath* origin;

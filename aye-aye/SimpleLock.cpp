@@ -1,5 +1,7 @@
 #include "SimpleLock.h"
 #include "SidePath.h"
+#include "Inventory.h"
+#include "Entity.h"
 
 SimpleLock::SimpleLock(Room* origin, const Direction& directionOrigin,
 	Room* destination, const Direction& directionDestination,
@@ -33,7 +35,19 @@ const std::string SimpleLock::see(const SidePath * origin) const {
 	}
 }
 
-const std::string SimpleLock::open(const SidePath * origin, const std::list<Item*>& openItems) {
+const std::string SimpleLock::close(const SidePath * origin, const Inventory * closeItems) {
+	if (needed.size() == 0) {
+		//no items needed
+		this->origin->setOpened(false);
+		destination->setOpened(false);
+		return descriptionClosing;
+	} else {
+		//check the items
+		return "Is still open. You need the key or something to close this.";
+	}
+}
+
+const std::string SimpleLock::open(const SidePath * origin, const Inventory * openItems) {
 	if (needed.size()==0) {
 		//no items needed
 		this->origin->setOpened(true);

@@ -25,14 +25,13 @@ const std::string Inventory::see(const std::vector<std::string>& arguments) cons
 	}
 }
 
-const std::string Inventory::open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems) {
+const std::string Inventory::open(const std::vector<std::string>& arguments, const Inventory * openItems) {
 	if (arguments.size() < 2) {
 		return "Open what?";
 	} else {
 		Entity* entity = getEntity(arguments[1]);
-		(entity == nullptr) ? "Open what?" : entity->open(arguments, openItems);
+		return (entity == nullptr) ? "Open what?" : entity->open(arguments, openItems);
 	}
-	return std::string();
 }
 
 //drop deja el objeto en el inventario (no dentro de otro objeto, asi que dará igual si especifica otro sitio
@@ -72,6 +71,15 @@ Entity * Inventory::take(const std::string & name) {
 
 	return result;
 
+}
+
+const std::string Inventory::close(const std::vector<std::string>& arguments, const Inventory * closeItems) {
+	if (arguments.size() < 2) {
+		return "Close what?";
+	} else {
+		Entity* entity = getEntity(arguments[1]);
+		return (entity == nullptr) ? "Close what?" : entity->close(arguments, closeItems);
+	}
 }
 
 const std::string Inventory::storeItem(Entity* item) {

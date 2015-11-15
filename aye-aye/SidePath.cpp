@@ -1,5 +1,6 @@
 #include "SidePath.h"
 #include "Path.h"
+#include "Inventory.h"
 
 SidePath::SidePath(Room* room, const Direction& direction, Path* parent)
 	: origin(room), direction(direction), parent(parent), opened(true) {}
@@ -32,7 +33,7 @@ const std::string SidePath::see(const std::vector<std::string>& arguments) const
 	return parent->see(this);
 }
 
-const std::string SidePath::open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems) {
+const std::string SidePath::open(const std::vector<std::string>& arguments, const Inventory * openItems) {
 	return parent->open(this, openItems);
 }
 
@@ -45,6 +46,10 @@ const std::pair<bool, std::string> SidePath::drop(const std::vector<std::string>
 
 Entity * SidePath::take(const std::string & name) {
 	return nullptr;
+}
+
+const std::string SidePath::close(const std::vector<std::string>& arguments, const Inventory * closeItems) {
+	return parent->close(this, closeItems);
 }
 
 

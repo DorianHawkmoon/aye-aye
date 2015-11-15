@@ -36,7 +36,6 @@ World::World() {
 	Item* bottle = new Item("bottle", "bottle filled with some water");
 	Item* sack= new Item("sack", "brown, dirty and old sack");
 	sack->setContainer(true);
-	sack->setOpened(true);
 	bottle->setCanTake(false);
 	
 	kitchen->addItem(bottle);

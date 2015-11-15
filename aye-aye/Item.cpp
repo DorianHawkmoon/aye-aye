@@ -1,5 +1,6 @@
 #include "Item.h"
 #include "Utilities.h"
+#include "Inventory.h"
 #include <algorithm>
 #include <sstream>
 #include <iostream>
@@ -87,7 +88,7 @@ const std::string Item::see(const std::vector<std::string>& arguments) const {
 	return result.str();
 }
 
-const std::string Item::open(const std::vector<std::string>& arguments, const std::list<Entity*>& openItems) {
+const std::string Item::open(const std::vector<std::string>& arguments, const Inventory * openItems) {
 	//TODO reacción de abrir sacos, pero también de encender luces, la mesa... no puedo usar container sin más
 	return "There's nothing to open";
 }
@@ -156,6 +157,11 @@ Entity * Item::take(const std::string & name) {
 
 	}
 	return result;
+}
+
+const std::string Item::close(const std::vector<std::string>& arguments, const Inventory * closeItems) {
+	//TODO
+	return std::string();
 }
 
 const bool Item::addItem(unsigned int value) {

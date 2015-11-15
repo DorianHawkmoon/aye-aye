@@ -2,6 +2,7 @@
 #include "SidePath.h"
 #include "Room.h"
 #include <iostream>
+#include "Inventory.h"
 
 Path::Path(Room* origin, const Direction& directionOrigin,
 	Room* destination, const Direction& directionDestination,
@@ -46,6 +47,10 @@ Room* Path::go(const SidePath* origin) const {
 	return result;
 }
 
-const std::string Path::open(const SidePath* origin, const std::list<Entity*>& openItems) {
+const std::string Path::close(const SidePath * origin, const Inventory * closeItems) {
+	return "There's nothing here to close";
+}
+
+const std::string Path::open(const SidePath* origin, const Inventory * openItems) {
 	return "There's nothing here to open";
 }

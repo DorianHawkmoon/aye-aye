@@ -3,6 +3,8 @@
 #define _SIMPLE_LOCK_H_
 
 #include "Path.h"
+class Entity;
+class Inventory;
 
 class SimpleLock : public Path{
 public:
@@ -15,11 +17,12 @@ public:
 
 	const std::string look(const SidePath* origin) const;
 	virtual const std::string see(const SidePath* origin) const;
-	virtual const std::string open(const SidePath* origin, const std::list<Item*>& openItems);
+	virtual const std::string open(const SidePath* origin, const Inventory * openItems);
+	virtual const std::string close(const SidePath* origin, const Inventory* closeItems);
 	Room* go(const SidePath* origin) const;
 
 private:
-	const std::list<const Item*> needed;
+	const std::list<const Entity*> needed;
 	const std::string descriptionOpened;
 	const std::string descriptionClosed;
 	const std::string descriptionOpening;
