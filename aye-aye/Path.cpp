@@ -30,7 +30,7 @@ const std::string Path::look(const SidePath* origin) const {
 }
 
 const std::string Path::see(const SidePath * origin) const {
-	return std::string();
+	return std::string(description + " " + name);
 }
 
 Room* Path::go(const SidePath* origin) const {

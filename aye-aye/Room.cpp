@@ -100,9 +100,14 @@ const std::string Room::see(const std::vector<std::string>& arguments) const {
 	unsigned int size = arguments.size();
 	if (size < 2) {
 		return look(arguments);
-	} else {
+	} else if (Utilities::compareTo(arguments[1], "room") || Utilities::compareTo(arguments[1], this->getName())) {
+		return look(arguments);
+	}else{
 		//search the entity
 		Entity* entity = getEntity(arguments[1]);
+		if (entity == nullptr) {
+			return "See what?";
+		}
 		return entity->see(arguments);
 	}
 }
@@ -157,7 +162,7 @@ Entity * Room::take(const std::string & name) {
 
 	if (resultIt != items.end()) {
 		result = *resultIt;
-		if (((Item*) result)->canTake()) {
+		if (result->getType()==ITEM && (static_cast<Item*>(result))->canTake()) {
 			items.erase(resultIt);
 		} else {
 			std::cout << std::endl<< "Can't take it" << std::endl;

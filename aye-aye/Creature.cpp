@@ -65,9 +65,11 @@ const std::string Creature::stats() const {
 }
 
 const std::string Creature::look(const std::vector<std::string>& arguments) const {
-	//TODO y si me pide mirarme a mi mismo?
-	if (arguments.size() > 1 && Utilities::compareTo(arguments[1], "inventory")) {
+	unsigned int size = arguments.size();
+	if (size > 1 && Utilities::compareTo(arguments[1], "inventory")) {
 		return inventory.look(arguments);
+	}else if(size>1 && Utilities::compareTo(arguments[1], this->getName())){
+		return this->stats();
 	} else {
 		return parent->look(arguments);
 	}
@@ -84,15 +86,16 @@ const std::string Creature::see(const std::vector<std::string>& arguments) const
 		|| (size > 3 && Utilities::compareTo(arguments[3], "inventory"))) { //see X in inventory
 
 		return inventory.see(arguments);
-	}
 
-
-	if (Utilities::compareTo(arguments[1], "room") || arguments.size() == 1) {
+	} else if (size <= 1) {
 		return parent->look(arguments);
-	} else {
+	
+	} else if (Utilities::compareTo(arguments[1], this->getName())) {
+		return this->stats();
+	
+	}else{
 		return parent->see(arguments);
 	}
-	//TODO y si me pide mirarme a mi mismo?
 }
 
 const std::string Creature::open(const std::vector<std::string>& arguments, const Inventory * openItems) {

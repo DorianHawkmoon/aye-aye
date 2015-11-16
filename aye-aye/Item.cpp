@@ -78,6 +78,7 @@ const std::string Item::see(const std::vector<std::string>& arguments) const {
 			if (count == size  && count > 1) {
 				result << " and";
 			}
+			//use of look for not going to deeper and avoid circular petitions
 			result << " " << entity->look(arguments);
 
 			if (count != size) {

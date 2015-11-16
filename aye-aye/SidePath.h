@@ -43,7 +43,7 @@ protected:
 	const Direction direction;
 	Room* origin;
 	bool opened;
-	Path* parent;
+	Path* parentPath;
 };
 
 #endif // ! _SIDE_PATH_H_

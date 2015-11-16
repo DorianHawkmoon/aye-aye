@@ -13,11 +13,11 @@ const std::string& SidePath::getName() const {
 }
 
 Room * SidePath::go() const {
-	return parent->go(this);
+	return parentPath->go(this);
 }
 
 const std::string SidePath::look(const std::vector<std::string>& arguments) const {
-	return parent->look(this);
+	return parentPath->look(this);
 }
 
 Entity * SidePath::getEntity(const std::string & name) const {
@@ -30,11 +30,11 @@ Entity * SidePath::getEntity(const std::string & name) const {
 }
 
 const std::string SidePath::see(const std::vector<std::string>& arguments) const {
-	return parent->see(this);
+	return parentPath->see(this);
 }
 
 const std::string SidePath::open(const std::vector<std::string>& arguments, const Inventory * openItems) {
-	return parent->open(this, openItems);
+	return parentPath->open(this, openItems);
 }
 
 const std::pair<bool, std::string> SidePath::drop(const std::vector<std::string>& arguments, Entity* item) {
@@ -49,7 +49,7 @@ Entity * SidePath::take(const std::string & name) {
 }
 
 const std::string SidePath::close(const std::vector<std::string>& arguments, const Inventory * closeItems) {
-	return parent->close(this, closeItems);
+	return parentPath->close(this, closeItems);
 }
 
 const std::string SidePath::go(const std::vector<std::string>& arguments) {
