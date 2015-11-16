@@ -7,7 +7,13 @@
 Inventory::Inventory(): Entity("","",INVENTORY) {}
 
 
-Inventory::~Inventory() {}
+Inventory::~Inventory() {
+	//delete all items
+	std::list<Entity*>::iterator it = items.begin();
+	while (it != items.end()) {
+		it = items.erase(it);
+	}
+}
 
 const std::string Inventory::see(const std::vector<std::string>& arguments) const {
 	unsigned int size = arguments.size();

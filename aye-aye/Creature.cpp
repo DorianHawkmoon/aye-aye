@@ -10,7 +10,6 @@ Creature::Creature(const char* name, const char * description, const int life, c
 	: Entity(name, description, type), life(life), maxLife(life), baseAttack(baseAttack), baseDefense(baseDefense) {}
 
 Creature::~Creature() {
-	//TODO: borrar el inventario
 }
 
 const bool Creature::isAlive() const {
@@ -66,6 +65,7 @@ const std::string Creature::stats() const {
 }
 
 const std::string Creature::look(const std::vector<std::string>& arguments) const {
+	//TODO y si me pide mirarme a mi mismo?
 	if (arguments.size() > 1 && Utilities::compareTo(arguments[1], "inventory")) {
 		return inventory.look(arguments);
 	} else {
@@ -92,6 +92,7 @@ const std::string Creature::see(const std::vector<std::string>& arguments) const
 	} else {
 		return parent->see(arguments);
 	}
+	//TODO y si me pide mirarme a mi mismo?
 }
 
 const std::string Creature::open(const std::vector<std::string>& arguments, const Inventory * openItems) {

@@ -89,7 +89,8 @@ const std::string Item::see(const std::vector<std::string>& arguments) const {
 }
 
 const std::string Item::open(const std::vector<std::string>& arguments, const Inventory * openItems) {
-	//TODO reacción de abrir sacos, pero también de encender luces, la mesa... no puedo usar container sin más
+	//TODO aquí es donde seguramente tenga que vigilar cuando enciendo luces y similares 
+	//para establecer si algo se ve o no. Pendiente de implementar
 	if (container) {
 		if (opened) {
 			return "Is already opened";

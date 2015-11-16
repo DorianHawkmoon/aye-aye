@@ -47,7 +47,6 @@ private:
 protected:
 	//list of object (inventary)
 	Inventory inventory;
-	//stats of the player (protagonist)
 };
 
 #endif // ! _CRIATURE_H_
