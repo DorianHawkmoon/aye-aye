@@ -32,10 +32,13 @@ void Application::update() {
 
 void Application::input() {
 	//read the input
-	parts.clear();
 	std::string lecture;
-	//read all line
-	std::getline(std::cin, lecture);
+	do {
+		lecture.clear();
+		parts.clear();
+		//read all line
+		std::getline(std::cin, lecture);
+	} while (lecture.size()<=0);
 	//split into words
 	Utilities::split(lecture, ' ', parts);
 }
