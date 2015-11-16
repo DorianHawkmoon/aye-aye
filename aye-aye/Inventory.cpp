@@ -2,9 +2,9 @@
 #include <sstream>
 #include "Utilities.h"
 #include <algorithm>
+#include "Item.h"
 
-
-Inventory::Inventory() {}
+Inventory::Inventory(): Entity("","",INVENTORY) {}
 
 
 Inventory::~Inventory() {}
@@ -14,7 +14,7 @@ const std::string Inventory::see(const std::vector<std::string>& arguments) cons
 	if (size < 2) {
 		return "See what?";
 	} else if (Utilities::compareTo(arguments[1], name)) {
-		return look();
+		return look(arguments);
 	} else {
 		//search the entity
 		Entity* entity = getEntity(arguments[1]);
@@ -36,6 +36,11 @@ const std::string Inventory::open(const std::vector<std::string>& arguments, con
 
 //drop deja el objeto en el inventario (no dentro de otro objeto, asi que dará igual si especifica otro sitio
 const std::pair<bool, std::string> Inventory::drop(const std::vector<std::string>& arguments, Entity * item) {
+	std::pair<bool, std::string> result;
+	if (item == nullptr) {
+		result.first = false;
+		result.second = "Take what?";
+	}
 	//TODO: controlar cantidades
 	//Entity* previousItem = getItem(item->getName());
 	//if (previousItem == nullptr) {
@@ -44,7 +49,7 @@ const std::pair<bool, std::string> Inventory::drop(const std::vector<std::string
 //	previousItem->addItem();
 //	delete item;
 //}
-	std::pair<bool, std::string> result;
+	
 	result.first = true;
 	result.second = "Taken " + item->getName();
 	return result;
@@ -82,12 +87,15 @@ const std::string Inventory::close(const std::vector<std::string>& arguments, co
 	}
 }
 
-const std::string Inventory::storeItem(Entity* item) {
-	items.push_back(item);
-	return "Taken";
+const std::string Inventory::go(const std::vector<std::string>& arguments) {
+	return std::string("An inventory can't go anywhere!");
 }
 
-const std::string Inventory::look() const {
+const std::string Inventory::take(const std::vector<std::string>& arguments) {
+	return std::string("An inventory can't take anything!");
+}
+
+const std::string Inventory::look(const std::vector<std::string>& arguments) const {
 	std::stringstream result;
 	//add to description the description of objects
 	unsigned int size;
@@ -102,7 +110,7 @@ const std::string Inventory::look() const {
 		if (count == size && count > 1) {
 			result << " and";
 		}
-		result << " " << item->look();
+		result << " " << item->look(arguments);
 
 		if (count == size) {
 			result << "." << std::endl;
@@ -121,6 +129,73 @@ Entity * Inventory::getEntity(const std::string & name) const {
 		result = (*it)->getEntity(name);
 	}
 
+	return result;
+}
+
+const std::pair<bool, std::string> Inventory::storeItem(Entity * item) {
+	std::pair<bool, std::string> result;
+	if (item == nullptr) {
+		result.first = false;
+		result.second = "Take what?";
+	}
+	//TODO: controlar cantidades
+	//Entity* previousItem = getItem(item->getName());
+	//if (previousItem == nullptr) {
+	items.push_back(item);
+	//} else {
+	//	previousItem->addItem();
+	//	delete item;
+	//}
+
+	result.first = true;
+	result.second = "Taken " + item->getName();
+	return result;
+}
+
+const Entity * Inventory::getWeapon(const std::string & name) const {
+	Entity* entity = getEntity(name);
+	if (entity->getType() == ITEM && ((Item*) entity)->getTypeItem() == WEAPON) {
+		return entity;
+	} else {
+		return nullptr;
+	}
+}
+
+const Entity * Inventory::getArmor(const std::string & name) const {
+	Entity* entity = getEntity(name);
+	if (entity->getType() == ITEM && ((Item*) entity)->getTypeItem() == ARMOR) {
+		return entity;
+	} else {
+		return nullptr;
+	}
+}
+
+const Entity * Inventory::getWeapon() const {
+	Entity* result = nullptr;
+
+	for (std::list<Entity *>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {
+		Entity* entity = (*it);
+		if ((*it)->getType() == ITEM) {
+			if (static_cast<Item*>(entity)->getTypeItem() == WEAPON) {
+				result = entity;
+			}
+		}
+	}
+
+	return result;
+}
+
+const Entity * Inventory::getArmor() const {
+	Entity* result = nullptr;
+
+	for (std::list<Entity *>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {
+		Entity* entity = (*it);
+		if ((*it)->getType() == ITEM) {
+			if (static_cast<Item*>(entity)->getTypeItem() == ARMOR) {
+				result = entity;
+			}
+		}
+	}
 
 	return result;
 }

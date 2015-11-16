@@ -1,9 +1,11 @@
 #include "Application.h"
 #include <iostream>
 
-Application::Application(): world(), player(world.getActualRoom()), end(false) {
+Application::Application(): world(), player("Aye-Aye", "Its you! Aye-aye!", 20, PLAYER), end(false) {
+	player.changeParent((Entity*)world.getActualRoom());
 	parts.reserve(10);
-	output = new std::string(player.actualState());
+	std::vector<std::string> args;
+	output = new std::string(player.look(args));
 }
 
 
@@ -26,7 +28,24 @@ void Application::update() {
 	} else {
 		//process the input by the player
 		delete output; //make sure deleted the previous string
-		output = new std::string(player.action(parts)); //make a new string to not get the returned value out of scope
+	    //make a new string to not get the returned value out of scope
+		if (Utilities::compareTo(parts[0], "look")) {
+			output = new std::string(player.look(parts));
+		} else if (Utilities::compareTo(parts[0], "go")) {
+			output = new std::string(player.go(parts));
+		} else if (Utilities::compareTo(parts[0], "see")) {
+			output = new std::string(player.see(parts));
+		} else if (Utilities::compareTo(parts[0], "open")) {
+			output = new std::string(player.open(parts, nullptr));
+		} else if (Utilities::compareTo(parts[0], "take")) {
+			output = new std::string(player.take(parts));
+		} else if (Utilities::compareTo(parts[0], "drop")) {
+			output = new std::string(player.drop(parts, nullptr).second);
+		} else if (Utilities::compareTo(parts[0], "close")) {
+			output = new std::string(player.close(parts, nullptr));
+		} else {
+			output = new std::string("eemmm... sorry?");
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 class Entity;
 class Inventory;
 
-class SimpleLock : public Path{
+class SimpleLock : public Path {
 public:
 	SimpleLock(Room* origin, const Direction& directionOrigin,
 		Room* destination, const Direction& directionDestination,
@@ -29,9 +29,6 @@ private:
 	const std::string descriptionClosed;
 	const std::string descriptionOpening;
 	const std::string descriptionClosing;
-
-private:
-	const bool matchNeeded(const Inventory* items) const;
 };
 
 #endif // ! _SIMPLE_LOCK_H

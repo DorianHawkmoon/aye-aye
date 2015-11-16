@@ -17,9 +17,6 @@ public:
 	//actual room where player is
 	Room* getActualRoom() const;
 
-	//go to another room, return a string indication the result of action
-	//std::string& go(Direction& direction);
-
 private:
 	Room* actualRoom;
 	std::list<Room*> listRooms;

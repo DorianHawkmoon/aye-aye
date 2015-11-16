@@ -3,7 +3,7 @@
 #include "Inventory.h"
 
 SidePath::SidePath(Room* room, const Direction& direction, Path* parent)
-	: origin(room), direction(direction), parent(parent), opened(true) {}
+	: Entity("","",PATH), origin(room), direction(direction), parent(parent), opened(true) {}
 
 
 SidePath::~SidePath() {}
@@ -16,7 +16,7 @@ Room * SidePath::go() const {
 	return parent->go(this);
 }
 
-const std::string SidePath::look() const {
+const std::string SidePath::look(const std::vector<std::string>& arguments) const {
 	return parent->look(this);
 }
 
@@ -50,6 +50,14 @@ Entity * SidePath::take(const std::string & name) {
 
 const std::string SidePath::close(const std::vector<std::string>& arguments, const Inventory * closeItems) {
 	return parent->close(this, closeItems);
+}
+
+const std::string SidePath::go(const std::vector<std::string>& arguments) {
+	return std::string("A path can't go anywhere!");
+}
+
+const std::string SidePath::take(const std::vector<std::string>& arguments) {
+	return std::string("A path can't take anything!");
 }
 
 

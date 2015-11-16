@@ -3,7 +3,7 @@
 #define _APPLICATION_H_
 
 #include "World.h"
-#include "Player.h"
+#include "Creature.h"
 #include <string>
 #include <vector>
 
@@ -22,7 +22,7 @@ private:
 	void finalize();
 
 	World world;
-	Player player;
+	Creature player;
 	bool end;
 
 	std::vector<std::string> parts;

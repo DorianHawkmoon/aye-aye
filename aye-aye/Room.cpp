@@ -8,7 +8,7 @@
 #include "Inventory.h"
 
 
-Room::Room(const char* name, const char* description) : Entity(name, description) {}
+Room::Room(const char* name, const char* description) : Entity(name, description, ROOM) {}
 
 Room::~Room() {
 	//delete all items
@@ -17,9 +17,14 @@ Room::~Room() {
 	}
 }
 
-const std::string Room::look() const {
+const std::string Room::look(const std::vector<std::string>& arguments) const {
 	std::stringstream result;
 	result << name << std::endl << description;
+
+	if (arguments.size() == 0) {
+		return result.str();
+	}
+
 	//add to description the description of objects
 	unsigned int size;
 	if (size = items.size()) {
@@ -35,7 +40,7 @@ const std::string Room::look() const {
 		if (count == size  && count > 1) {
 			result << " and";
 		}
-		result << " " << entity->look();
+		result << " " << entity->look(arguments);
 
 		if (count == size) {
 			result << "." << std::endl;
@@ -47,7 +52,7 @@ const std::string Room::look() const {
 	//add to description the description of paths
 	for each (SidePath* path in paths) {
 		result << std::endl << "At " << Directions::toString(path->getDirection()) << " " \
-			<< path->look();//specifing from where I'm looking the path
+			<< path->look(arguments);//specifing from where I'm looking the path
 	}
 	return result.str();
 }
@@ -94,7 +99,7 @@ Entity* Room::getEntity(const std::string& name) const {
 const std::string Room::see(const std::vector<std::string>& arguments) const {
 	unsigned int size = arguments.size();
 	if (size < 2) {
-		return look();
+		return look(arguments);
 	} else {
 		//search the entity
 		Entity* entity = getEntity(arguments[1]);
@@ -139,6 +144,7 @@ bool Room::addPath(SidePath* path) {
 
 void Room::addItem(Entity* item) {
 	items.push_back(item);
+	item->changeParent(this);
 }
 
 Entity * Room::take(const std::string & name) {
@@ -179,7 +185,21 @@ const std::string Room::close(const std::vector<std::string>& arguments, const I
 	}
 }
 
+const std::string Room::take(const std::vector<std::string>& arguments) {
+	return std::string("A room can take anything!");
+}
+
+const std::string Room::go(const std::vector<std::string>& arguments) {
+	return std::string("A room can't go anywhere!");
+}
+
 const std::pair<bool, std::string> Room::drop(const std::vector<std::string>& arguments, Entity * item) {
+	if (item == nullptr) {
+		std::pair<bool, std::string> result;
+		result.first = false;
+		result.second = "Drop what?";
+		return result;
+	}
 	unsigned int size = arguments.size();
 	if (size > 2) {
 		//get the name

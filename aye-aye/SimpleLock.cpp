@@ -50,21 +50,13 @@ const std::string SimpleLock::close(const SidePath * origin, const Inventory * c
 		return descriptionClosing;
 	} else {
 		//check the items
-		if (matchNeeded(closeItems)) {
+		if (Utilities::matchNeeded(needed, closeItems)) {
 			this->origin->setOpened(false);
 			destination->setOpened(false);
 			return descriptionClosing;
 		}
 		return "Is still open. You need the key or something to close this.";
 	}
-}
-
-const bool SimpleLock::matchNeeded(const Inventory * items) const {
-	bool result = true;
-	for (std::list<const Entity*>::const_iterator it = needed.begin(); it != needed.end() && result; ++it) {
-		result = items->getEntity((*it)->getName())!=nullptr;
-	}
-	return result;
 }
 
 const std::string SimpleLock::open(const SidePath * origin, const Inventory * openItems) {
@@ -78,7 +70,7 @@ const std::string SimpleLock::open(const SidePath * origin, const Inventory * op
 		return descriptionOpening;
 	} else {
 		//check the items
-		if (matchNeeded(openItems)) {
+		if (Utilities::matchNeeded(needed, openItems)) {
 			this->origin->setOpened(true);
 			destination->setOpened(true);
 			return descriptionOpening;

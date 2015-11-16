@@ -5,16 +5,16 @@
 #include <sstream>
 #include <iostream>
 
-Item::Item(const char * name, const char * description, const unsigned int count)
-	:Entity(name, description), count(count), opened(false), container(false), canTaked(true) {}
+Item::Item(const char * name, const char * description, const TypeItem type, const unsigned int count)
+	:Entity(name, description, TypeEntity::ITEM), count(count), opened(false), container(false), canTaked(true), typeItem(type) {}
 
-Item::Item(const Item & item) : Entity(item), count(item.count), opened(item.opened) {
+Item::Item(const Item & item) : Entity(item), count(item.count), opened(item.opened), typeItem(item.typeItem) {
 
 }
 
 Item::~Item() {}
 
-const std::string Item::look() const {
+const std::string Item::look(const std::vector<std::string>& arguments) const {
 	std::stringstream result;
 	result << Utilities::numberToString(count) + " " + name;
 	//add to description the description of objects if the item is open
@@ -33,7 +33,7 @@ const std::string Item::look() const {
 			if (count == size  && count > 1) {
 				result << " and";
 			}
-			result << " " << entity->look();
+			result << " " << entity->look(arguments);
 
 			if (count != size) {
 				result << ",";
@@ -78,7 +78,7 @@ const std::string Item::see(const std::vector<std::string>& arguments) const {
 			if (count == size  && count > 1) {
 				result << " and";
 			}
-			result << " " << entity->look();
+			result << " " << entity->look(arguments);
 
 			if (count != size) {
 				result << ",";
@@ -90,7 +90,21 @@ const std::string Item::see(const std::vector<std::string>& arguments) const {
 
 const std::string Item::open(const std::vector<std::string>& arguments, const Inventory * openItems) {
 	//TODO reacción de abrir sacos, pero también de encender luces, la mesa... no puedo usar container sin más
-	return "There's nothing to open";
+	if (container) {
+		if (opened) {
+			return "Is already opened";
+		} else if (needed.size() == 0) {
+			opened = true;
+			return std::string(this->name + " opened");
+		} else if (openItems!=nullptr && Utilities::matchNeeded(needed, openItems)) {
+			opened = true;
+			return std::string(this->name + " opened");
+		} else {
+			return "Can't open, you need something for this";
+		}
+	} else {
+		return "There's nothing to open";
+	}
 }
 
 const std::pair<bool, std::string> Item::drop(const std::vector<std::string>& arguments, Entity* item) {
@@ -141,7 +155,7 @@ Entity * Item::take(const std::string & name) {
 		if (resultIt != items.end()) {
 
 			result = *resultIt;
-			if (((Item*) result)->canTake()) {
+			if (result->getType()==ITEM && ((Item*) result)->canTake()) {
 				items.erase(resultIt);
 			} else {
 				result = nullptr;
@@ -160,8 +174,32 @@ Entity * Item::take(const std::string & name) {
 }
 
 const std::string Item::close(const std::vector<std::string>& arguments, const Inventory * closeItems) {
-	//TODO
+	//TODO reacción de abrir sacos, pero también de encender luces, la mesa... no puedo usar container sin más
+	if (container) {
+		if (!opened) {
+			return "Is already closed";
+		} else if (needed.size() == 0) {
+			opened = true;
+			return std::string(this->name + " closed");
+		} else if (closeItems != nullptr && Utilities::matchNeeded(needed, closeItems)) {
+			opened = true;
+			return std::string(this->name + " closed");
+		} else {
+			return "Can't close, you need something for this";
+		}
+	} else {
+		return "There's nothing to close";
+	}
 	return std::string();
+}
+
+const std::string Item::go(const std::vector<std::string>& arguments) {
+	//TODO: make items move between rooms ;P
+	return std::string("An item can't go anywhere!");
+}
+
+const std::string Item::take(const std::vector<std::string>& arguments) {
+	return "An item can't take anything!";
 }
 
 const bool Item::addItem(unsigned int value) {
@@ -180,14 +218,19 @@ const bool Item::substractItem(unsigned int value) {
 
 const std::pair<bool, std::string> Item::storeItem(Entity * item) {
 	std::pair<bool, std::string> result;
+	result.first = false;
+	if (item == nullptr) {
+		result.second = "Drop what?";
+	}
+
 	if (!container) {
-		result.first = false;
 		result.second = "Can't drop " + item->getName() + " into " + this->getName();
 		return result;
 	}
 	//Entity* previousItem = getItem(item->getName());
 	//if (previousItem == nullptr) {
 	items.push_back(item);
+	item->changeParent(this);
 /*} else {
 	previousItem->addItem();
 	delete item;
@@ -197,3 +240,6 @@ const std::pair<bool, std::string> Item::storeItem(Entity * item) {
 	return result;
 }
 
+void Item::addItemNeeded(const Entity * key) {
+	needed.push_back(key);
+}

@@ -1,5 +1,7 @@
 #include "Utilities.h"
 #include <sstream>
+#include "Entity.h"
+#include "Inventory.h"
 
 const bool Utilities::compareTo(const std::string& a, const std::string& b)  {
 	return strcmp(a.c_str(), b.c_str()) == 0;
@@ -50,4 +52,12 @@ const std::vector<std::string> Utilities::split(const std::string &s, const char
 	std::vector<std::string> elems;
 	split(s, delim, elems);
 	return elems;
+}
+
+const bool Utilities::matchNeeded(const std::list<const Entity*> needed, const Inventory * items) {
+	bool result = true;
+	for (std::list<const Entity*>::const_iterator it = needed.begin(); it != needed.end() && result; ++it) {
+		result = items->getEntity((*it)->getName()) != nullptr;
+	}
+	return result;
 }

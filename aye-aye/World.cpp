@@ -9,7 +9,6 @@ World::World() {
 	Room* westHouse= new Room("West of house",
 		"This is an open field west of a white house, with a boarded front door. There is a small mailbox here. A rubber mat saying 'Welcome to Zork!' lies by the door.");
 	this->listRooms.push_back(westHouse);
-	
 
 	//create a room
 	Room* southHouse = new Room("South of house",
@@ -55,6 +54,7 @@ World::World() {
 	window->addItemNeeded(lookpick);
 	
 	this->actualRoom = kitchen;
+	
 }
 
 
