@@ -20,17 +20,18 @@ const bool Creature::isAlive() const {
 }
 
 const std::string Creature::damage(const int damage) {
-	int defense = damage;
-	if (armor != nullptr) {
-		defense -= armor->getDefense();
-	}
+	int defense = baseDefense;
 
-	if (defense < 0) {
-		defense = 1; //always some damage
+	if (armor != nullptr) {
+		defense += armor->getDefense();
 	}
-	life -= defense;
+	int totalDamage = damage - defense;
+	if (totalDamage < 0) {
+		totalDamage = 1; //always some damage
+	}
+	life = life - totalDamage;
 	std::stringstream result;
-	result << "Damage by " << defense << " points.";
+	result << "Damage by " << totalDamage << " points.";
 	if (!isAlive()) {
 		this->dead();
 	}
@@ -38,7 +39,7 @@ const std::string Creature::damage(const int damage) {
 }
 
 void Creature::recove(const int recove) {
-	life += recove;
+	life = life + recove;
 	if (life > maxLife) {
 		life = maxLife;
 	}
@@ -47,7 +48,7 @@ void Creature::recove(const int recove) {
 const int Creature::hit() const {
 	unsigned int result = baseAttack;
 	if (weapon != nullptr) {
-		result += weapon->getHit();
+		result = result + weapon->getHit();
 	}
 	return result;
 }
@@ -84,7 +85,7 @@ const std::string Creature::equip(const std::vector<std::string>& arguments) {
 	return "Equiped " + item->getName();
 }
 
-const std::string Creature::unEquip(const std::vector<std::string>& arguments) {
+const std::string Creature::unequip(const std::vector<std::string>& arguments) {
 	if (arguments.size() < 2) {
 		return "Equip what?";
 	} else if (Utilities::compareTo(arguments[1], "weapon") || Utilities::compareTo(arguments[1], weapon->getName())) {
@@ -121,7 +122,7 @@ const std::string Creature::stats() const {
 		((weapon != nullptr) ? weapon->getDescription() : "no weapon")
 		<< std::endl;
 
-	result << "Defense: " << baseAttack << " + " <<
+	result << "Defense: " << baseDefense << " + " <<
 		((armor != nullptr) ? armor->getDescription() : "no armor")
 		<< std::endl;
 
@@ -235,9 +236,9 @@ const std::string Creature::take(const std::vector<std::string>& arguments) {
 
 void Creature::dead() {
 	const std::vector<std::string> args = {"unequip", "weapon"};
-	unEquip(args);
+	unequip(args);
 	const std::vector<std::string> args2={"unequip", "weapon"};
-	unEquip(args2);
+	unequip(args2);
 }
 
 const std::string Creature::go(const std::vector<std::string>& arguments) {

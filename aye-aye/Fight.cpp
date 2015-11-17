@@ -92,7 +92,7 @@ void Fight::update() {
 			output->append(player->equip(parts));
 
 		} else if (Utilities::compareTo(parts[0], "unequip")) {
-			output->append(player->unEquip(parts));
+			output->append(player->unequip(parts));
 
 		} else {
 			output->append("eemmm... sorry?");
@@ -167,6 +167,7 @@ void Fight::finalize() {
 }
 
 void Fight::draw() {
+	std::cout << std::endl << "==============================================" << std::endl;
 	//nothing to draw, but in this case, will consider drawing as writing in the output
 	if (output != nullptr) {
 		std::cout << std::endl << *output << std::endl << std::endl;

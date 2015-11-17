@@ -1,8 +1,8 @@
 #include "Application.h"
 #include <iostream>
 
-Application::Application(): world(), player("Aye-Aye", "Its you! Aye-aye!", 20, PLAYER), end(false) {
-	player.changeParent((Entity*)world.getActualRoom());
+Application::Application() : world(), player("Aye-Aye", "Its you! Aye-aye!", 20, PLAYER), end(false) {
+	player.changeParent((Entity*) world.getActualRoom());
 	parts.reserve(10);
 	std::vector<std::string> args;
 	output = new std::string(player.look(args));
@@ -14,7 +14,7 @@ Application::~Application() {}
 void Application::run() {
 	std::cout << "Welcome to Aye-Aye" << std::endl;
 
-	while (!end) { 
+	while (!end) {
 		draw(); //we consider draw as writting
 		input();
 		update();
@@ -28,7 +28,7 @@ void Application::update() {
 	} else {
 		//process the input by the player
 		delete output; //make sure deleted the previous string
-	    //make a new string to not get the returned value out of scope
+		//make a new string to not get the returned value out of scope
 		if (Utilities::compareTo(parts[0], "look")) {
 			output = new std::string(player.look(parts));
 		} else if (Utilities::compareTo(parts[0], "go")) {
@@ -43,6 +43,12 @@ void Application::update() {
 			output = new std::string(player.drop(parts, nullptr).second);
 		} else if (Utilities::compareTo(parts[0], "close")) {
 			output = new std::string(player.close(parts, nullptr));
+		} else if (Utilities::compareTo(parts[0], "equip")) {
+			output = new std::string(player.equip(parts));
+		} else if (Utilities::compareTo(parts[0], "unequip")) {
+			output = new std::string(player.unequip(parts));
+		} else if (Utilities::compareTo(parts[0], "stats")) {
+			output = new std::string(player.stats());
 		} else {
 			output = new std::string("eemmm... sorry?");
 		}
@@ -57,7 +63,7 @@ void Application::input() {
 		parts.clear();
 		//read all line
 		std::getline(std::cin, lecture);
-	} while (lecture.size()<=0);
+	} while (lecture.size() <= 0);
 	//split into words
 	Utilities::split(lecture, ' ', parts);
 }
@@ -68,5 +74,6 @@ void Application::finalize() {
 
 void Application::draw() {
 	//nothing to draw, but in this case, will consider drawing as writing in the output
+	std::cout << std::endl << "==============================================" << std::endl;
 	std::cout << std::endl << *output << std::endl << std::endl;
 }

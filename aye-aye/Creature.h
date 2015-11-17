@@ -25,7 +25,7 @@ public:
 	const int hit() const;
 
 	virtual const std::string equip(const std::vector<std::string>& arguments);
-	virtual const std::string unEquip(const std::vector<std::string>& arguments);
+	virtual const std::string unequip(const std::vector<std::string>& arguments);
 	virtual void autoEquip();
 	const std::string stats() const;
 	const std::list<Entity*> getInventory();
