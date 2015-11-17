@@ -18,7 +18,7 @@ public:
 
 	void addItemNeeded(const Entity* key);
 
-	const std::string look(const SidePath* origin) const;
+	virtual const std::string look(const SidePath* origin) const;
 	virtual const std::string see(const SidePath* origin) const;
 	virtual const std::string open(const SidePath* origin, const Inventory * openItems);
 	virtual const std::string close(const SidePath* origin, const Inventory* closeItems);

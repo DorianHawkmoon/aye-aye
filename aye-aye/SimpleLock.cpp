@@ -55,7 +55,7 @@ const std::string SimpleLock::close(const SidePath * origin, const Inventory * c
 			destination->setOpened(false);
 			return descriptionClosing;
 		}
-		return "Is still open. You need the key or something to close this.";
+		return "Is still open. You need something to close this.";
 	}
 }
 
