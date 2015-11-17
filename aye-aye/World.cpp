@@ -3,6 +3,9 @@
 #include "Path.h"
 #include "SimpleLock.h"
 #include "Item.h"
+#include "Creature.h"
+#include "Weapon.h"
+#include "Armor.h"
 
 World::World() {
 	//create a room
@@ -27,9 +30,21 @@ World::World() {
 	Path* pathSouthBehind = new Path(southHouse, Direction::EAST, behindHouse, Direction::SOUTH, "path");
 	this->listPath.push_back(pathSouthBehind);
 
+	Creature* enemy = new Creature("rat", "disgusting rat!!", 20,7);
+	behindHouse->addItem(enemy);
+
+	
+
+
+
 	Room* kitchen = new Room("Kitchen", "You are in the kitchen of the white house. A table seems to have been used recently for the preparation of food. On the table are some objects.");
 	//A passage leads to the west and a dark staircase can be seen leading upward.
 	this->listRooms.push_back(kitchen);
+
+	Weapon* weapon = new Weapon(5, "sword", "rusty sword");
+	Armor* armor = new Armor(5, "shield", "basic shield");
+	kitchen->addItem(weapon);
+	kitchen->addItem(armor);
 
 
 	Item* bottle = new Item("bottle", "bottle filled with some water");
@@ -45,7 +60,7 @@ World::World() {
 	kitchen->addItem(sack);
 
 
-	SimpleLock* window = new SimpleLock(behindHouse, Direction::WEST, kitchen, Direction::EAST, "window", false, "there is a small opened window",
+	SimpleLock* window = new SimpleLock(behindHouse, Direction::WEST, kitchen, Direction::EAST, "window", true, "there is a small opened window",
 		"there is a small window which is slightly ajar",
 		"With great effort, you open the window far enough to allow entry.",
 		"You closed the window");
@@ -70,6 +85,7 @@ World::~World() {
 	while (it2 != listRooms.end()) {
 		it2 = listRooms.erase(it2);
 	}
+
 }
 
 

@@ -47,6 +47,14 @@ Room* Path::go(const SidePath* origin) const {
 	return result;
 }
 
+const SidePath * Path::getOtherSide(const SidePath * origin) const {
+	if (Utilities::compareTo(origin->getName(), this->origin->getName())) {
+		return this->destination;
+	} else {
+		return this->origin;
+	}
+}
+
 const std::string Path::close(const SidePath * origin, const Inventory * closeItems) {
 	return "There's nothing here to close";
 }

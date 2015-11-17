@@ -8,6 +8,8 @@
 #include <string>
 
 class Room;
+class Armor;
+class Weapon;
 
 class Creature : public Entity {
 public:
@@ -16,15 +18,19 @@ public:
 
 	const bool isAlive() const;
 	//how damage it receive (will be modified by armor)
-	void damage(const int damage);
+	const std::string damage(const int damage);
 	//how much will recove
 	void recove(const int recove);
+	//its attack, modified by armor
+	const int hit() const;
 
-	virtual bool equip(const std::vector<std::string>& arguments);
-	virtual bool unEquip(const std::vector<std::string>& arguments);
-	virtual bool autoEquip();
-	virtual bool attack(const std::vector<std::string>& arguments);
+	virtual const std::string equip(const std::vector<std::string>& arguments);
+	virtual const std::string unEquip(const std::vector<std::string>& arguments);
+	virtual void autoEquip();
 	const std::string stats() const;
+	const std::list<Entity*> getInventory();
+
+	const std::string getDescription() const;
 
 	virtual const std::string look(const std::vector<std::string>& arguments) const;
 	virtual Entity* getEntity(const std::string& name) const;
@@ -41,8 +47,11 @@ private:
 	const int maxLife;
 	const int baseAttack;
 	const int baseDefense;
-	Entity* armor;
-	Entity* weapon;
+	Armor* armor;
+	Weapon* weapon;
+
+private:
+	void dead();
 
 protected:
 	//list of object (inventary)

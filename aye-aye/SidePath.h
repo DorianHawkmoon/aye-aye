@@ -29,6 +29,8 @@ public:
 		this->opened = opened;
 	}
 
+	const SidePath* getOtherSide() const;
+
 	virtual const std::string look(const std::vector<std::string>& arguments) const;
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const ;

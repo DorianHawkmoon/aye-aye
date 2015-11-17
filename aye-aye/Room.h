@@ -8,6 +8,7 @@
 #include "Entity.h"
 
 class SidePath;
+class Creature;
 class Inventory;
 
 class Room : public Entity {
@@ -22,12 +23,13 @@ public:
 	virtual const std::pair<bool, std::string> drop(const std::vector<std::string>& arguments, Entity * item);
 	virtual Entity* take(const std::string& name);
 	virtual const std::string close(const std::vector<std::string>& arguments, const Inventory* closeItems) ;
-	const std::string go(const std::vector<std::string>& arguments);
+	virtual const std::string go(const std::vector<std::string>& arguments);
 	virtual const std::string take(const std::vector<std::string>& arguments);
 	
 	Room* go(const Direction& direction) const;
 	bool addPath(SidePath* path);
-
+	const SidePath* getPath(const Direction& direction) const;
+	const std::list<Creature*> getEnemies() const;
 	void addItem(Entity* item);
 
 private:

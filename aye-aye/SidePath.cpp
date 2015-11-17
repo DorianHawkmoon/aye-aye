@@ -3,17 +3,23 @@
 #include "Inventory.h"
 
 SidePath::SidePath(Room* room, const Direction& direction, Path* parent)
-	: Entity("","",PATH), origin(room), direction(direction), parent(parent), opened(true) {}
+	: Entity("","",PATH), origin(room), direction(direction), parentPath(parent), opened(true) {
+	
+}
 
 
 SidePath::~SidePath() {}
 
 const std::string& SidePath::getName() const {
-	return parent->getName();
+	return parentPath->getName();
 }
 
 Room * SidePath::go() const {
 	return parentPath->go(this);
+}
+
+const SidePath * SidePath::getOtherSide() const {
+	return parentPath->getOtherSide(this);
 }
 
 const std::string SidePath::look(const std::vector<std::string>& arguments) const {

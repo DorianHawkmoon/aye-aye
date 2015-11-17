@@ -7,6 +7,7 @@
 #include <list>
 
 class Room;
+class Creature;
 class Path;
 
 class World {

@@ -143,6 +143,7 @@ const std::pair<bool, std::string> Inventory::storeItem(Entity * item) {
 	if (item == nullptr) {
 		result.first = false;
 		result.second = "Take what?";
+		return result;
 	}
 	//TODO: controlar cantidades
 	//Entity* previousItem = getItem(item->getName());
@@ -203,5 +204,11 @@ const Entity * Inventory::getArmor() const {
 		}
 	}
 
+	return result;
+}
+
+const std::list<Entity*> Inventory::getInventory() {
+	std::list<Entity*> result(items);
+	items.clear(); //delete all references in inventory (but the objects are not deleted)
 	return result;
 }

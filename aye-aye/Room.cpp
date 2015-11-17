@@ -6,7 +6,7 @@
 #include "Item.h"
 #include "Utilities.h"
 #include "Inventory.h"
-
+#include "Creature.h"
 
 Room::Room(const char* name, const char* description) : Entity(name, description, ROOM) {}
 
@@ -40,8 +40,11 @@ const std::string Room::look(const std::vector<std::string>& arguments) const {
 		if (count == size  && count > 1) {
 			result << " and";
 		}
-		result << " " << entity->look(arguments);
-
+		if (entity->getType() == CREATURE) {
+			result << " " << entity->getDescription();
+		} else {
+			result << " " << entity->look(arguments);
+		}
 		if (count == size) {
 			result << "." << std::endl;
 		} else {
@@ -102,7 +105,7 @@ const std::string Room::see(const std::vector<std::string>& arguments) const {
 		return look(arguments);
 	} else if (Utilities::compareTo(arguments[1], "room") || Utilities::compareTo(arguments[1], this->getName())) {
 		return look(arguments);
-	}else{
+	} else {
 		//search the entity
 		Entity* entity = getEntity(arguments[1]);
 		if (entity == nullptr) {
@@ -147,6 +150,32 @@ bool Room::addPath(SidePath* path) {
 	return true;
 }
 
+const SidePath * Room::getPath(const Direction & direction) const {
+	std::list<SidePath*>::const_iterator result = std::find_if(paths.begin(), paths.end(),
+		[&direction](const SidePath* exit) { //given the direction, check if this concrete exit is found
+		return exit->getDirection() == direction;
+	});
+
+	const SidePath* side = nullptr;
+	if (result != paths.end()) {
+		side = *result;
+	}
+	return side;
+}
+
+const std::list<Creature*> Room::getEnemies() const {
+	std::list<Creature*> result;
+	for each(Entity* entity in items) {
+		if (entity->getType() == CREATURE) {
+			Creature* creature = static_cast<Creature*>(entity);
+			if (creature->isAlive()) {
+				result.push_back(creature);
+			}
+		}
+	}
+	return result;
+}
+
 void Room::addItem(Entity* item) {
 	items.push_back(item);
 	item->changeParent(this);
@@ -162,10 +191,10 @@ Entity * Room::take(const std::string & name) {
 
 	if (resultIt != items.end()) {
 		result = *resultIt;
-		if (result->getType()==ITEM && (static_cast<Item*>(result))->canTake()) {
+		if (result->getType() == ITEM && (static_cast<Item*>(result))->canTake()) {
 			items.erase(resultIt);
 		} else {
-			std::cout << std::endl<< "Can't take it" << std::endl;
+			std::cout << std::endl << "Can't take it" << std::endl;
 			result = nullptr;
 		}
 	} else {
@@ -209,7 +238,7 @@ const std::pair<bool, std::string> Room::drop(const std::vector<std::string>& ar
 	if (size > 2) {
 		//get the name
 		std::string into((size > 3) ? arguments[3] : arguments[2]);
-		if (Utilities::compareTo(this->name, into) || Utilities::compareTo("room",into)) {
+		if (Utilities::compareTo(this->name, into) || Utilities::compareTo("room", into)) {
 			//its me
 			addItem(item);
 			std::pair<bool, std::string> result;

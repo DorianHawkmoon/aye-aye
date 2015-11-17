@@ -16,6 +16,7 @@ public:
 	const Entity* getArmor(const std::string& name) const;
 	const Entity* getWeapon() const;
 	const Entity* getArmor() const;
+	const std::list<Entity*> getInventory();
 
 	virtual const std::string look(const std::vector<std::string>& arguments) const;
 	virtual Entity* getEntity(const std::string& name) const;
