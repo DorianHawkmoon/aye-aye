@@ -59,12 +59,12 @@ void Application::update() {
 	}
 
 	//check if the player is still alive and if win the game
-	if (!player.isAlive()) {
+	if (!end && !player.isAlive()) {
 		output->append("\nYou die...\n\nGAME OVER!");
-	}// else if(winCondition()){
-		//output->append("\nFinally! the house is clean!\nHome, sweet home... Let's relax!\n");
-		//end = true;
-	//}
+	} else if(!end && winCondition()){
+		output->append("\nFinally! the house is clean!\nHome, sweet home... Let's relax!\n");
+		end = true;
+	}
 }
 
 void Application::input() {
