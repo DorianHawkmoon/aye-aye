@@ -48,13 +48,7 @@ const std::pair<bool, std::string> Inventory::drop(const std::vector<std::string
 		result.second = "Take what?";
 	}
 	//TODO: controlar cantidades
-	//Entity* previousItem = getItem(item->getName());
-	//if (previousItem == nullptr) {
 	items.push_back(item);
-//} else {
-//	previousItem->addItem();
-//	delete item;
-//}
 	
 	result.first = true;
 	result.second = "Taken " + item->getName();

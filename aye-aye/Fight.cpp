@@ -68,6 +68,9 @@ void Fight::update() {
 					Creature* enemy = (*resultIt);
 					output->append("Attack " + enemy->getName() + "! " +
 						enemy->damage(player->hit()));
+					if (!enemy->isAlive()) {
+						output->append("Enemy killed! ");
+					}
 					enemyAttackTurn = true;
 				} else {
 					output->append("Attack to who enemy?");
@@ -107,15 +110,15 @@ void Fight::update() {
 
 	if (enemyAttackTurn) {
 		//enemies made his damage, get output and append
-		output->append("\n\n");
+		output->append("\n");
 		for (std::list<Creature*>::const_iterator it = enemies.begin(); it != enemies.end() && enemyAttackTurn; ++it) {
 			if ((*it)->isAlive()) {
 				unsigned int damage = (*it)->hit();
-				output->append("Attacked by " + (*it)->getName() + "! " +
+				output->append("\nAttacked by " + (*it)->getName() + "! " +
 					player->damage(damage));
 
 				if (!player->isAlive()) {
-					output->append("Ouch!");
+					output->append(" Ouch!");
 					enemyAttackTurn = false;
 				}
 			}
@@ -144,7 +147,7 @@ void Fight::input() {
 
 void Fight::finalize() {
 	//get sacks with the inventory of the enemies
-	if (allEnemiesDied() && player->isAlive()) {
+	if (player->isAlive()) {
 		for (std::list<Creature*>::const_iterator it = enemies.begin(); it != enemies.end(); ++it) {
 			Creature* enemy = (*it);
 			if (enemy->isAlive()) {
@@ -157,7 +160,7 @@ void Fight::finalize() {
 
 			std::list<Entity*> inventory = enemy->getInventory();
 			for (std::list<Entity*>::iterator inventoryIt = inventory.begin(); inventoryIt != inventory.end(); ++inventoryIt) {
-				sack->storeItem(*it);
+				sack->storeItem(*inventoryIt);
 			}
 
 			//exact name is not needed, room will check only if have two arguments and drop it in the room
@@ -165,7 +168,9 @@ void Fight::finalize() {
 			player->getParent()->drop(args, sack);
 		}
 
-		output->append("\n\nYou defeated all the enemies!");
+		if (allEnemiesDied()) {
+			output->append("\n\nYou defeated all the enemies!");
+		}
 	}
 }
 

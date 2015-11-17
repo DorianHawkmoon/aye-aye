@@ -32,9 +32,13 @@ World::World() {
 	Path* pathSouthBehind = new Path(southHouse, Direction::EAST, behindHouse, Direction::SOUTH, "path");
 	this->listPath.push_back(pathSouthBehind);
 
-	Creature* enemy = new Creature("rat", "disgusting rat!!", 20, 7);
+	Creature* enemy = new Creature("rat", "disgusting rat!!", 5, 7);
 	behindHouse->addItem(enemy);
+	Creature* enemy2 = new Creature("rattata", "disgusting big rat!!", 20, 7);
+	behindHouse->addItem(enemy2);
 	listCreature.push_back(enemy);
+	listCreature.push_back(enemy2);
+	
 
 
 
@@ -60,7 +64,9 @@ World::World() {
 	sack->setContainer(true);
 	sack->setOpened(true);
 	sack->storeItem(key);
-	sack->storeItem(lookpick);
+	//sack->storeItem(lookpick);
+
+	enemy2->addItem(lookpick);
 
 	kitchen->addItem(bottle);
 	kitchen->addItem(sack);
@@ -116,3 +122,5 @@ const bool World::winCondition() const {
 	}
 	return died;
 }
+
+

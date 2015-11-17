@@ -25,11 +25,11 @@ void Application::run() {
 
 void Application::update() {
 	//execute commands and get the result
+	delete output; //make sure deleted the previous string
 	if (parts.size() > 0 && Utilities::compareTo(parts[0], "quit")) {
 		end = true;
 	} else {
 		//process the input by the player
-		delete output; //make sure deleted the previous string
 		//make a new string to not get the returned value out of scope
 		if (Utilities::compareTo(parts[0], "look")) {
 			output = new std::string(player.look(parts));
@@ -61,10 +61,10 @@ void Application::update() {
 	//check if the player is still alive and if win the game
 	if (!player.isAlive()) {
 		output->append("\nYou die...\n\nGAME OVER!");
-	} else if(winCondition()){
-		output->append("\nFinally! the house is clean!\nHome, sweet home... Let's relax!\n");
-		end = true;
-	}
+	}// else if(winCondition()){
+		//output->append("\nFinally! the house is clean!\nHome, sweet home... Let's relax!\n");
+		//end = true;
+	//}
 }
 
 void Application::input() {
@@ -91,5 +91,7 @@ bool Application::winCondition() {
 void Application::draw() {
 	//nothing to draw, but in this case, will consider drawing as writing in the output
 	std::cout << std::endl << "==============================================" << std::endl;
-	std::cout << std::endl << *output << std::endl << std::endl;
+	if (output != nullptr) {
+		std::cout << std::endl << *output << std::endl << std::endl;
+	}
 }

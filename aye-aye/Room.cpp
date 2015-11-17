@@ -200,6 +200,10 @@ Entity * Room::take(const std::string & name) {
 	} else {
 		//search inside the items
 		for (std::list<Entity*>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {
+			//avoid creatures
+			if ((*it)->getType() == CREATURE) {
+				continue;
+			}
 			result = (*it)->take(name);
 		}
 	}

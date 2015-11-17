@@ -10,9 +10,11 @@
 class Room;
 class Armor;
 class Weapon;
+class World;
 
 class Creature : public Entity {
 public:
+	friend class World;
 	Creature(const char* name, const char * description, const int life, const int baseAttack=1, const int baseDefense=0, const TypeEntity& type=CREATURE);
 	virtual ~Creature();
 
@@ -29,11 +31,10 @@ public:
 	void autoEquip();
 	const std::string stats() const;
 	const std::list<Entity*> getInventory();
+
 	//eat an item to restore life
-	const std::string eat(const std::vector<std::string>& arguments);
-
-	const std::string getDescription() const;
-
+	virtual const std::string eat(const std::vector<std::string>& arguments);
+	virtual const std::string getDescription() const;
 	virtual const std::string look(const std::vector<std::string>& arguments) const;
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const;
@@ -43,6 +44,8 @@ public:
 	virtual Entity* take(const std::string& name);
 	virtual const std::string go(const std::vector<std::string>& arguments);
 	virtual const std::string take(const std::vector<std::string>& arguments);
+
+	
 
 private:
 	int life;
@@ -54,6 +57,10 @@ private:
 
 private:
 	void dead();
+	void addItem(Entity* entity) {
+		const std::vector<std::string> args;
+		inventory.drop(args, entity);
+	}
 
 protected:
 	//list of object (inventary)
