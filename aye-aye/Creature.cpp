@@ -30,7 +30,12 @@ const std::string Creature::damage(const int damage) {
 	if (totalDamage < 0) {
 		totalDamage = 1; //always some damage
 	}
-	life = life - totalDamage;
+	if (life >= totalDamage) {
+		life = life - totalDamage;
+	} else {
+		life = 0;
+	}
+	
 	std::stringstream result;
 	result << "Damage by " << totalDamage << " points.";
 	if (!isAlive()) {
@@ -290,10 +295,7 @@ const std::string Creature::go(const std::vector<std::string>& arguments) {
 
 			Fight combat(const_cast<Creature*>(this), enemies, canEscape);
 			bool result=combat.fight();
-			if (result) {
-				//check if win or loose
-				return std::string(parent->getName() + '\n' + parent->getDescription());
-			} else {
+			if (!result) {
 				//running away...
 				this->changeParent(origin); //coming back to the room
 				return "You escaped and come back to the previous site";
@@ -301,7 +303,6 @@ const std::string Creature::go(const std::vector<std::string>& arguments) {
 		} else {
 			return std::string(parent->getName() + '\n' + parent->getDescription());
 		}
-	} else {
-		return "I'm lost...";
 	}
+	return std::string();
 }

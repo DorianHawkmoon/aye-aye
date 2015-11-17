@@ -39,7 +39,7 @@ const std::string SimpleLock::see(const SidePath * origin) const {
 	}
 }
 
-const std::string SimpleLock::close(const SidePath * origin, const Inventory * closeItems) {
+const std::string SimpleLock::close(SidePath * origin, const Inventory * closeItems) {
 	if (needed.size() == 0) {
 		//no items needed
 		if (!origin->isOpened()) {
@@ -59,7 +59,7 @@ const std::string SimpleLock::close(const SidePath * origin, const Inventory * c
 	}
 }
 
-const std::string SimpleLock::open(const SidePath * origin, const Inventory * openItems) {
+const std::string SimpleLock::open(SidePath * origin, const Inventory * openItems) {
 	if (needed.size()==0) {
 		//no items needed
 		if (origin->isOpened()) {

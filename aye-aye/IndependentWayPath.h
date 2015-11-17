@@ -3,24 +3,16 @@
 
 #include "Path.h"
 
-struct Side {
-	bool opened;
-	const std::string nameRoom;
-	const std::string descriptionOpened;
-	const std::string descriptionClosed;
-	const std::string descriptionOpening;
-	const std::string descriptionClosing;
-	std::list<const Entity*> needed;
-};
+
 
 class IndependentWayPath :	public Path {
 public:
 	struct Side {
-		const std::string nameRoom;
-		const std::string descriptionOpened;
-		const std::string descriptionClosed;
-		const std::string descriptionOpening;
-		const std::string descriptionClosing;
+		std::string nameRoom;
+		std::string descriptionOpened;
+		std::string descriptionClosed;
+		std::string descriptionOpening;
+		std::string descriptionClosing;
 		std::list<const Entity*> needed;
 	};
 
@@ -30,8 +22,10 @@ public:
 
 	virtual const std::string look(const SidePath* origin) const;
 	virtual const std::string see(const SidePath* origin) const;
-	virtual const std::string open(const SidePath* origin, const Inventory * openItems);
-	virtual const std::string close(const SidePath* origin, const Inventory* closeItems);
+	virtual const std::string open(SidePath* origin, const Inventory * openItems);
+	virtual const std::string close(SidePath* origin, const Inventory* closeItems);
+
+	const SidePath* getOtherSide(const SidePath* origin) const;
 
 private:
 	Side originSide;

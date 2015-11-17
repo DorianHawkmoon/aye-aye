@@ -20,6 +20,7 @@ private:
 	void draw();
 	void input();
 	void finalize();
+	bool winCondition();
 
 	World world;
 	Creature player;

@@ -55,10 +55,10 @@ const SidePath * Path::getOtherSide(const SidePath * origin) const {
 	}
 }
 
-const std::string Path::close(const SidePath * origin, const Inventory * closeItems) {
+const std::string Path::close(SidePath * origin, const Inventory * closeItems) {
 	return "There's nothing here to close";
 }
 
-const std::string Path::open(const SidePath* origin, const Inventory * openItems) {
+const std::string Path::open(SidePath* origin, const Inventory * openItems) {
 	return "There's nothing here to open";
 }

@@ -20,8 +20,8 @@ public:
 
 	virtual const std::string look(const SidePath* origin) const;
 	virtual const std::string see(const SidePath* origin) const;
-	virtual const std::string open(const SidePath* origin, const Inventory * openItems);
-	virtual const std::string close(const SidePath* origin, const Inventory* closeItems);
+	virtual const std::string open(SidePath* origin, const Inventory * openItems);
+	virtual const std::string close(SidePath* origin, const Inventory* closeItems);
 	Room* go(const SidePath* origin) const;
 
 private:

@@ -17,11 +17,14 @@ public:
 
 	//actual room where player is
 	Room* getActualRoom() const;
+	const bool winCondition() const;
 
 private:
 	Room* actualRoom;
 	std::list<Room*> listRooms;
 	std::list<Path*> listPath;
+	//list of the targets to check the win condition (don't delete, this class not own the objects)
+	std::list<Creature*> listCreature;
 };
 
 #endif // !_WORLD_H_

@@ -3,7 +3,7 @@
 
 Application::Application() : world(), player("Aye-Aye", "Its you! Aye-aye!", 20, PLAYER), end(false) {
 	player.changeParent((Entity*) world.getActualRoom());
-	parts.reserve(10);
+	parts.reserve(5);
 	std::vector<std::string> args;
 	output = new std::string(player.look(args));
 }
@@ -19,6 +19,8 @@ void Application::run() {
 		input();
 		update();
 	}
+	draw(); //writte the last news
+	finalize();
 }
 
 void Application::update() {
@@ -55,6 +57,14 @@ void Application::update() {
 			output = new std::string("eemmm... sorry?");
 		}
 	}
+
+	//check if the player is still alive and if win the game
+	if (!player.isAlive()) {
+		output->append("\nYou die...\n\nGAME OVER!");
+	} else if(winCondition()){
+		output->append("\nFinally! the house is clean!\nHome, sweet home... Let's relax!\n");
+		end = true;
+	}
 }
 
 void Application::input() {
@@ -72,6 +82,10 @@ void Application::input() {
 
 void Application::finalize() {
 	//nothing to delete, when world and player will be delete with this class, everything else will be released
+}
+
+bool Application::winCondition() {
+	return world.winCondition();
 }
 
 void Application::draw() {

@@ -6,11 +6,12 @@
 #include "Creature.h"
 #include "Weapon.h"
 #include "Armor.h"
+#include "IndependentWayPath.h"
 #include "Food.h"
 
 World::World() {
 	//create a room
-	Room* westHouse= new Room("West of house",
+	Room* westHouse = new Room("West of house",
 		"This is an open field west of a white house, with a boarded front door. There is a small mailbox here. A rubber mat saying 'Welcome to Zork!' lies by the door.");
 	this->listRooms.push_back(westHouse);
 
@@ -31,10 +32,11 @@ World::World() {
 	Path* pathSouthBehind = new Path(southHouse, Direction::EAST, behindHouse, Direction::SOUTH, "path");
 	this->listPath.push_back(pathSouthBehind);
 
-	Creature* enemy = new Creature("rat", "disgusting rat!!", 20,7);
+	Creature* enemy = new Creature("rat", "disgusting rat!!", 20, 7);
 	behindHouse->addItem(enemy);
+	listCreature.push_back(enemy);
 
-	
+
 
 
 
@@ -52,28 +54,38 @@ World::World() {
 
 
 	Item* bottle = new Item("bottle", "bottle filled with some water");
-	Item* sack= new Item("sack", "brown, dirty and old sack");
+	Item* sack = new Item("sack", "brown, dirty and old sack");
 	Item* key = new Item("key", "rusty key");
 	Item* lookpick = new Item("lookpick", "lookpick for opening dificults doors");
 	sack->setContainer(true);
 	sack->setOpened(true);
 	sack->storeItem(key);
 	sack->storeItem(lookpick);
-	
+
 	kitchen->addItem(bottle);
 	kitchen->addItem(sack);
 
+	IndependentWayPath::Side airSide;
+	airSide.nameRoom = behindHouse->getName();
+	airSide.descriptionClosed = std::string("there is a small window which is slightly ajar");
+	airSide.descriptionClosing = std::string("You closed the window");
+	airSide.descriptionOpened = std::string("there is a small opened window");
+	airSide.descriptionOpening = std::string("With great effort, you open the window far enough to allow entry.");
+	airSide.needed.push_back(lookpick);
 
-	SimpleLock* window = new SimpleLock(behindHouse, Direction::WEST, kitchen, Direction::EAST, "window", true, "there is a small opened window",
-		"there is a small window which is slightly ajar",
-		"With great effort, you open the window far enough to allow entry.",
-		"You closed the window");
+	IndependentWayPath::Side roomSide;
+	roomSide.nameRoom = kitchen->getName();
+	roomSide.descriptionClosed = std::string("there is a small window and a clear sun outside");
+	roomSide.descriptionClosing = std::string("You closed the window with the key");
+	roomSide.descriptionOpened = std::string("there is a small opened window and a clear sun outside");
+	roomSide.descriptionOpening = std::string("Window opened");
+	roomSide.needed.push_back(key);
+
+	IndependentWayPath* window = new IndependentWayPath("window", behindHouse, Direction::WEST, airSide, kitchen, Direction::EAST, roomSide);
 	this->listPath.push_back(window);
-	window->addItemNeeded(key);
-	window->addItemNeeded(lookpick);
-	
+
 	this->actualRoom = kitchen;
-	
+
 }
 
 
@@ -93,6 +105,14 @@ World::~World() {
 }
 
 
-Room* World::getActualRoom() const{
+Room* World::getActualRoom() const {
 	return actualRoom;
+}
+
+const bool World::winCondition() const {
+	bool died = true;
+	for (std::list<Creature*>::const_iterator it = listCreature.begin(); it != listCreature.end() && died; ++it) {
+		died = !(*it)->isAlive(); //if not alive, is dead! :D
+	}
+	return died;
 }
