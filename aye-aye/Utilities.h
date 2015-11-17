@@ -5,9 +5,11 @@
 #include <string>
 #include <vector>
 #include <list>
+
 class Entity;
 class Inventory;
 
+/*Some util and shared methods*/
 namespace Utilities{
 
 	const std::string numberToString(const unsigned int number);

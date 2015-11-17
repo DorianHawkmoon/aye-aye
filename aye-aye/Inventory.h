@@ -12,12 +12,18 @@ public:
 	virtual ~Inventory();
 
 	const std::pair<bool, std::string> storeItem(Entity * item);
+	//get the weapon (no delete from inventory)
 	const Entity* getWeapon(const std::string& name) const;
+	//ge the armor (no delete from inventory)
 	const Entity* getArmor(const std::string& name) const;
+	//get the first weapon it find
 	const Entity* getWeapon() const;
+	//get the first armor it find
 	const Entity* getArmor() const;
+	//get the list of entity of the inventory (used to drop items when a creature defeat)
 	const std::list<Entity*> getInventory();
 
+	//method override from entity
 	virtual const std::string look(const std::vector<std::string>& arguments) const;
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const;

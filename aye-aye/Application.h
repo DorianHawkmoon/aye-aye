@@ -7,8 +7,7 @@
 #include <string>
 #include <vector>
 
-class Application
-{
+class Application {
 public:
 	Application();
 	virtual ~Application();
@@ -25,8 +24,9 @@ private:
 	World world;
 	Creature player;
 	bool end;
-
+	//parts of the input readed
 	std::vector<std::string> parts;
+	//results to draw
 	std::string* output;
 };
 

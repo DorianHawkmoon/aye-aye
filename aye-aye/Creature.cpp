@@ -30,7 +30,7 @@ const bool Creature::isAlive() const {
 
 const std::string Creature::damage(const int damage) {
 	int defense = baseDefense;
-
+	//add the armor
 	if (armor != nullptr) {
 		defense += armor->getDefense();
 	}
@@ -38,12 +38,13 @@ const std::string Creature::damage(const int damage) {
 	if (totalDamage < 0) {
 		totalDamage = 1; //always some damage
 	}
+
 	if (life >= totalDamage) {
 		life = life - totalDamage;
 	} else {
 		life = 0;
 	}
-	
+
 	std::stringstream result;
 	result << "Damage by " << totalDamage << " points.";
 	if (!isAlive()) {
@@ -77,6 +78,7 @@ const std::string Creature::equip(const std::vector<std::string>& arguments) {
 		return "Equip what?";
 	}
 	Item* item;
+	//search the item
 	Entity* entity = inventory.getEntity(arguments[1]);
 	if (entity == nullptr) {
 		return "Equip what?";
@@ -88,12 +90,14 @@ const std::string Creature::equip(const std::vector<std::string>& arguments) {
 		item = static_cast<Item*>(entity);
 	}
 
+	//equip it
 	if (item->getTypeItem() == WEAPON) {
 		if (weapon != nullptr) {
 			//drop it to inventary
 			inventory.storeItem(weapon);
 		}
 		weapon = static_cast<Weapon*>(item);
+
 	} else {
 		if (armor != nullptr) {
 			//drop it to inventary
@@ -101,6 +105,7 @@ const std::string Creature::equip(const std::vector<std::string>& arguments) {
 		}
 		armor = static_cast<Armor*>(item);
 	}
+
 	return "Equiped " + item->getName();
 }
 
@@ -158,13 +163,13 @@ const std::string Creature::eat(const std::vector<std::string>& arguments) {
 	if (arguments.size() < 2) {
 		return "Eat what?";
 	} else {
-		Entity* entity=inventory.getEntity(arguments[1]);
+		Entity* entity = inventory.getEntity(arguments[1]);
 		if (entity == nullptr) {
 			return "Eat what?";
-		} else if (entity->getType() != ITEM || (static_cast<Item*>(entity))->getTypeItem()!=FOOD) {
+		} else if (entity->getType() != ITEM || (static_cast<Item*>(entity))->getTypeItem() != FOOD) {
 			return "I can't eat that";
 		} else {
-			Food* food=static_cast<Food*>(entity);
+			Food* food = static_cast<Food*>(entity);
 			//remove it from inventory
 			inventory.take(arguments[1]);
 			return recove(food->getRecover());
@@ -198,6 +203,7 @@ const std::string Creature::look(const std::vector<std::string>& arguments) cons
 }
 
 Entity * Creature::getEntity(const std::string & name) const {
+	//nothing to return here
 	return nullptr;
 }
 
@@ -276,8 +282,13 @@ const std::string Creature::take(const std::vector<std::string>& arguments) {
 void Creature::dead() {
 	const std::vector<std::string> args = {"unequip", "weapon"};
 	unequip(args);
-	const std::vector<std::string> args2={"unequip", "weapon"};
+	const std::vector<std::string> args2 = {"unequip", "weapon"};
 	unequip(args2);
+}
+
+void Creature::addItem(Entity * entity) {
+	const std::vector<std::string> args;
+	inventory.drop(args, entity);
 }
 
 const std::string Creature::go(const std::vector<std::string>& arguments) {
@@ -300,13 +311,13 @@ const std::string Creature::go(const std::vector<std::string>& arguments) {
 			//get the side of running away
 			const SidePath* originSide = origin->getPath(direction);
 			assert(originSide);
-			const SidePath* escapeSide=originSide->getOtherSide();
+			const SidePath* escapeSide = originSide->getOtherSide();
 
 			//test if I can go by this side (is still opened behind me)
 			bool canEscape = escapeSide->go() != nullptr;
 
 			Fight combat(const_cast<Creature*>(this), enemies, canEscape);
-			bool result=combat.fight();
+			bool result = combat.fight();
 			if (!result) {
 				//running away...
 				this->changeParent(origin); //coming back to the room

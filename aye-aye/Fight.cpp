@@ -56,6 +56,7 @@ void Fight::update() {
 				output = new std::string("You can't escape!!! AaAaaaAAaHHhh!!");
 			}
 
+
 		} else if (Utilities::compareTo(parts[0], "attack")) {
 			if (size > 1) {
 				std::string name(parts[1]);
@@ -87,22 +88,29 @@ void Fight::update() {
 				output->append("Attack to who enemy?");
 			}
 
+
+
 		} else if (Utilities::compareTo(parts[0], "look")) {
 			const std::vector<std::string> args = {"look", "inventory"};
 			output->append(player->look(args));
 
+
 		} else if (Utilities::compareTo(parts[0], "equip")) {
 			output->append(player->equip(parts));
+
 
 		} else if (Utilities::compareTo(parts[0], "unequip")) {
 			output->append(player->unequip(parts));
 
+
 		} else if (Utilities::compareTo(parts[0], "eat")) {
 			output->append(player->eat(parts));
+
 
 		} else {
 			output->append("eemmm... sorry?");
 		}
+
 	} else {
 		output->append("What are you going to do?!?");
 	}

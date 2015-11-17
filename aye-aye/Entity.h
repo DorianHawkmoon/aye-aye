@@ -22,7 +22,7 @@ public:
 	Entity(const Entity& entity);
 	virtual ~Entity();
 
-	//get the id (TOD: need the id?
+	//get the id (TODO: need the id?
 	inline const unsigned int getId() const {
 		return id;
 	}

@@ -3,9 +3,12 @@
 #define _SIMPLE_LOCK_H_
 
 #include "Path.h"
+
 class Entity;
 class Inventory;
-
+/*A path which contains a simple element which can be opened
+or closed and with or without items needed to open/close it.
+If is open in one side of the path, the other side is opened as well*/
 class SimpleLock : public Path {
 public:
 	SimpleLock(Room* origin, const Direction& directionOrigin,
@@ -16,13 +19,13 @@ public:
 
 	virtual ~SimpleLock();
 
+	//set an item needed to open or close the path
 	void addItemNeeded(const Entity* key);
 
 	virtual const std::string look(const SidePath* origin) const;
 	virtual const std::string see(const SidePath* origin) const;
 	virtual const std::string open(SidePath* origin, const Inventory * openItems);
 	virtual const std::string close(SidePath* origin, const Inventory* closeItems);
-	Room* go(const SidePath* origin) const;
 
 private:
 	std::list<const Entity*> needed;

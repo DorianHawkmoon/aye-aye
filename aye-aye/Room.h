@@ -16,6 +16,7 @@ public:
 	Room(const char* name, const char* description);
 	virtual ~Room();
 
+	//method overrided from entity
 	virtual const std::string look(const std::vector<std::string>& arguments) const;
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const;
@@ -26,14 +27,21 @@ public:
 	virtual const std::string go(const std::vector<std::string>& arguments);
 	virtual const std::string take(const std::vector<std::string>& arguments);
 	
+	//move (get the room destination) return nullptr if i dont have an exit or is closed
 	Room* go(const Direction& direction) const;
+	//add an exit to the room
 	bool addPath(SidePath* path);
+	//get the side of the especified exit, return nullptr if not exist
 	const SidePath* getPath(const Direction& direction) const;
+	//list of creatures alives (enemies)
 	const std::list<Creature*> getEnemies() const;
+	//add an item to this room TODO:move to private and make friend
 	void addItem(Entity* item);
 
 private:
+	//the exists
 	std::list<SidePath*> paths;
+	//every item and creature
 	std::list<Entity*> items;
 };
 

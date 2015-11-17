@@ -9,9 +9,11 @@ Path::Path(Room* origin, const Direction& directionOrigin,
 	const char* name, const char* description)
 	:name(name), description(description) {
 	
+	//create the sides
 	this->origin = new SidePath(origin, directionOrigin, this);
 	this->destination = new SidePath(destination, directionDestination, this);
 
+	//tell the rooms it has a new path
 	origin->addPath(this->origin);
 	destination->addPath(this->destination);
 
@@ -35,12 +37,13 @@ const std::string Path::see(const SidePath * origin) const {
 
 Room* Path::go(const SidePath* origin) const {
 	Room* result=nullptr;
+	//if where i am is closed... bad
 	if(origin->isOpened()==false){
 		std::cout << "Is closed!" << std::endl;
 
+	//if the origin side its my origin field stored, return the adecuate room
 	}else if (this->origin->getId() == origin->getId()) {
 		result = destination->getRoom();
-
 	} else {
 		result = this->origin->getRoom();
 	}

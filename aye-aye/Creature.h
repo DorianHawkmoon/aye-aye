@@ -34,6 +34,7 @@ public:
 
 	//eat an item to restore life
 	virtual const std::string eat(const std::vector<std::string>& arguments);
+	//methods override from entity
 	virtual const std::string getDescription() const;
 	virtual const std::string look(const std::vector<std::string>& arguments) const;
 	virtual Entity* getEntity(const std::string& name) const;
@@ -57,10 +58,7 @@ private:
 
 private:
 	void dead();
-	void addItem(Entity* entity) {
-		const std::vector<std::string> args;
-		inventory.drop(args, entity);
-	}
+	void addItem(Entity* entity);
 
 protected:
 	//list of object (inventary)

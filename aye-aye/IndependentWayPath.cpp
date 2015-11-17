@@ -38,7 +38,7 @@ const std::string IndependentWayPath::open(SidePath * origin, const Inventory * 
 		if (origin->isOpened()) {
 			return "Already opened";
 		}
-		origin->setOpened(true); //TODO: error bug, fix!
+		origin->setOpened(true);
 		return side.descriptionOpening;
 	} else {
 		//check the items

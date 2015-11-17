@@ -4,11 +4,13 @@
 #include "Path.h"
 
 
-
+/* A path with two independents side, the sides does not share the items it needs, if one opened, the other is not affected
+*/
 class IndependentWayPath :	public Path {
 public:
+	//personal information by side
 	struct Side {
-		std::string nameRoom;
+		std::string nameRoom; // to know in which side is it
 		std::string descriptionOpened;
 		std::string descriptionClosed;
 		std::string descriptionOpening;
@@ -32,6 +34,7 @@ private:
 	Side destinySide;
 
 private:
+	//return the side information asociated to this side
 	const Side& getTheSide(const SidePath* origin) const;
 };
 

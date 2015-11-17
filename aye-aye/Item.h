@@ -19,6 +19,7 @@ public:
 	Item(const Item& item);
 	virtual ~Item();
 
+	//methods override of entity
 	virtual const std::string look(const std::vector<std::string>& arguments) const;
 	virtual Entity* getEntity(const std::string& name) const;
 	virtual const std::string see(const std::vector<std::string>& arguments) const;
@@ -36,6 +37,7 @@ public:
 		this->opened = opened;
 	}
 
+	//is a container and can store another items?
 	inline const bool isContainer() const {
 		return container;
 	}
@@ -43,6 +45,7 @@ public:
 		container = isContainer;
 	}
 
+	//is an item I can take?
 	inline const bool canTake() const {
 		return canTaked;
 	}
@@ -54,8 +57,8 @@ public:
 		return typeItem;
 	}
 
-	const bool addItem(unsigned int value = 1);
-	const bool substractItem(unsigned int value = 1);
+	//const bool addItem(unsigned int value = 1);
+	//const bool substractItem(unsigned int value = 1);
 	inline const unsigned int getCount() const {
 		return count;
 	}
@@ -64,10 +67,12 @@ public:
 
 private:
 	unsigned int count;
+	//items that contains
 	std::list<Entity*> items;
 	bool opened;
 	bool container;
 	bool canTaked;
+	//elements needed to open
 	std::list<const Entity*> needed;
 	const TypeItem typeItem;
 

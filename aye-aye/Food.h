@@ -1,5 +1,6 @@
 #pragma once
 #ifndef _FOOD_H_
+#define _FOOD_H_
 
 #include "Item.h"
 

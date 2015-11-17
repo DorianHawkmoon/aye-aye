@@ -12,11 +12,18 @@ Item::Item(const Item & item) : Entity(item), count(item.count), opened(item.ope
 
 }
 
-Item::~Item() {}
+Item::~Item() {
+	//delete all items it owns
+	std::list<Entity*>::iterator it = items.begin();
+	while (it != items.end()) {
+		it = items.erase(it);
+	}
+}
 
 const std::string Item::look(const std::vector<std::string>& arguments) const {
 	std::stringstream result;
 	result << Utilities::numberToString(count) + " " + name;
+
 	//add to description the description of objects if the item is open
 	if (opened) {
 		unsigned int size;
@@ -27,7 +34,9 @@ const std::string Item::look(const std::vector<std::string>& arguments) const {
 				result << " in which there are";
 			}
 		}
+
 		unsigned int count = 0;
+		//tell all items
 		for each(const Entity* entity in items) {
 			++count;
 			if (count == size  && count > 1) {
@@ -72,7 +81,9 @@ const std::string Item::see(const std::vector<std::string>& arguments) const {
 				result << " in which there are";
 			}
 		}
+
 		unsigned int count = 0;
+		//tell every item
 		for each(const Entity* entity in items) {
 			++count;
 			if (count == size  && count > 1) {
@@ -154,8 +165,8 @@ Entity * Item::take(const std::string & name) {
 			return Utilities::compareTo(item->getName(), name);
 		});
 
+		//it found...
 		if (resultIt != items.end()) {
-
 			result = *resultIt;
 			if (result->getType()==ITEM && ((Item*) result)->canTake()) {
 				items.erase(resultIt);
@@ -164,6 +175,7 @@ Entity * Item::take(const std::string & name) {
 				std::cout << std::endl << "Can't take it" << std::endl;
 			}
 
+		//search inside other items
 		} else {
 			//search inside the items
 			for (std::list<Entity*>::const_iterator it = items.begin(); it != items.end() && result == nullptr; ++it) {
@@ -203,7 +215,7 @@ const std::string Item::go(const std::vector<std::string>& arguments) {
 const std::string Item::take(const std::vector<std::string>& arguments) {
 	return "An item can't take anything!";
 }
-
+/*
 const bool Item::addItem(unsigned int value) {
 	count += value;
 	return true;
@@ -217,7 +229,7 @@ const bool Item::substractItem(unsigned int value) {
 		return false;
 	}
 }
-
+*/
 const std::pair<bool, std::string> Item::storeItem(Entity * item) {
 	std::pair<bool, std::string> result;
 	result.first = false;
@@ -229,14 +241,10 @@ const std::pair<bool, std::string> Item::storeItem(Entity * item) {
 		result.second = "Can't drop " + item->getName() + " into " + this->getName();
 		return result;
 	}
-	//Entity* previousItem = getItem(item->getName());
-	//if (previousItem == nullptr) {
+	
 	items.push_back(item);
 	item->changeParent(this);
-/*} else {
-	previousItem->addItem();
-	delete item;
-}*/
+
 	result.first = true;
 	result.second = "Dropped into " + this->getName();
 	return result;

@@ -1,5 +1,6 @@
 #include "Application.h"
 #include <iostream>
+#include "Utilities.h"
 
 Application::Application() : world(), player("Aye-Aye", "Its you! Aye-aye!", 20, PLAYER), end(false) {
 	player.changeParent((Entity*) world.getActualRoom());
