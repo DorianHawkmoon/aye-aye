@@ -61,7 +61,7 @@ void Fight::update() {
 				std::string name(parts[1]);
 				std::list<Creature*>::const_iterator resultIt = std::find_if(enemies.begin(), enemies.end(),
 					[&name](const Creature* creature) { //given the direction, check if this concrete exit is found
-					return creature->getName() == name;
+					return creature->getName() == name && creature->isAlive();
 				});
 
 				if (resultIt != enemies.end()) {

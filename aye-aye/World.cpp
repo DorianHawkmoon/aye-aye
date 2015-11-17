@@ -108,14 +108,14 @@ World::World() {
 
 	//create paths
 	Path* forrestFrontHouse = new Path(forrest, Direction::SOUTH, frontHouse, Direction::NORTH, "path", "there is a little path in the fence which surround the house");
-	Path* frontHouseWest = new Path(frontHouse, Direction::WEST, westHouse, Direction::EAST, "path", "there is a little path to the front of the house");
-	Path* frontHouseGrove = new Path(frontHouse, Direction::EAST, grove, Direction::NORTH, "path", "there is a little path to the grove of the house");
+	Path* frontHouseWest = new Path(frontHouse, Direction::WEST, westHouse, Direction::EAST, "path", "there is a little path");
+	Path* frontHouseGrove = new Path(frontHouse, Direction::EAST, grove, Direction::NORTH, "path", "there is a little path");
 	SimpleLock* doorHouse = new SimpleLock(frontHouse, Direction::SOUTH, kitchen, Direction::NORTH, "door", false,
-		"the door is closed with a padlock", "the door is open", "You unlock and opened the door", "You close and lock the door");
+		"the door is open", "the door is closed with a padlock", "You unlock and opened the door", "You close and lock the door");
 	doorHouse->addItemNeeded(key);
-	SimpleLock* windowHouse = new SimpleLock(kitchen, Direction::EAST, grove, Direction::WEST, "door", true,
-		"the window is closed", "the window is open, maybe the animals come inside the house by the window", "You opened the window", "You closed the window with a little effort");
-	Path* kitchenBedroom = new Path(kitchen, Direction::WEST, grove, Direction::EAST, "curtains", "there is a curtain separating the rooms");
+	SimpleLock* windowHouse = new SimpleLock(kitchen, Direction::EAST, grove, Direction::WEST, "window", true,
+		"the window is open, maybe the animals come inside the house by the window","the window is closed", "You opened the window", "You closed the window with a little effort");
+	Path* kitchenBedroom = new Path(kitchen, Direction::WEST, bedroom, Direction::EAST, "curtains", "there is a curtain separating the rooms");
 
 	IndependentWayPath::Side airSide;
 	airSide.nameRoom = westHouse->getName();

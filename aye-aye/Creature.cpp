@@ -14,7 +14,15 @@
 Creature::Creature(const char* name, const char * description, const int life, const int baseAttack, const int baseDefense, const TypeEntity& type)
 	: Entity(name, description, type), life(life), maxLife(life), baseAttack(baseAttack), baseDefense(baseDefense), weapon(nullptr), armor(nullptr) {}
 
-Creature::~Creature() {}
+Creature::~Creature() {
+	if (weapon != nullptr) {
+		delete weapon;
+	}
+
+	if (armor != nullptr) {
+		delete armor;
+	}
+}
 
 const bool Creature::isAlive() const {
 	return life > 0;
@@ -101,9 +109,11 @@ const std::string Creature::unequip(const std::vector<std::string>& arguments) {
 		return "Equip what?";
 	} else if (Utilities::compareTo(arguments[1], "weapon") || Utilities::compareTo(arguments[1], weapon->getName())) {
 		inventory.storeItem(weapon);
+		weapon = nullptr;
 		return "Unequiped";
 	} else if (Utilities::compareTo(arguments[1], "armor") || Utilities::compareTo(arguments[1], armor->getName())) {
 		inventory.storeItem(armor);
+		armor = nullptr;
 		return "Unequiped";
 	} else {
 		return "Unequip what?";
@@ -155,6 +165,8 @@ const std::string Creature::eat(const std::vector<std::string>& arguments) {
 			return "I can't eat that";
 		} else {
 			Food* food=static_cast<Food*>(entity);
+			//remove it from inventory
+			inventory.take(arguments[1]);
 			return recove(food->getRecover());
 		}
 	}
@@ -255,7 +267,7 @@ const std::string Creature::take(const std::vector<std::string>& arguments) {
 
 	Entity* item = parent->take(arguments[1]);
 	if (item == nullptr) {
-		return std::string("There's nothing");
+		return std::string("");
 	} else {
 		return inventory.drop(arguments, item).second;
 	}

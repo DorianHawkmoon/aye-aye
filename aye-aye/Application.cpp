@@ -27,6 +27,7 @@ void Application::update() {
 	//execute commands and get the result
 	delete output; //make sure deleted the previous string
 	if (parts.size() > 0 && Utilities::compareTo(parts[0], "quit")) {
+		output = new std::string;
 		end = true;
 	} else {
 		//process the input by the player
