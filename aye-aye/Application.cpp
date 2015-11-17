@@ -49,6 +49,8 @@ void Application::update() {
 			output = new std::string(player.unequip(parts));
 		} else if (Utilities::compareTo(parts[0], "stats")) {
 			output = new std::string(player.stats());
+		} else if (Utilities::compareTo(parts[0], "eat")) {
+			output = new std::string(player.eat(parts));
 		} else {
 			output = new std::string("eemmm... sorry?");
 		}

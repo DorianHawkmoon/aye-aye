@@ -223,6 +223,7 @@ const std::string Room::take(const std::vector<std::string>& arguments) {
 	return std::string("A room can take anything!");
 }
 
+
 const std::string Room::go(const std::vector<std::string>& arguments) {
 	return std::string("A room can't go anywhere!");
 }

@@ -6,6 +6,7 @@
 #include "Creature.h"
 #include "Weapon.h"
 #include "Armor.h"
+#include "Food.h"
 
 World::World() {
 	//create a room
@@ -37,13 +38,16 @@ World::World() {
 
 
 
+
 	Room* kitchen = new Room("Kitchen", "You are in the kitchen of the white house. A table seems to have been used recently for the preparation of food. On the table are some objects.");
 	//A passage leads to the west and a dark staircase can be seen leading upward.
 	this->listRooms.push_back(kitchen);
 
+	Food* food = new Food("pan", "humeante pan", 5);
 	Weapon* weapon = new Weapon(5, "sword", "rusty sword");
 	Armor* armor = new Armor(5, "shield", "basic shield");
 	kitchen->addItem(weapon);
+	kitchen->addItem(food);
 	kitchen->addItem(armor);
 
 

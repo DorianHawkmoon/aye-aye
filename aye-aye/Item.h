@@ -9,7 +9,8 @@
 enum TypeItem {
 	NORMAL_ITEM,
 	WEAPON,
-	ARMOR
+	ARMOR,
+	FOOD
 };
 
 class Item : public Entity {

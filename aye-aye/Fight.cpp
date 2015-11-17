@@ -94,6 +94,9 @@ void Fight::update() {
 		} else if (Utilities::compareTo(parts[0], "unequip")) {
 			output->append(player->unequip(parts));
 
+		} else if (Utilities::compareTo(parts[0], "eat")) {
+			output->append(player->eat(parts));
+
 		} else {
 			output->append("eemmm... sorry?");
 		}
@@ -186,5 +189,5 @@ void Fight::draw() {
 		}
 	}
 	std::cout << std::endl << std::endl;
-	std::cout << "Escape? Attack enemy? Look in inventory for better armor or weapon to equip?" << std::endl << std::endl;
+	std::cout << "Escape? Attack enemy? Look in inventory for better armor or weapon to equip? Eat?" << std::endl << std::endl;
 }

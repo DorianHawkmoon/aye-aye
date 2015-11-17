@@ -20,15 +20,17 @@ public:
 	//how damage it receive (will be modified by armor)
 	const std::string damage(const int damage);
 	//how much will recove
-	void recove(const int recove);
+	const std::string recove(const int recove);
 	//its attack, modified by armor
 	const int hit() const;
 
-	virtual const std::string equip(const std::vector<std::string>& arguments);
-	virtual const std::string unequip(const std::vector<std::string>& arguments);
-	virtual void autoEquip();
+	const std::string equip(const std::vector<std::string>& arguments);
+	const std::string unequip(const std::vector<std::string>& arguments);
+	void autoEquip();
 	const std::string stats() const;
 	const std::list<Entity*> getInventory();
+	//eat an item to restore life
+	const std::string eat(const std::vector<std::string>& arguments);
 
 	const std::string getDescription() const;
 

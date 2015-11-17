@@ -8,6 +8,7 @@
 #include "Weapon.h"
 #include <assert.h>
 #include "Fight.h"
+#include "Food.h"
 #include "SidePath.h"
 
 Creature::Creature(const char* name, const char * description, const int life, const int baseAttack, const int baseDefense, const TypeEntity& type)
@@ -38,10 +39,15 @@ const std::string Creature::damage(const int damage) {
 	return result.str();
 }
 
-void Creature::recove(const int recove) {
+const std::string Creature::recove(const int recove) {
 	life = life + recove;
 	if (life > maxLife) {
 		life = maxLife;
+		return "Fully recovered!";
+	} else {
+		std::stringstream result;
+		result << "Recovered " << recove << " points";
+		return result.str();
 	}
 }
 
@@ -131,6 +137,22 @@ const std::string Creature::stats() const {
 
 const std::list<Entity*> Creature::getInventory() {
 	return inventory.getInventory();
+}
+
+const std::string Creature::eat(const std::vector<std::string>& arguments) {
+	if (arguments.size() < 2) {
+		return "Eat what?";
+	} else {
+		Entity* entity=inventory.getEntity(arguments[1]);
+		if (entity == nullptr) {
+			return "Eat what?";
+		} else if (entity->getType() != ITEM || (static_cast<Item*>(entity))->getTypeItem()!=FOOD) {
+			return "I can't eat that";
+		} else {
+			Food* food=static_cast<Food*>(entity);
+			return recove(food->getRecover());
+		}
+	}
 }
 
 const std::string Creature::getDescription() const {
