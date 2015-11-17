@@ -86,8 +86,8 @@ World::World() {
 	shelves->storeItem(bread);
 	shelves->storeItem(cupcake);
 
-	Weapon* weapon = new Weapon(7, "hoe", "hoe for the grove");
-	Weapon* knife = new Weapon(7, "knife", "little knife");
+	Weapon* weapon = new Weapon(4, "hoe", "hoe for the grove");
+	Weapon* knife = new Weapon(4, "knife", "little knife");
 	
 	Armor* armor = new Armor(4, "overalls", "dirty overalls for work");
 	
@@ -145,14 +145,14 @@ World::World() {
 	this->listPath.push_back(frontHouseWest);
 
 	//create enemies
-	Creature* spider = new Creature("giantspider", "a giant spider!!", 5, 7);
-	Creature* vole = new Creature("vole", "a little vole", 5, 7);
-	Creature* vole2 = new Creature("vole", "a little vole", 5, 7);
-	Creature* vole3 = new Creature("vole", "a little vole", 5, 7);
-	Creature* snake = new Creature("snake", "a dangerous snake", 5, 7);
-	Creature* rat = new Creature("rat", "a rat", 5, 7);
-	Creature* rat2 = new Creature("rat", "a rat", 5, 7);
-	Creature* ferret = new Creature("ferret", "a nervous ferret", 5, 7);
+	Creature* spider = new Creature("giantspider", "a giant spider!!", 20, 7);
+	Creature* vole = new Creature("vole", "a little vole", 5, 4);
+	Creature* vole2 = new Creature("vole", "a little vole", 10, 4);
+	Creature* vole3 = new Creature("vole", "a little vole", 10, 4);
+	Creature* snake = new Creature("snake", "a dangerous snake", 13, 7);
+	Creature* rat = new Creature("rat", "a rat", 8, 3);
+	Creature* rat2 = new Creature("rat", "a rat", 8, 3);
+	Creature* ferret = new Creature("ferret", "a nervous ferret", 10, 4);
 	ferret->addItem(meat);
 
 	//add the creatures to the list 

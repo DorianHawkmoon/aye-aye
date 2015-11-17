@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Utilities.h"
 
-Application::Application() : world(), player("Aye-Aye", "Its you! Aye-aye!", 20, PLAYER), end(false) {
+Application::Application() : world(), player("Aye-Aye", "Its you! Aye-aye!", 30, PLAYER), end(false) {
 	player.changeParent((Entity*) world.getActualRoom());
 	parts.reserve(5);
 	std::vector<std::string> args;
