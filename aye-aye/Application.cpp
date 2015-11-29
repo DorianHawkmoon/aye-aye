@@ -10,7 +10,11 @@ Application::Application() : world(), player("Aye-Aye", "Its you! Aye-aye!", 30,
 }
 
 
-Application::~Application() {}
+Application::~Application() {
+	if (output != nullptr) {
+		delete output;
+	}
+}
 
 void Application::run() {
 	std::cout << "Welcome to Aye-Aye" << std::endl;

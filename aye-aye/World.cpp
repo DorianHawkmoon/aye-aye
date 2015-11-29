@@ -185,16 +185,18 @@ World::~World() {
 	//delete all path
 	std::list<Path*>::iterator it = listPath.begin();
 	while (it != listPath.end()) {
+		delete *it;
 		it = listPath.erase(it);
 	}
 
 	//delete all rooms
 	std::list<Room*>::iterator it2 = listRooms.begin();
 	while (it2 != listRooms.end()) {
+		delete *it2;
 		it2 = listRooms.erase(it2);
 	}
 
-	//don't delete list of creatures, world don't own that
+	//don't delete list of creatures, world don't own that, same with items
 
 }
 

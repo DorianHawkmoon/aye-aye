@@ -11,6 +11,7 @@ Inventory::~Inventory() {
 	//delete all items
 	std::list<Entity*>::iterator it = items.begin();
 	while (it != items.end()) {
+		delete *it;
 		it = items.erase(it);
 	}
 }

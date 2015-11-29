@@ -16,6 +16,7 @@ Item::~Item() {
 	//delete all items it owns
 	std::list<Entity*>::iterator it = items.begin();
 	while (it != items.end()) {
+		delete *it;
 		it = items.erase(it);
 	}
 }
