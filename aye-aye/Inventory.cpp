@@ -106,7 +106,7 @@ const std::string Inventory::look(const std::vector<std::string>& arguments) con
 		return "You have nothing";
 	}
 	unsigned int count = 0;
-	for each(const Entity* item in items) {
+	for (const Entity* item : items) {
 		++count;
 		if (count == size && count > 1) {
 			result << " and";

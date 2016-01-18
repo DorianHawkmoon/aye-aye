@@ -109,12 +109,19 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="IndependentWayPath.h" />
     <ClInclude Include="Path.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="SidePath.h" />
     <ClInclude Include="SimpleLock.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="aye-aye.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\resources\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

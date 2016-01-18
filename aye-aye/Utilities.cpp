@@ -2,6 +2,7 @@
 #include <sstream>
 #include "Entity.h"
 #include "Inventory.h"
+#include <cstring>
 
 const bool Utilities::compareTo(const std::string& a, const std::string& b)  {
 	return strcmp(a.c_str(), b.c_str()) == 0;

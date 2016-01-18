@@ -12,7 +12,7 @@ Room::Room(const char* name, const char* description) : Entity(name, description
 
 Room::~Room() {
 	//delete all items
-	for each (const Item* item in items) {
+	for (const Entity* item : items) {
 		delete item;
 	}
 }
@@ -35,7 +35,7 @@ const std::string Room::look(const std::vector<std::string>& arguments) const {
 		}
 	}
 	unsigned int count = 0;
-	for each(const Entity* entity in items) {
+	for (const Entity* entity : items) {
 		++count;
 		if (count == size  && count > 1) {
 			result << " and";
@@ -53,7 +53,7 @@ const std::string Room::look(const std::vector<std::string>& arguments) const {
 	}
 
 	//add to description the description of paths
-	for each (SidePath* path in paths) {
+	for  (SidePath* path : paths) {
 		result << std::endl << "At " << Directions::toString(path->getDirection()) << " " \
 			<< path->look(arguments);//specifing from where I'm looking the path
 	}
@@ -165,7 +165,7 @@ const SidePath * Room::getPath(const Direction & direction) const {
 
 const std::list<Creature*> Room::getEnemies() const {
 	std::list<Creature*> result;
-	for each(Entity* entity in items) {
+	for (Entity* entity : items) {
 		if (entity->getType() == CREATURE) {
 			Creature* creature = static_cast<Creature*>(entity);
 			if (creature->isAlive()) {

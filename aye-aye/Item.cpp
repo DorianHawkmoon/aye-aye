@@ -38,7 +38,7 @@ const std::string Item::look(const std::vector<std::string>& arguments) const {
 
 		unsigned int count = 0;
 		//tell all items
-		for each(const Entity* entity in items) {
+		for (const Entity* entity : items) {
 			++count;
 			if (count == size  && count > 1) {
 				result << " and";
@@ -85,7 +85,7 @@ const std::string Item::see(const std::vector<std::string>& arguments) const {
 
 		unsigned int count = 0;
 		//tell every item
-		for each(const Entity* entity in items) {
+		for (const Entity* entity : items) {
 			++count;
 			if (count == size  && count > 1) {
 				result << " and";
