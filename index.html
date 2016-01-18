@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Aye-aye : A text adventure game">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Aye-aye</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/DorianHawkmoon/aye-aye">View on GitHub</a>
+
+          <h1 id="project_title">Aye-aye</h1>
+          <h2 id="project_tagline">A text adventure game</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/DorianHawkmoon/aye-aye/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/DorianHawkmoon/aye-aye/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="aye-aye" class="anchor" href="#aye-aye" aria-hidden="true"><span class="octicon octicon-link"></span></a>aye-aye</h1>
+
+<h2>
+<a id="a-text-adventure-game" class="anchor" href="#a-text-adventure-game" aria-hidden="true"><span class="octicon octicon-link"></span></a>A text adventure game</h2>
+
+<p>Un simple personaje que quiere pasar sus vacaciones en la casa del campo y se lo encuentra lleno de alimañas. El objetivo es acabar con ellas. Pierdes si mueres.</p>
+
+<h2>
+<a id="extra-features" class="anchor" href="#extra-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extra features:</h2>
+
+<p>Además de poder moverse entre lugares y coger y dejar objetos (tal cual o dentro de otros objetos), se dispone de las siguientes caracteristicas:</p>
+
+<ul>
+<li>Sistema de combate por turnos con uno o varios enemigos, pudiendo atacar, escapar (no siempre es posible) o equiparse y comer para modificar stats y vida</li>
+<li>Los enemigos muertos dejan un saco que puede tener objetos que llevaran encima (actualmente solo lo tiene el ferret en el juego por si no quieres andar buscando)</li>
+<li>stats del personaje, vida/ataque/defensa</li>
+<li>armas y armaduras que se pueden equipar y desequipar, modificando los stats</li>
+<li>comida y pociones que se pueden comer para recuperar vida, incluso durante combate</li>
+<li>distintos tipos de puertas, las que se pueden abrir y cerrar sin más, o con uno o varios objetos necesarios</li>
+<li>puertas/ventanas u otras cosas que pueden coordinar sus acciones (ejemplo, una puerta, cuando lo abres en un lado, por el otro lado se abre también. Otro ejemplo, una trampilla, abres por un lado, pero el otro no y puede necesitar objetos diferentes para ello (one way path))</li>
+<li>algunos items son contenedores, pudiendo contener otros items y abrirse y cerrarse, otros no</li>
+<li>algunos items se pueden coger, otros no</li>
+<li>inventario del jugador y de las criaturas que atacan</li>
+</ul>
+
+<h2>
+<a id="comandos" class="anchor" href="#comandos" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comandos:</h2>
+
+<ul>
+<li>look [room|inventory]</li>
+<li>go south|west|east|north|up|down</li>
+<li>see [_item] [[in] inventory] es decir, see letter, see letter in inventory ó see letter inventory. Da algo más de información que look, pero ambos son muy similares. Dato, para leer la carta, usar see</li>
+<li>open _item|_nameExit|_direction</li>
+<li>take _item</li>
+<li>drop _item [into|in] [_item] drop letter into mailbox ó drop letter mailbox</li>
+<li>close _item|_nameExit|_direction</li>
+<li>equip _item</li>
+<li>unequip _item</li>
+<li>stats</li>
+<li>eat _item</li>
+</ul>
+
+<p>durante la batalla, los comandos disponibles son:</p>
+
+<ul>
+<li>escape</li>
+<li>attack _nameEnemy</li>
+<li>eat _nameItem</li>
+<li>look</li>
+<li>equip _nameItem</li>
+<li>unequip _nameItem</li>
+</ul>
+
+<h2>
+<a id="walkthrougth" class="anchor" href="#walkthrougth" aria-hidden="true"><span class="octicon octicon-link"></span></a>Walkthrougth:</h2>
+
+<pre><code>Errata: durante el juego es posible que sea necesario comer algo (eat _item), no se ha especificado cuando es necesario, pero se tienen los objetos
+//Empiezas en un claro del bosque con tu buzón
+-open boxmail (opcional)
+-see letter (opcional)
+-take knife
+-equip knife
+-go south
+-attack vole
+
+//ahora estamos frente a la casa
+-open box
+-take key
+-open door
+-go south
+
+//ahora estamos en la cocina, cogemos alimentos
+-take can
+-take cupcake
+-take bread
+-go west
+
+//nos atacan y estaremos en la habitación, donde cogeremos carne, un arma y una armadura/defensa
+-attack ferret
+-open remains-ferret
+-take meat
+-open wardrobe
+-take hoe
+-take overalls
+-equip hoe
+-equip overalls
+-go east
+
+//de nuevo en la cocina, nos vamos a un lado de la casa
+-go north
+-go west
+-attack snake
+
+//estamos en un jardin con una trampilla, abrimos y bajamos
+-open trapdoor
+-go down
+-attack rat
+-attack rat
+-attack giantspider (repetir)
+
+-take ladder
+-open up
+-go up
+
+//nos vamos al otro lado de la casa
+-go east
+-go east
+-attack vole
+-attack vole
+
+You win
+
+Para perder sería pelear sin equiparse nada y sin comer nada
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Aye-aye maintained by <a href="https://github.com/DorianHawkmoon">DorianHawkmoon</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
