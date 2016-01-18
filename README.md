@@ -1,9 +1,9 @@
 # aye-aye
-A text adventure game
+##A text adventure game
 
 Un simple personaje que quiere pasar sus vacaciones en la casa del campo y se lo encuentra lleno de alimañas. El objetivo es acabar con ellas. Pierdes si mueres.
 
-Extra features:
+##Extra features:
 Además de poder moverse entre lugares y coger y dejar objetos (tal cual o dentro de otros objetos), se dispone de las siguientes caracteristicas:
 - Sistema de combate por turnos con uno o varios enemigos, pudiendo atacar, escapar (no siempre es posible) o equiparse y comer para modificar stats y vida
 - Los enemigos muertos dejan un saco que puede tener objetos que llevaran encima (actualmente solo lo tiene el ferret en el juego por si no quieres andar buscando)
@@ -16,28 +16,29 @@ Además de poder moverse entre lugares y coger y dejar objetos (tal cual o dentr
 - algunos items se pueden coger, otros no
 - inventario del jugador y de las criaturas que atacan
 
-Comandos:
--look [room|inventory]
--go south|west|east|north|up|down
--see [_item] [[in] inventory] (es decir, see letter, see letter in inventory ó see letter inventory) Da algo más de información que look, pero ambos son muy similares. Dato, para leer la carta, usar see
--open _item|_nameExit|_direction
--take _item
--drop _item [into|in] [_item] (drop letter into mailbox ó drop letter mailbox) 
--close _item|_nameExit|_direction
--equip _item
--unequip _item
--stats
--eat _item
+##Comandos:
+- look [room|inventory]
+- go south|west|east|north|up|down
+- see [_item] [[in] inventory] es decir, see letter, see letter in inventory ó see letter inventory. Da algo más de información que look, pero ambos son muy similares. Dato, para leer la carta, usar see
+- open _item|_nameExit|_direction
+- take _item
+- drop _item [into|in] [_item] drop letter into mailbox ó drop letter mailbox
+- close _item|_nameExit|_direction
+- equip _item
+- unequip _item
+- stats
+- eat _item
 
 durante la batalla, los comandos disponibles son:
--escape
--attack _nameEnemy
--eat _nameItem
--look
--equip _nameItem
--unequip _nameItem
+- escape
+- attack _nameEnemy
+- eat _nameItem
+- look
+- equip _nameItem
+- unequip _nameItem
 
-Walkthrougth:
+##Walkthrougth:
+```
 Errata: durante el juego es posible que sea necesario comer algo (eat _item), no se ha especificado cuando es necesario, pero se tienen los objetos
 //Empiezas en un claro del bosque con tu buzón
 -open boxmail (opcional)
@@ -95,3 +96,4 @@ Errata: durante el juego es posible que sea necesario comer algo (eat _item), no
 You win
 
 Para perder sería pelear sin equiparse nada y sin comer nada
+```
