@@ -40,27 +40,26 @@
 
 <h2>
 <a id="extra-features" class="anchor" href="#extra-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Descripción:</h2>
-<p>Juego de aventura gráfica.</p>
-<p>Un simple personaje que quiere pasar sus vacaciones en la casa del campo y se lo encuentra lleno de alimañas. El objetivo es acabar con ellas. Pierdes si mueres.</p>
+<p>Text adventure game.</p>
+<p>A simple character who wants to spend his vacations in the country house, but it is full of vermin. The goal is to kill them. You lose if you die.</p>
 
 <img src="images/example.png" alt="ejemplo"></p>
 
 <h2>
 <a id="extra-features" class="anchor" href="#extra-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extra features:</h2>
-
-<p>Además de poder moverse entre lugares y coger y dejar objetos (tal cual o dentro de otros objetos), se dispone de las siguientes caracteristicas:</p>
+<p>Besides moving, take and drop objects (inside other objects allowed), following features are available</p>
 
 <ul>
-<li>Sistema de combate por turnos con uno o varios enemigos, pudiendo atacar, escapar (no siempre es posible) o equiparse y comer para modificar stats y vida</li>
-<li>Los enemigos muertos dejan un saco que puede tener objetos que llevaran encima (actualmente solo lo tiene el ferret en el juego por si no quieres andar buscando)</li>
-<li>stats del personaje, vida/ataque/defensa</li>
-<li>armas y armaduras que se pueden equipar y desequipar, modificando los stats</li>
-<li>comida y pociones que se pueden comer para recuperar vida, incluso durante combate</li>
-<li>distintos tipos de puertas, las que se pueden abrir y cerrar sin más, o con uno o varios objetos necesarios</li>
-<li>puertas/ventanas u otras cosas que pueden coordinar sus acciones (ejemplo, una puerta, cuando lo abres en un lado, por el otro lado se abre también. Otro ejemplo, una trampilla, abres por un lado, pero el otro no y puede necesitar objetos diferentes para ello (one way path))</li>
-<li>algunos items son contenedores, pudiendo contener otros items y abrirse y cerrarse, otros no</li>
-<li>algunos items se pueden coger, otros no</li>
-<li>inventario del jugador y de las criaturas que atacan</li>
+<li>Combat system by turns with one or more enemies, can attack, escape (not always posible) or equip and eat to modify stats and life</li>
+<li>Dead enemies drop a sack with objects (by now only the ferret drop objects)</li>
+<li>stats of character, life/attack/defense</li>
+<li>weapons and armors that can be equiped, modifying stats</li>
+<li>food and potions to recover life, even in combat</li>
+<li>differents types of doors, some of them needs objects to be opened</li>
+<li>special doors/windows (example: a door can be opened by one side, but the other side needs an object)</li>
+<li>some items are containers, can be opened or closed and store other objects</li>
+<li>some items can be picked up</li>
+<li>inventory of character and criatures</li>
 </ul>
 
 <h2>
@@ -80,7 +79,7 @@
 <li>eat _item</li>
 </ul>
 
-<p>durante la batalla, los comandos disponibles son:</p>
+<p>during combat, available commands are:</p>
 
 <ul>
 <li>escape</li>
@@ -94,8 +93,8 @@
 <h2>
 <a id="walkthrougth" class="anchor" href="#walkthrougth" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Walkthrougth:</h2>
 
-<p>Errata: durante el juego es posible que sea necesario comer algo (eat _item), no se ha especificado cuando es necesario, pero se tienen los objetos </p>
-Empiezas en un claro del bosque con tu buzón
+<p>Erratum: during the game we need to eat something (eat _item), but is not especified when.</p>
+You start in the forrest with your boxmail
 <ul>
 <li>open boxmail (opcional)</li>
 <li>see letter (opcional)</li>
@@ -104,19 +103,19 @@ Empiezas en un claro del bosque con tu buzón
 <li>go south</li>
 <li>attack vole</li></ul>
 
-Ahora estamos frente a la casa
+Now we are in front of the house
 <ul><li>open box</li>
 <li>take key</li>
 <li>open door</li>
 <li>go south</li></ul>
 
-Estamos en la cocina, cogemos alimentos
+We are in the kitchen, take food
 <ul><li>take can</li>
 <li>take cupcake</li>
 <li>take bread</li>
 <li>go west</li></ul>
 
-Nos atacan y estaremos en la habitación, donde cogeremos carne, un arma y una armadura/defensa
+Attack! fight against them and we are in the bedroom, where we take meat, a gun and an armor
 <ul><li>attack ferret</li>
 <li>open remains-ferret</li>
 <li>take meat</li>
@@ -127,23 +126,23 @@ Nos atacan y estaremos en la habitación, donde cogeremos carne, un arma y una a
 <li>equip overalls</li>
 <li>go east</li></ul>
 
-De nuevo en la cocina, nos vamos a un lado de la casa
+Again in the kitchen, we go at one side of the house
 <ul><li>go north</li>
 <li>go west</li>
 <li>attack snake</li></ul>
 
-Estamos en un jardin con una trampilla, abrimos y bajamos
+We are in a garden with a trapdoor, we open it and go down
 <ul><li>open trapdoor</li>
 <li>go down</li>
 <li>attack rat</li>
 <li>attack rat</li>
-<li>attack giantspider (repetir)</li>
+<li>attack giantspider (repeat)</li>
 
 <li>take ladder</li>
 <li>open up</li>
 <li>go up</li></ul>
 
-Nos vamos al otro lado de la casa
+we go to the other side of the house
 <ul><li>go east</li>
 <li>go east</li>
 <li>attack vole</li>
@@ -151,7 +150,7 @@ Nos vamos al otro lado de la casa
 
 You win
 
-<p>Para perder sería pelear sin equiparse nada y sin comer nada</p>
+<p>To lose, fight without armor and without eating</p>
 </code></pre>
         </article>
       </div>
